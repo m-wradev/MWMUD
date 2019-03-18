@@ -1,11 +1,17 @@
 /* TODO
- * Prevent infinite loop when the input rectangle pushes all messages off screen and user is still typing.
+ * Dispatch messages to screens so that they can handle events separately
  */
 #include <windows.h>
 
-#include <string>
-#include <iostream>
-#include <vector>
+#include "Screen.h"
+#include "TitleScreen.h"
+#include "MainMenuScreen.h"
+
+//#include <string>
+//#include <iostream>
+//#include <vector>
+#include <stack>
+
 
 #define APPLICATION_NAME "MWMUD"
 
@@ -19,8 +25,9 @@ void DrawUI(HWND);
 RECT UI_ChatOutputRect;
 RECT UI_ChatInputRect;
 
-std::string testIn = "";
-std::vector<std::string> testOut;
+//std::string testIn = "";
+//std::vector<std::string> testOut;
+std::stack<Screen*> screenStack;	// for screen navigation
 
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
 
@@ -52,7 +59,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		NULL,
 		"WindowClass1",
 		APPLICATION_NAME,
-		WS_OVERLAPPEDWINDOW,
+		WS_OVERLAPPED | WS_CAPTION | WS_SYSMENU | WS_MINIMIZEBOX,
 		300,
 		300,
 		wr.right - wr.left, // window width
@@ -62,8 +69,11 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		hInstance,
 		NULL
 	);
-
 	ShowWindow(hWnd, cmdShow);
+
+	// Create the title screen and push it onto the stack
+	Screen *titleScreen = new TitleScreen();
+	screenStack.push(titleScreen);
 
 	// Application main loop
 	MSG msg;
@@ -80,6 +90,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 				break;
 		}
 	}
+
+	delete titleScreen;
 
 	return msg.wParam;
 }
@@ -105,7 +117,8 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 		// Each frame, draw the UI elements and render text
 		case WM_PAINT:
 		{
-			DrawUI(hWnd);
+			//DrawUI(hWnd);
+			screenStack.top()->draw(hWnd);
 			break;
 		}
 
@@ -115,11 +128,15 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 			// Take user's input and place it in the output, then clear the input string
 			if (wParam == VK_RETURN)
 			{
+				/*
 				if (testIn.length() > 0)
 				{
 					testOut.push_back(testIn);
 					testIn.clear();
 				}
+				*/
+				
+				screenStack.push(new MainMenuScreen());
 
 				// force redraw
 				InvalidateRect(hWnd, 0, TRUE);
@@ -130,6 +147,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 
 		case WM_CHAR:
 		{
+			/*
 			if (wParam >= 0x20 && wParam <= 0x7E)
 			{
 				testIn.push_back(wParam);
@@ -138,6 +156,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 			{
 				testIn.pop_back();
 			}
+			*/
 
 			InvalidateRect(hWnd, 0, TRUE); // redraw window
 			break;
@@ -151,6 +170,7 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 
 void DrawUI(HWND hWnd)
 {
+	/*
 	HDC hdc;		// device context
 	PAINTSTRUCT ps;
 
@@ -216,4 +236,5 @@ void DrawUI(HWND hWnd)
 	DrawText(hdc, out.c_str(), -1, &UI_ChatOutputRect, DT_LEFT | DT_WORDBREAK);
 
 	EndPaint(hWnd, &ps);
+	*/
 }
