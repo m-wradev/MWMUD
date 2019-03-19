@@ -16,6 +16,9 @@ public:
 	TitleScreen();
 	~TitleScreen();
 
+	// handle keypresses detected by the application
+	void handleKeypress(char) override;
+
 	// Draw the screen
 	void draw(HWND) override;
 };

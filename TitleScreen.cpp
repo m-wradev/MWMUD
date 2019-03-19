@@ -14,6 +14,14 @@ TitleScreen::~TitleScreen()
 	DeleteObject(titleFont);
 }
 
+void TitleScreen::handleKeypress(char keycode)
+{
+	if (keycode == VK_RETURN)
+	{
+
+	}
+}
+
 void TitleScreen::draw(HWND hWnd)
 {
 	// Get the boundaries of the window's drawable area
@@ -38,10 +46,7 @@ void TitleScreen::draw(HWND hWnd)
 	startPromptRect.right = cr.right;
 	startPromptRect.bottom = cr.bottom;
 
-	HDC hdc;
-	PAINTSTRUCT ps;
-
-	hdc = BeginPaint(hWnd, &ps);
+	HDC hdc = GetDC(hWnd);
 
 	SetBkMode(hdc, TRANSPARENT);
 	SetTextColor(hdc, RGB(255, 255, 255));
@@ -50,10 +55,8 @@ void TitleScreen::draw(HWND hWnd)
 	DrawText(hdc, "MWMUD", -1, &titleRect, DT_SINGLELINE | DT_BOTTOM | DT_CENTER);
 
 	SelectObject(hdc, versionFont);
-	DrawText(hdc, "prealpha unversioned", -1, &versionRect, DT_SINGLELINE | DT_BOTTOM | DT_CENTER);
+	DrawText(hdc, "prealpha version", -1, &versionRect, DT_SINGLELINE | DT_BOTTOM | DT_CENTER);
 
 	SelectObject(hdc, startPromptFont);
 	DrawText(hdc, "Press ENTER", -1, &startPromptRect, DT_SINGLELINE | DT_VCENTER | DT_CENTER);
-
-	EndPaint(hWnd, &ps);
 }

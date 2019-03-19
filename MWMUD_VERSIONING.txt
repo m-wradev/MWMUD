@@ -1,0 +1,18 @@
+========== PRE-ALPHA ========== 
+Version format: prealpha_m_x.x
+Basic functionality implementations.
+
+Milestones:
+	[x] Basic window running
+	[ ] Game/menu screens, navigation
+	[ ] 
+
+========== ALPHA ========== 
+First gameplay implementations.
+
+Major features:
+
+========== BETA ========== 
+Gameplay and feature refinement.
+
+Major features:

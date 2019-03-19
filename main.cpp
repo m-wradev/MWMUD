@@ -7,9 +7,6 @@
 #include "TitleScreen.h"
 #include "MainMenuScreen.h"
 
-//#include <string>
-//#include <iostream>
-//#include <vector>
 #include <stack>
 
 
@@ -72,8 +69,9 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	ShowWindow(hWnd, cmdShow);
 
 	// Create the title screen and push it onto the stack
-	Screen *titleScreen = new TitleScreen();
-	screenStack.push(titleScreen);
+	//Screen *titleScreen = new TitleScreen();
+	//screenStack.push(titleScreen);
+	screenStack.push(new MainMenuScreen());
 
 	// Application main loop
 	MSG msg;
@@ -91,8 +89,7 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		}
 	}
 
-	delete titleScreen;
-
+	//delete titleScreen;
 	return msg.wParam;
 }
 
@@ -117,31 +114,20 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 		// Each frame, draw the UI elements and render text
 		case WM_PAINT:
 		{
-			//DrawUI(hWnd);
+			HDC hdc;
+			PAINTSTRUCT ps;
+
+			hdc = BeginPaint(hWnd, &ps);
 			screenStack.top()->draw(hWnd);
+			EndPaint(hWnd, &ps);
+
 			break;
 		}
 
-		// Keys such as enter, F1, F2, etc.
 		case WM_KEYDOWN:
 		{
-			// Take user's input and place it in the output, then clear the input string
-			if (wParam == VK_RETURN)
-			{
-				/*
-				if (testIn.length() > 0)
-				{
-					testOut.push_back(testIn);
-					testIn.clear();
-				}
-				*/
-				
-				screenStack.push(new MainMenuScreen());
-
-				// force redraw
-				InvalidateRect(hWnd, 0, TRUE);
-			}
-
+			screenStack.top()->handleKeypress((char)wParam);
+			InvalidateRect(hWnd, 0, true);
 			break;
 		}
 
@@ -158,7 +144,8 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 			}
 			*/
 
-			InvalidateRect(hWnd, 0, TRUE); // redraw window
+			screenStack.top()->handleKeypress((char)wParam);
+			InvalidateRect(hWnd, 0, true); // redraw window
 			break;
 		}
 

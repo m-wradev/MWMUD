@@ -119,11 +119,15 @@
     <ClCompile Include="MainMenuScreen.cpp" />
     <ClCompile Include="Screen.cpp" />
     <ClCompile Include="TitleScreen.cpp" />
+    <ClCompile Include="UI_MenuOption.cpp" />
+    <ClCompile Include="UI_MenuOptionListVertical.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="MainMenuScreen.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="TitleScreen.h" />
+    <ClInclude Include="UI_MenuOption.h" />
+    <ClInclude Include="UI_MenuOptionListVertical.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="MWMUD_README.txt" />
