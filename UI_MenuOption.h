@@ -1,43 +1,26 @@
+/* UI_MenuOptions are selectable menu options that can be set as highlighted and selected.
+ * They are essentially just a UI_Label with the ability to be selected.
+ */
 #pragma once
-#include <Windows.h>
-#include <string>
-#include <functional>
+#include "UI_Label.h"
 
-class UI_MenuOption
+class UI_MenuOption : public UI_Label
 {
+public:
+	static const COLORREF TEXT_COLOR_HIGHLIGHTED = RGB(255, 255, 0);
+
 private:
-	static const COLORREF COLOR_DEFAULT= RGB(255, 255, 255);
-	static const COLORREF COLOR_HIGHLIGHTED = RGB(255, 255, 0);
+	typedef void(*callback)(void);
 
-	std::string labelText;
-	int labelFontSize;
-	UINT labelFontAlignment;
-
-	RECT bounds;			// boundaries of the UI element
-	bool highlighted;		// whether the option is currently highlighted
+	bool highlighted = false;	// whether the option is currently highlighted
+	callback onSelect;
 	
 public:
-	UI_MenuOption();
-	UI_MenuOption(std::string labelText, int labelFontSize, int labelFontAlignment, bool highlighted = false);
-	~UI_MenuOption();
-
-	// set all variables
-	void set(std::string labelText, int labelFontSize, UINT labelFontAlignment, 
-			 int left, int top, int right, int bottom, bool highlighted = false);
-
-	// set the bounds
-	void setBounds(int left, int top, int right, int bottom);
-
-	// set as highlighted
+	UI_MenuOption() {};
 	void setHighlighted(bool highlighted);
+	void setCallback(callback onSelect);
 
-	std::string getLabelText() const;
-	RECT getBounds() const;
-
-	// select the menu option and execute the function given to it
-	// void select();
-
-	// draw the screen
-	void draw(HWND hWnd);
+	void select();
+	void draw(HWND hWnd) override;
 };
 

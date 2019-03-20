@@ -1,14 +1,10 @@
 /* TODO
  * Dispatch messages to screens so that they can handle events separately
  */
-#include <windows.h>
-
-#include "Screen.h"
-#include "TitleScreen.h"
-#include "MainMenuScreen.h"
+#include <Windows.h>
+#include "Game.h"
 
 #include <stack>
-
 
 #define APPLICATION_NAME "MWMUD"
 
@@ -16,15 +12,16 @@
 #define SCREEN_WIDTH  960
 #define SCREEN_HEIGHT 540
 
-void DrawUI(HWND);
+//void DrawUI(HWND);
 
 // Globals
-RECT UI_ChatOutputRect;
-RECT UI_ChatInputRect;
+//RECT UI_ChatOutputRect;
+//RECT UI_ChatInputRect;
 
 //std::string testIn = "";
 //std::vector<std::string> testOut;
-std::stack<Screen*> screenStack;	// for screen navigation
+//std::stack<Screen*> screenStack;	// for screen navigation
+Game game;
 
 LRESULT CALLBACK WindowProc(HWND, UINT, WPARAM, LPARAM);
 
@@ -68,10 +65,8 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	);
 	ShowWindow(hWnd, cmdShow);
 
-	// Create the title screen and push it onto the stack
-	//Screen *titleScreen = new TitleScreen();
-	//screenStack.push(titleScreen);
-	screenStack.push(new MainMenuScreen());
+	// Create the title screen as the first screen on the screen stack
+	//screenStack.push(new MainMenuScreen());
 
 	// Application main loop
 	MSG msg;
@@ -89,7 +84,6 @@ int WINAPI WinMain(HINSTANCE hInstance,
 		}
 	}
 
-	//delete titleScreen;
 	return msg.wParam;
 }
 
@@ -111,29 +105,27 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 			break;
 		}
 
-		// Each frame, draw the UI elements and render text
+		// Each frame, draw the screen
 		case WM_PAINT:
 		{
 			HDC hdc;
 			PAINTSTRUCT ps;
 
 			hdc = BeginPaint(hWnd, &ps);
-			screenStack.top()->draw(hWnd);
+			//screenStack.top()->draw(hWnd);
+			game.render(hWnd);
 			EndPaint(hWnd, &ps);
 
 			break;
 		}
 
 		case WM_KEYDOWN:
-		{
-			screenStack.top()->handleKeypress((char)wParam);
-			InvalidateRect(hWnd, 0, true);
-			break;
-		}
-
 		case WM_CHAR:
 		{
 			/*
+			// This was for WM_CHAR.
+			// It basically let us display text in the input box as it was being typed.
+
 			if (wParam >= 0x20 && wParam <= 0x7E)
 			{
 				testIn.push_back(wParam);
@@ -143,9 +135,8 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 				testIn.pop_back();
 			}
 			*/
-
-			screenStack.top()->handleKeypress((char)wParam);
-			InvalidateRect(hWnd, 0, true); // redraw window
+			game.getActiveScreen()->handleKeypress((char)wParam);
+			InvalidateRect(hWnd, 0, true);
 			break;
 		}
 

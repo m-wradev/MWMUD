@@ -1,62 +1,35 @@
 #include "TitleScreen.h"
 
+#include "MainMenuScreen.h"
+#include "Dispatcher.h"
+#include "GameMessage.h"
+
 TitleScreen::TitleScreen()
 {
-	titleFont = CreateFont(64, 0, 0, 0, FW_BOLD, 0, 0, 0, 0, 0, 0, 0, 0, "SYSTEM_FIXED_FONT");
-	versionFont = CreateFont(12, 0, 0, 0, FW_LIGHT, 0, 0, 0, 0, 0, 0, 0, 0, "SYSTEM_FIXED_FONT");
-	startPromptFont = CreateFont(24, 0, 0, 0, FW_DEMIBOLD, 0, 0, 0, 0, 0, 0, 0, 0, "SYSTEM_FIXED_FONT");
-}
+	title.setText("MWMUD", 64, DT_SINGLELINE | DT_BOTTOM | DT_CENTER, FW_BOLD);
+	title.setBounds(0, 0, 960, 100);
 
-TitleScreen::~TitleScreen()
-{
-	DeleteObject(startPromptFont);
-	DeleteObject(versionFont);
-	DeleteObject(titleFont);
+	version.setText("Prealpha Version", 14, DT_SINGLELINE | DT_TOP | DT_CENTER, FW_LIGHT);
+	version.setBounds(0, 100, 960, 120);
+
+	prompt.setText("Press ENTER", 24, DT_SINGLELINE | DT_CENTER | DT_VCENTER, FW_DEMIBOLD);
+	prompt.setBounds(0, 540 / 2 + 20, 960, 540 / 2 - 20);
 }
 
 void TitleScreen::handleKeypress(char keycode)
 {
 	if (keycode == VK_RETURN)
 	{
-
+		Dispatcher::notify
+		(
+			new ScreenMessage(MessageType::GMSG_SCREEN_ADVANCE, new MainMenuScreen())
+		);
 	}
 }
 
 void TitleScreen::draw(HWND hWnd)
 {
-	// Get the boundaries of the window's drawable area
-	RECT cr;
-	GetClientRect(hWnd, &cr);
-
-	/* Define the boundaries of the UI elements
-	 * TODO: don't hard code the position
-	 */
-	titleRect.left = 0;
-	titleRect.top = 0;
-	titleRect.right = cr.right;
-	titleRect.bottom = 100;
-
-	versionRect.left = 0;
-	versionRect.top = 100;
-	versionRect.right = cr.right;
-	versionRect.bottom = 110;
-
-	startPromptRect.left = 0;
-	startPromptRect.top = 450;
-	startPromptRect.right = cr.right;
-	startPromptRect.bottom = cr.bottom;
-
-	HDC hdc = GetDC(hWnd);
-
-	SetBkMode(hdc, TRANSPARENT);
-	SetTextColor(hdc, RGB(255, 255, 255));
-
-	SelectObject(hdc, titleFont);
-	DrawText(hdc, "MWMUD", -1, &titleRect, DT_SINGLELINE | DT_BOTTOM | DT_CENTER);
-
-	SelectObject(hdc, versionFont);
-	DrawText(hdc, "prealpha version", -1, &versionRect, DT_SINGLELINE | DT_BOTTOM | DT_CENTER);
-
-	SelectObject(hdc, startPromptFont);
-	DrawText(hdc, "Press ENTER", -1, &startPromptRect, DT_SINGLELINE | DT_VCENTER | DT_CENTER);
+	title.draw(hWnd);
+	version.draw(hWnd);
+	prompt.draw(hWnd);
 }

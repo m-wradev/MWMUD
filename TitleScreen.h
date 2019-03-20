@@ -1,20 +1,17 @@
 #pragma once
+
 #include "Screen.h"
+#include "UI_Label.h"
 
 class TitleScreen : public Screen
 {
 private:
-	RECT titleRect;			// Defines position of the application name
-	RECT versionRect;		// Defines position of the application version
-	RECT startPromptRect;	// Defines position of the start prompt
-
-	HFONT titleFont;
-	HFONT versionFont;
-	HFONT startPromptFont;
+	UI_Label title;
+	UI_Label version;
+	UI_Label prompt;
 
 public:
 	TitleScreen();
-	~TitleScreen();
 
 	// handle keypresses detected by the application
 	void handleKeypress(char) override;
