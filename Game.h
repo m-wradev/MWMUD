@@ -7,7 +7,8 @@
 #include "Dispatcher.h"
 #include "Listener.h"
 
-#include <Windows.h>
+#include <d2d1.h>
+#pragma comment(lib, "d2d1.lib")
 
 #include <stack>
 
@@ -26,8 +27,10 @@ public:
 
 	void onNotify(GameMessage* msg) override;
 
+	// update game logic
+	void update();
 	// render the screen at the top of the screen stack
-	void render(HWND hWnd);
+	void render(ID2D1HwndRenderTarget* pRT);
 };
 
 #endif

@@ -1,25 +1,30 @@
 #include "UI_MenuOptionListVertical.h"
 
-void UI_MenuOptionListVertical::set(int fontSize, UINT textAlign, int optionHeight, 
-									int left, int top, int right)
+// Set all variables
+void UI_MenuOptionListVertical::set(int fontSize, DWRITE_TEXT_ALIGNMENT textAlignHorizontal,
+	DWRITE_PARAGRAPH_ALIGNMENT textAlignVertical, int optionHeight, int left, int top, int right)
 {
 	this->fontSize = fontSize;
-	this->textAlign = textAlign;
+	this->textAlignHorizontal = textAlignHorizontal;
+	this->textAlignVertical = textAlignVertical;
 	this->optionHeight = optionHeight;
 	this->left = left;
 	this->top = top;
 	this->right = right;
 }
 
+// Get the options
 std::list<UI_MenuOption>* UI_MenuOptionListVertical::getOptions()
 {
 	return &menuOptions;
 }
 
-UI_MenuOption UI_MenuOptionListVertical::addOption(std::string optionText, void(*onSelect)(void))
+// Add an option, providing a callback for each added item
+UI_MenuOption UI_MenuOptionListVertical::addOption(std::wstring optionText, void(*onSelect)(void))
 {
 	UI_MenuOption mo;
-	mo.setText(optionText, fontSize, textAlign, FW_LIGHT);
+	//mo.setText(optionText, fontSize, textAlign, FW_LIGHT);
+	mo.setText(optionText, fontSize, textAlignHorizontal, textAlignVertical, DWRITE_FONT_WEIGHT_NORMAL);
 	mo.setCallback(onSelect);
 
 	// Calculate vertical position of the new menu option
@@ -33,8 +38,8 @@ UI_MenuOption UI_MenuOptionListVertical::addOption(std::string optionText, void(
 	return mo;
 }
 
-void UI_MenuOptionListVertical::draw(HWND hWnd)
+void UI_MenuOptionListVertical::draw(ID2D1HwndRenderTarget* pRT)
 {
 	for (UI_MenuOption mo : menuOptions)
-		mo.draw(hWnd);
+		mo.draw(pRT);
 }

@@ -6,30 +6,31 @@
 
 TitleScreen::TitleScreen()
 {
-	title.setText("MWMUD", 64, DT_SINGLELINE | DT_BOTTOM | DT_CENTER, FW_BOLD);
+	title.setText(L"MWMUD", 64, DWRITE_TEXT_ALIGNMENT_CENTER, 
+		DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_FONT_WEIGHT_BOLD);
 	title.setBounds(0, 0, 960, 100);
 
-	version.setText("Prealpha Version", 14, DT_SINGLELINE | DT_TOP | DT_CENTER, FW_LIGHT);
+	version.setText(L"Prealpha Version", 14, DWRITE_TEXT_ALIGNMENT_CENTER,
+		DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_FONT_WEIGHT_LIGHT);
 	version.setBounds(0, 100, 960, 120);
 
-	prompt.setText("Press ENTER", 24, DT_SINGLELINE | DT_CENTER | DT_VCENTER, FW_DEMIBOLD);
+	prompt.setText(L"Press ENTER", 24, DWRITE_TEXT_ALIGNMENT_CENTER,
+		DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_FONT_WEIGHT_NORMAL);
 	prompt.setBounds(0, 540 / 2 + 20, 960, 540 / 2 - 20);
 }
 
+// handle keypresses
 void TitleScreen::handleKeypress(char keycode)
 {
 	if (keycode == VK_RETURN)
 	{
-		Dispatcher::notify
-		(
-			new ScreenMessage(MessageType::GMSG_SCREEN_ADVANCE, new MainMenuScreen())
-		);
+		Dispatcher::notify(new ScreenMessage(MessageType::GMSG_SCREEN_ADVANCE, new MainMenuScreen()));
 	}
 }
 
-void TitleScreen::draw(HWND hWnd)
+void TitleScreen::draw(ID2D1HwndRenderTarget* pRT)
 {
-	title.draw(hWnd);
-	version.draw(hWnd);
-	prompt.draw(hWnd);
+	title.draw(pRT);
+	version.draw(pRT);
+	prompt.draw(pRT);
 }

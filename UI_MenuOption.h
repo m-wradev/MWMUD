@@ -7,7 +7,8 @@
 class UI_MenuOption : public UI_Label
 {
 public:
-	static const COLORREF TEXT_COLOR_HIGHLIGHTED = RGB(255, 255, 0);
+	//static const COLORREF TEXT_COLOR_HIGHLIGHTED = RGB(255, 255, 0);
+	static const D2D1::ColorF TEXT_COLOR_HIGHLIGHTED;
 
 private:
 	typedef void(*callback)(void);
@@ -21,6 +22,6 @@ public:
 	void setCallback(callback onSelect);
 
 	void select();
-	void draw(HWND hWnd) override;
+	void draw(ID2D1HwndRenderTarget* pRT) override;
 };
 

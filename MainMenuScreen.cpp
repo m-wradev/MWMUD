@@ -7,15 +7,21 @@
 
 MainMenuScreen::MainMenuScreen()
 {
-	titleLabel.setText("MWMUD", 64, DT_SINGLELINE | DT_VCENTER | DT_CENTER, FW_BOLD);
+	titleLabel.setText(L"MWMUD", 64, DWRITE_TEXT_ALIGNMENT_CENTER,
+		DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_FONT_WEIGHT_BOLD);
 	titleLabel.setBounds(0, 0, 960, 100);
 
-	menuOptions.set(24, DT_SINGLELINE | DT_VCENTER | DT_CENTER, 24, 0, 540 / 2, 960);
-	menuOptions.addOption("Play", 
+	versionLabel.setText(L"Prealpha Version", 14, DWRITE_TEXT_ALIGNMENT_CENTER,
+		DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_FONT_WEIGHT_LIGHT);
+	versionLabel.setBounds(0, 100, 960, 120);
+
+	menuOptions.set(24, DWRITE_TEXT_ALIGNMENT_CENTER, DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
+		24, 0, 200, 960);
+	menuOptions.addOption(L"Play", 
 		[]() { Dispatcher::notify(new ScreenMessage(MessageType::GMSG_SCREEN_CLEARANDSET, new TitleScreen())); });
-	menuOptions.addOption("Options",
+	menuOptions.addOption(L"Options",
 		[]() { Dispatcher::notify(new ScreenMessage(MessageType::GMSG_SCREEN_ADVANCE, nullptr)); });
-	menuOptions.addOption("Exit",
+	menuOptions.addOption(L"Exit",
 		[]() { Dispatcher::notify(new ScreenMessage(MessageType::GMSG_UNKNOWN, nullptr)); });
 
 	highlightedOption = menuOptions.getOptions()->begin();
@@ -54,8 +60,9 @@ void MainMenuScreen::handleKeypress(char keycode)
 	}
 }
 
-void MainMenuScreen::draw(HWND hWnd)
+void MainMenuScreen::draw(ID2D1HwndRenderTarget* pRT)
 {
-	titleLabel.draw(hWnd);
-	menuOptions.draw(hWnd);
+	titleLabel.draw(pRT);
+	versionLabel.draw(pRT);
+	menuOptions.draw(pRT);
 }

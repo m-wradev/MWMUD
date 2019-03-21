@@ -17,6 +17,6 @@ public:
 	void handleKeypress(char) override;
 
 	// Draw the screen
-	void draw(HWND) override;
+	void draw(ID2D1HwndRenderTarget* pRT) override;
 };
 

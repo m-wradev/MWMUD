@@ -1,14 +1,21 @@
 #include "UI_Label.h"
 
-void UI_Label::setText(std::string text, int textSize, UINT textAlign, UINT fontWeight)
+const D2D1::ColorF UI_Label::TEXT_COLOR_DEFAULT = D2D1::ColorF(D2D1::ColorF::White);
+const wchar_t* UI_Label::TEXT_FONT_DEFAULT = L"Gabriola";
+
+void UI_Label::setText(std::wstring text, float textSize,
+	DWRITE_TEXT_ALIGNMENT textAlignHorizontal, 
+	DWRITE_PARAGRAPH_ALIGNMENT textAlignVertical,
+	DWRITE_FONT_WEIGHT fontWeight)
 {
 	this->text = text;
 	this->textSize = textSize;
-	this->textAlign = textAlign;
+	this->textAlignHorizontal = textAlignHorizontal;
+	this->textAlignVertical = textAlignVertical;
 	this->fontWeight = fontWeight;
 }
 
-void UI_Label::setBounds(int left, int top, int right, int bottom)
+void UI_Label::setBounds(float left, float top, float right, float bottom)
 {
 	bounds.left = left;
 	bounds.top = top;
@@ -16,19 +23,32 @@ void UI_Label::setBounds(int left, int top, int right, int bottom)
 	bounds.bottom = bottom;
 }
 
-std::string UI_Label::getText() const	{ return text; }
-RECT UI_Label::getBounds() const		{ return bounds; }
+std::wstring UI_Label::getText() const	{ return text; }
+D2D1_RECT_F UI_Label::getBounds() const { return bounds; }
 
 
-void UI_Label::draw(HWND hWnd)
+void UI_Label::draw(ID2D1HwndRenderTarget* pRT)
 {
-	HDC hdc = GetDC(hWnd);
-	HFONT hFont = CreateFont(textSize, 0, 0, 0, fontWeight, 0, 0, 0, 0, 0, 0, 0, 0, "SYSTEM_FIXED_FONT");
+	IDWriteTextFormat* pTextFormat;
+	ID2D1SolidColorBrush* pBrush;
 
-	SetBkMode(hdc, TRANSPARENT);
-	SetTextColor(hdc, UI_Label::TEXT_COLOR_DEFAULT);
-	SelectObject(hdc, hFont);
-	DrawText(hdc, text.c_str(), -1, &bounds, textAlign);
+	TextRender::pDWriteFactory->CreateTextFormat
+	(
+		UI_Label::TEXT_FONT_DEFAULT,
+		NULL,
+		fontWeight,
+		DWRITE_FONT_STYLE_NORMAL,
+		DWRITE_FONT_STRETCH_NORMAL,
+		textSize,
+		L"en-us",
+		&pTextFormat
+	);
+	pTextFormat->SetTextAlignment(textAlignHorizontal);
+	pTextFormat->SetParagraphAlignment(textAlignVertical);
+	pRT->CreateSolidColorBrush(UI_Label::TEXT_COLOR_DEFAULT, &pBrush);
 
-	DeleteObject(hFont);
+	pRT->DrawTextA(text.c_str(), text.length(), pTextFormat, bounds, pBrush);
+	
+	pBrush->Release();
+	pTextFormat->Release();
 }

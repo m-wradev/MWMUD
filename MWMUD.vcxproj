@@ -69,7 +69,11 @@
     <Import Project="$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props" Condition="exists('$(UserRootDir)\Microsoft.Cpp.$(Platform).user.props')" Label="LocalAppDataPlatform" />
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
-  <PropertyGroup />
+  <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
+    <ExecutablePath>E:\RADev\SDK\DirectX\Utilities\bin\x64;$(ExecutablePath)</ExecutablePath>
+    <IncludePath>E:\RADev\SDK\DirectX\Include;$(IncludePath)</IncludePath>
+    <LibraryPath>E:\RADev\SDK\DirectX\Lib\x64;$(LibraryPath)</LibraryPath>
+  </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
     <ClCompile>
       <WarningLevel>Level3</WarningLevel>
@@ -119,6 +123,7 @@
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuScreen.cpp" />
+    <ClCompile Include="TextRender.cpp" />
     <ClCompile Include="TitleScreen.cpp" />
     <ClCompile Include="UI_Label.cpp" />
     <ClCompile Include="UI_MenuOption.cpp" />
@@ -131,6 +136,7 @@
     <ClInclude Include="MainMenuScreen.h" />
     <ClInclude Include="GameMessage.h" />
     <ClInclude Include="Screen.h" />
+    <ClInclude Include="TextRender.h" />
     <ClInclude Include="TitleScreen.h" />
     <ClInclude Include="UI_Element.h" />
     <ClInclude Include="UI_Label.h" />

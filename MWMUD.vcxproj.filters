@@ -48,6 +48,9 @@
     <ClCompile Include="Dispatcher.cpp">
       <Filter>EventSystem</Filter>
     </ClCompile>
+    <ClCompile Include="TextRender.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UI_MenuOptionListVertical.h">
@@ -82,6 +85,9 @@
     </ClInclude>
     <ClInclude Include="GameMessage.h">
       <Filter>EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="TextRender.h">
+      <Filter>Header Files</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

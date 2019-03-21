@@ -10,6 +10,7 @@ private:
 	
 	// UI ELEMENTS
 	UI_Label titleLabel;
+	UI_Label versionLabel;
 	UI_MenuOptionListVertical menuOptions;
 
 	std::list<UI_MenuOption>::iterator highlightedOption;
@@ -21,6 +22,6 @@ public:
 	void handleKeypress(char) override;
 	
 	// draw the screen
-	void draw(HWND) override;
+	void draw(ID2D1HwndRenderTarget* pRT) override;
 };
 
