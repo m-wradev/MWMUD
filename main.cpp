@@ -1,13 +1,11 @@
 /* TODO
- * Dispatch messages to screens so that they can handle events separately
+ * Move all Direct2D initializations into the Game class
  */
 #include "Game.h"
 
 #include <Windows.h>
 #include <d2d1.h>
 #pragma comment(lib, "d2d1")
-
-#include <stack>
 
 #define APPLICATION_NAME "MWMUD"
 
@@ -92,9 +90,11 @@ int WINAPI WinMain(HINSTANCE hInstance,
 				break;
 		}
 
+		if (!game.isRunning()) break;
+
 		//game.update();
 		game.render(pRT);
-		Sleep(10);
+		Sleep(20);
 	}
 
 	pRT->Release();
@@ -127,12 +127,10 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 
 		case WM_CHAR:
 		{
-			//if (wParam >= 0x20 && wParam <= 0x7E)
 			game.getActiveScreen()->handleKeypress((char)wParam);
 
 			break;
 		}
-
 	}
 
 	// handle messages that we didn't handle

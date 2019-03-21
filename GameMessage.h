@@ -6,6 +6,10 @@ enum class MessageType
 {
 	GMSG_UNKNOWN = 0,
 
+	/* ENGINE: HIGH PRIORITY
+	 */
+	GMSG_ENGINE_SHUTDOWN,		// shut down the game
+
 	/* SCREENS
 	 */
 	GMSG_SCREEN_ADVANCE,		// add a screen to the screen stack

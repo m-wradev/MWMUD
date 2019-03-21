@@ -1,8 +1,6 @@
 ========== MaliciousWyvern's MUD ========== 
-
 OVERVIEW
 Roleplay and gameplay intertwined.
-
 
 FEATURES TO IMPLEMENT
 Cooperative multiplayer.
@@ -29,11 +27,5 @@ Turn-based combat?
 	* Allows for strategic planning.
 
 TECHNICAL STUFF / TODO
-Refactor UI elements.
-
-Text Rendering
-	Make the text output rendering more efficient.
-		It also causes an infinite loop when all text has been pushed off the screen and the user is still typing.
-	Add blinking cursor to text input to indicate position.
-	Allow for moving around string in input to edit text at various location.
-	Support CTRL+A for input text?
+ChatIO UI element
+	Refactor into UI_TextInput and UI_TextOutput?

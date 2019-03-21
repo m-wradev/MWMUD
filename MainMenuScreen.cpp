@@ -11,18 +11,18 @@ MainMenuScreen::MainMenuScreen()
 		DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_FONT_WEIGHT_BOLD);
 	titleLabel.setBounds(0, 0, 960, 100);
 
-	versionLabel.setText(L"Prealpha Version", 14, DWRITE_TEXT_ALIGNMENT_CENTER,
+	versionLabel.setText(L"Prealpha Version", 16, DWRITE_TEXT_ALIGNMENT_CENTER,
 		DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_FONT_WEIGHT_LIGHT);
-	versionLabel.setBounds(0, 100, 960, 120);
+	versionLabel.setBounds(0, 90, 960, 110);
 
 	menuOptions.set(24, DWRITE_TEXT_ALIGNMENT_CENTER, DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
-		24, 0, 200, 960);
-	menuOptions.addOption(L"Play", 
-		[]() { Dispatcher::notify(new ScreenMessage(MessageType::GMSG_SCREEN_CLEARANDSET, new TitleScreen())); });
-	menuOptions.addOption(L"Options",
+		32, 0, 200, 960);
+	menuOptions.addOption(L"Single Player", 
+		[]() { Dispatcher::notify(new ScreenMessage(MessageType::GMSG_SCREEN_CLEARANDSET, nullptr)); });
+	menuOptions.addOption(L"Multi Player",
 		[]() { Dispatcher::notify(new ScreenMessage(MessageType::GMSG_SCREEN_ADVANCE, nullptr)); });
 	menuOptions.addOption(L"Exit",
-		[]() { Dispatcher::notify(new ScreenMessage(MessageType::GMSG_UNKNOWN, nullptr)); });
+		[]() { Dispatcher::notify(new GameMessage(MessageType::GMSG_ENGINE_SHUTDOWN)); });
 
 	highlightedOption = menuOptions.getOptions()->begin();
 	highlightedOption->setHighlighted(true);

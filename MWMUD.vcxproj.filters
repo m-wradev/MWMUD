@@ -51,6 +51,12 @@
     <ClCompile Include="TextRender.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
+    <ClCompile Include="GameScreen.cpp">
+      <Filter>Screens</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_ChatIO.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UI_MenuOptionListVertical.h">
@@ -83,11 +89,17 @@
     <ClInclude Include="Listener.h">
       <Filter>EventSystem</Filter>
     </ClInclude>
-    <ClInclude Include="GameMessage.h">
-      <Filter>EventSystem</Filter>
-    </ClInclude>
     <ClInclude Include="TextRender.h">
       <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="GameMessage.h">
+      <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_ChatIO.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="GameScreen.h">
+      <Filter>Screens</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

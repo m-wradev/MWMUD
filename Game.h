@@ -14,23 +14,30 @@
 
 class Game : public Listener
 {
+	bool running;
 	std::stack<Screen*> screenStack;
-
-public:
-	Game();
-	~Game();
 
 	void returnToPreviousScreen();
 	void addActiveScreen(Screen *newScreen);
 	void clearScreenStack();
+
+public:
+	Game();
+
+	bool isRunning();
 	Screen* getActiveScreen();
 
+	// Handle events sent by the event system
 	void onNotify(GameMessage* msg) override;
 
 	// update game logic
 	void update();
+
 	// render the screen at the top of the screen stack
 	void render(ID2D1HwndRenderTarget* pRT);
+
+	// shut down the game and its systems
+	void shutdown();
 };
 
 #endif
