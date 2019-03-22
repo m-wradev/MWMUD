@@ -1,6 +1,7 @@
 /* TODO
  * Move all Direct2D initializations into the Game class
  */
+#include "Dispatcher.h"
 #include "Game.h"
 
 #include <Windows.h>
@@ -121,14 +122,13 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 		{
 			// Handle arrow keys
 			if (wParam >= VK_LEFT && wParam <= VK_DOWN)
-				game.getActiveScreen()->handleKeypress(wParam);
+				Dispatcher::notify(new InputEvent(EVENT_TYPE::GEVT_INPUT_KEYPRESSED, wParam));
 			break;
 		}
 
 		case WM_CHAR:
 		{
-			game.getActiveScreen()->handleKeypress((char)wParam);
-
+			Dispatcher::notify(new InputEvent(EVENT_TYPE::GEVT_INPUT_KEYPRESSED, wParam));
 			break;
 		}
 	}

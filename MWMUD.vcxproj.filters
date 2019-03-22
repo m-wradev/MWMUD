@@ -9,10 +9,6 @@
       <UniqueIdentifier>{93995380-89BD-4b04-88EB-625FBE52EBFB}</UniqueIdentifier>
       <Extensions>h;hh;hpp;hxx;hm;inl;inc;ipp;xsd</Extensions>
     </Filter>
-    <Filter Include="Resource Files">
-      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
-      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
-    </Filter>
     <Filter Include="UI">
       <UniqueIdentifier>{77af6b45-aa8b-413a-a4c0-791a308ece11}</UniqueIdentifier>
     </Filter>
@@ -22,16 +18,13 @@
     <Filter Include="EventSystem">
       <UniqueIdentifier>{09d6b8a4-8729-498f-af26-c82092e75d39}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ChatSystem">
+      <UniqueIdentifier>{14058585-1f91-4710-81ca-f9f23bda3eab}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="UI_MenuOptionListVertical.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UI_Label.cpp">
-      <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="UI_MenuOption.cpp">
       <Filter>UI</Filter>
@@ -54,17 +47,23 @@
     <ClCompile Include="GameScreen.cpp">
       <Filter>Screens</Filter>
     </ClCompile>
-    <ClCompile Include="UI_ChatIO.cpp">
+    <ClCompile Include="GlobalChat.cpp">
+      <Filter>ChatSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="ChatMessage.cpp">
+      <Filter>Source Files</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Text.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_TextInput.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_Chatbox.cpp">
       <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="UI_MenuOptionListVertical.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UI_Label.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="UI_MenuOption.h">
       <Filter>UI</Filter>
     </ClInclude>
@@ -92,14 +91,29 @@
     <ClInclude Include="TextRender.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="GameMessage.h">
-      <Filter>Screens</Filter>
-    </ClInclude>
-    <ClInclude Include="UI_ChatIO.h">
-      <Filter>UI</Filter>
-    </ClInclude>
     <ClInclude Include="GameScreen.h">
       <Filter>Screens</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEvent.h">
+      <Filter>EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="GlobalChat.h">
+      <Filter>ChatSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="ChatMessage.h">
+      <Filter>Header Files</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Text.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_TextInput.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_VerticalList.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_Chatbox.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -4,21 +4,28 @@
 
 #include "TitleScreen.h"
 #include "MainMenuScreen.h"
+#include "GameScreen.h"
+
+#include "Dispatcher.h"
 
 Game::Game()
 {
 	TextRender::init();
 
-	screenStack.push(new TitleScreen());
+	//screenStack.push(new TitleScreen());
+	screenStack.push(new GameScreen());
 
 	// Subscribe to events
 	// ENGINE
-	Dispatcher::subscribe(MessageType::GMSG_ENGINE_SHUTDOWN, this);
+	Dispatcher::subscribe(EVENT_TYPE::GEVT_ENGINE_SHUTDOWN, this);
+
+	// INPUT
+	Dispatcher::subscribe(EVENT_TYPE::GEVT_INPUT_KEYPRESSED, this);
 
 	// SCREEN
-	Dispatcher::subscribe(MessageType::GMSG_SCREEN_ADVANCE, this);
-	Dispatcher::subscribe(MessageType::GMSG_SCREEN_RETURN, this);
-	Dispatcher::subscribe(MessageType::GMSG_SCREEN_CLEARANDSET, this);
+	Dispatcher::subscribe(EVENT_TYPE::GEVT_SCREEN_ADVANCE, this);
+	Dispatcher::subscribe(EVENT_TYPE::GEVT_SCREEN_RETURN, this);
+	Dispatcher::subscribe(EVENT_TYPE::GEVT_SCREEN_CLEARANDSET, this);
 
 	running = true;
 }
@@ -41,6 +48,11 @@ void Game::update()
 
 void Game::shutdown()
 {
+	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_SCREEN_CLEARANDSET, this);
+	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_SCREEN_RETURN, this);
+	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_SCREEN_ADVANCE, this);
+	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_ENGINE_SHUTDOWN, this);
+	
 	TextRender::pDWriteFactory->Release();
 	clearScreenStack();
 
@@ -48,32 +60,38 @@ void Game::shutdown()
 }
 
 // Handle events sent by the event system
-void Game::onNotify(GameMessage *msg)
+void Game::onNotify(GameEvent *evt)
 {
-	switch (msg->messageType)
+	switch (evt->eventType)
 	{
-		case MessageType::GMSG_ENGINE_SHUTDOWN:
+		case EVENT_TYPE::GEVT_ENGINE_SHUTDOWN:
 		{
 			shutdown();
 			break;
 		};
 
-		case MessageType::GMSG_SCREEN_ADVANCE:
+		case EVENT_TYPE::GEVT_INPUT_KEYPRESSED:
 		{
-			addActiveScreen(static_cast<ScreenMessage*>(msg)->nextScreen);
+			screenStack.top()->handleKeypress(static_cast<InputEvent*>(evt)->key);
 			break;
 		}
 
-		case MessageType::GMSG_SCREEN_RETURN:
+		case EVENT_TYPE::GEVT_SCREEN_ADVANCE:
+		{
+			addActiveScreen(static_cast<ScreenEvent*>(evt)->nextScreen);
+			break;
+		}
+
+		case EVENT_TYPE::GEVT_SCREEN_RETURN:
 		{
 			returnToPreviousScreen();
 			break;
 		}
 
-		case MessageType::GMSG_SCREEN_CLEARANDSET:
+		case EVENT_TYPE::GEVT_SCREEN_CLEARANDSET:
 		{
 			clearScreenStack();
-			addActiveScreen(static_cast<ScreenMessage*>(msg)->nextScreen);
+			addActiveScreen(static_cast<ScreenEvent*>(evt)->nextScreen);
 			break;
 		}
 	}
@@ -103,8 +121,5 @@ void Game::addActiveScreen(Screen* newScreen)
 void Game::clearScreenStack()
 {
 	while (!screenStack.empty()) 
-	{ 
-		delete screenStack.top(); 
 		screenStack.pop(); 
-	}
 }

@@ -2,7 +2,6 @@
 
 #include "MainMenuScreen.h"
 #include "Dispatcher.h"
-#include "GameMessage.h"
 
 TitleScreen::TitleScreen()
 {
@@ -20,11 +19,11 @@ TitleScreen::TitleScreen()
 }
 
 // handle keypresses
-void TitleScreen::handleKeypress(char keycode)
+void TitleScreen::handleKeypress(wchar_t key)
 {
-	if (keycode == VK_RETURN)
+	if (key == VK_RETURN)
 	{
-		Dispatcher::notify(new ScreenMessage(MessageType::GMSG_SCREEN_ADVANCE, new MainMenuScreen()));
+		Dispatcher::notify(new ScreenEvent(EVENT_TYPE::GEVT_SCREEN_ADVANCE, new MainMenuScreen()));
 	}
 }
 

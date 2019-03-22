@@ -1,10 +1,7 @@
-#ifndef GAME_H
-#define GAME_H
-
+#pragma once
 #include "Screen.h"
 
-#include "GameMessage.h"
-#include "Dispatcher.h"
+#include "GameEvent.h"
 #include "Listener.h"
 
 #include <d2d1.h>
@@ -12,7 +9,7 @@
 
 #include <stack>
 
-class Game : public Listener
+class Game : virtual public Listener
 {
 	bool running;
 	std::stack<Screen*> screenStack;
@@ -28,7 +25,7 @@ public:
 	Screen* getActiveScreen();
 
 	// Handle events sent by the event system
-	void onNotify(GameMessage* msg) override;
+	void onNotify(GameEvent* msg) override;
 
 	// update game logic
 	void update();
@@ -39,5 +36,3 @@ public:
 	// shut down the game and its systems
 	void shutdown();
 };
-
-#endif

@@ -119,33 +119,38 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="ChatMessage.cpp" />
     <ClCompile Include="Dispatcher.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameScreen.cpp" />
+    <ClCompile Include="GlobalChat.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuScreen.cpp" />
     <ClCompile Include="TextRender.cpp" />
     <ClCompile Include="TitleScreen.cpp" />
-    <ClCompile Include="UI_ChatIO.cpp" />
-    <ClCompile Include="UI_Label.cpp" />
+    <ClCompile Include="UI_Chatbox.cpp" />
+    <ClCompile Include="UI_Text.cpp" />
     <ClCompile Include="UI_MenuOption.cpp" />
-    <ClCompile Include="UI_MenuOptionListVertical.cpp" />
+    <ClCompile Include="UI_TextInput.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="ChatMessage.h" />
     <ClInclude Include="Dispatcher.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameScreen.h" />
+    <ClInclude Include="GlobalChat.h" />
     <ClInclude Include="Listener.h" />
     <ClInclude Include="MainMenuScreen.h" />
-    <ClInclude Include="GameMessage.h" />
+    <ClInclude Include="GameEvent.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="TextRender.h" />
     <ClInclude Include="TitleScreen.h" />
-    <ClInclude Include="UI_ChatIO.h" />
+    <ClInclude Include="UI_Chatbox.h" />
     <ClInclude Include="UI_Element.h" />
-    <ClInclude Include="UI_Label.h" />
+    <ClInclude Include="UI_Text.h" />
     <ClInclude Include="UI_MenuOption.h" />
-    <ClInclude Include="UI_MenuOptionListVertical.h" />
+    <ClInclude Include="UI_TextInput.h" />
+    <ClInclude Include="UI_VerticalList.h" />
   </ItemGroup>
   <ItemGroup>
     <Text Include="MWMUD_README.txt" />

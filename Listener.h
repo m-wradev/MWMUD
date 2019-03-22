@@ -1,8 +1,8 @@
 #pragma once
-#include "GameMessage.h"
+#include "GameEvent.h"
 
 class Listener
 {
 public:
-	virtual void onNotify(GameMessage* msg) = 0;
+	virtual void onNotify(GameEvent* evt) = 0;
 };
