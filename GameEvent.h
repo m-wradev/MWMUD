@@ -1,6 +1,7 @@
 #pragma once
 
 #include "Screen.h"
+#include "UI_Element.h"
 
 #include <string>
 
@@ -21,7 +22,10 @@ enum class EVENT_TYPE
 
 	// GAME CHAT
 	GEVT_CHAT_MESSAGE_SENT,		// user sends a message through the chat system
-	GEVT_CHAT_MESSAGE_RECEIVED,	// game receives a chat message
+
+	// UI ELEMENTS
+		// UI_TextInput
+		GEVT_UI_TEXTINPUT_HEIGHTCHANGED, // height of the input bounds changed to fit text
 };
 
 struct GameEvent
@@ -52,4 +56,12 @@ struct ChatEvent : public GameEvent
 
 	ChatEvent(EVENT_TYPE et, std::wstring message)
 		: GameEvent(et), message(message) {}
+};
+
+struct UIEvent : public GameEvent
+{
+	UI_Element* element; // element that sent the update. use this to get the updated values
+	
+	UIEvent(EVENT_TYPE et, UI_Element* element)
+		: GameEvent(et), element(element) {}
 };

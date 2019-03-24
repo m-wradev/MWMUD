@@ -9,7 +9,6 @@
 class UI_TextInput : public UI_Text, public Listener
 {
 private:
-	std::wstring input;
 	bool focused = false;	// is this textinput currently in focus for receiving input?
 
 public:

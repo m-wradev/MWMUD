@@ -2,7 +2,7 @@
 
 #include <queue>
 
-std::map<EVENT_TYPE, std::unordered_set<Listener*>> Dispatcher::subscriptions;
+std::unordered_map<EVENT_TYPE, std::unordered_set<Listener*>> Dispatcher::subscriptions;
 
 // Subscribe a listener to a message type
 void Dispatcher::subscribe(EVENT_TYPE et, Listener* listener)

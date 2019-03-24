@@ -3,7 +3,7 @@
 #include "GameEvent.h"
 #include "Listener.h"
 
-#include <map>
+#include <unordered_map>
 #include <unordered_set>
 #include <exception>
 
@@ -30,7 +30,7 @@ public:
 class Dispatcher
 {
 private:
-	static std::map<EVENT_TYPE, std::unordered_set<Listener*>> subscriptions;
+	static std::unordered_map<EVENT_TYPE, std::unordered_set<Listener*>> subscriptions;
 
 public:
 	// Subscribe a listener to a message type

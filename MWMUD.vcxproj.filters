@@ -21,6 +21,9 @@
     <Filter Include="ChatSystem">
       <UniqueIdentifier>{14058585-1f91-4710-81ca-f9f23bda3eab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="EventSystem\Global">
+      <UniqueIdentifier>{8428ff41-ffe9-4867-9f50-096c013325b5}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -37,9 +40,6 @@
     </ClCompile>
     <ClCompile Include="Game.cpp">
       <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="Dispatcher.cpp">
-      <Filter>EventSystem</Filter>
     </ClCompile>
     <ClCompile Include="TextRender.cpp">
       <Filter>Source Files</Filter>
@@ -62,6 +62,9 @@
     <ClCompile Include="UI_Chatbox.cpp">
       <Filter>UI</Filter>
     </ClCompile>
+    <ClCompile Include="Dispatcher.cpp">
+      <Filter>EventSystem\Global</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UI_MenuOption.h">
@@ -82,20 +85,11 @@
     <ClInclude Include="Game.h">
       <Filter>Header Files</Filter>
     </ClInclude>
-    <ClInclude Include="Dispatcher.h">
-      <Filter>EventSystem</Filter>
-    </ClInclude>
-    <ClInclude Include="Listener.h">
-      <Filter>EventSystem</Filter>
-    </ClInclude>
     <ClInclude Include="TextRender.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="GameScreen.h">
       <Filter>Screens</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEvent.h">
-      <Filter>EventSystem</Filter>
     </ClInclude>
     <ClInclude Include="GlobalChat.h">
       <Filter>ChatSystem</Filter>
@@ -114,6 +108,15 @@
     </ClInclude>
     <ClInclude Include="UI_Chatbox.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Dispatcher.h">
+      <Filter>EventSystem\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEvent.h">
+      <Filter>EventSystem\Global</Filter>
+    </ClInclude>
+    <ClInclude Include="Listener.h">
+      <Filter>EventSystem\Global</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -5,6 +5,7 @@
 
 GameScreen::GameScreen()
 {
+	/*
 	textOut.set(14, DWRITE_TEXT_ALIGNMENT_LEADING, DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
 		DWRITE_FONT_WEIGHT_NORMAL, 5, 0, 0, 200);
 	textOut.addElement(L"Label 01");
@@ -16,6 +17,25 @@ GameScreen::GameScreen()
 	textIn.setText(L"", 14, DWRITE_FONT_WEIGHT_NORMAL);
 	textIn.setBounds(540 / 2 - 50, 540 / 2 + 50, 960 / 8);
 	textIn.setFocused(true);
+	*/
+	
+	chatbox.set
+	(
+		// input box
+		14,
+		DWRITE_TEXT_ALIGNMENT_LEADING,
+		DWRITE_PARAGRAPH_ALIGNMENT_FAR,
+		DWRITE_FONT_WEIGHT_NORMAL,
+
+		// output box
+		14,
+		DWRITE_TEXT_ALIGNMENT_LEADING,
+		DWRITE_PARAGRAPH_ALIGNMENT_CENTER, // might need to change this value
+		DWRITE_FONT_WEIGHT_NORMAL,
+		0, 0, 960, 540
+	);
+
+	chatbox.getInputComponent().setFocused(true);
 }
 
 void GameScreen::handleKeypress(wchar_t key)
@@ -28,7 +48,10 @@ void GameScreen::handleKeypress(wchar_t key)
 
 void GameScreen::draw(ID2D1HwndRenderTarget* pRT)
 {
+	/*
 	textOut.draw(pRT);
 	textIn.draw(pRT);
+	*/
+	chatbox.draw(pRT);
 }
 

@@ -61,7 +61,11 @@ void UI_TextInput::onNotify(GameEvent* evt)
 	else if (key == VK_RETURN)
 	{
 		// TODO: Strip leading and trailing whitespace
-		Dispatcher::notify(new ChatEvent(EVENT_TYPE::GEVT_CHAT_MESSAGE_SENT, text));
+		if (!text.empty())
+			Dispatcher::notify(new ChatEvent(EVENT_TYPE::GEVT_CHAT_MESSAGE_SENT, UI_Text::text));
+
+		text.clear();
+		bounds.top = bounds.bottom;
 	}
 }
 

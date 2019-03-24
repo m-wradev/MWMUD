@@ -1,4 +1,18 @@
-﻿  GameScreen.cpp
+﻿  UI_TextInput.cpp
+e:\radev\sdk\directx\include\dwrite.h(4962): warning C4005: 'DWRITE_E_FILEFORMAT': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\shared\winerror.h(56407): note: see previous definition of 'DWRITE_E_FILEFORMAT'
+e:\radev\sdk\directx\include\dwrite.h(4967): warning C4005: 'DWRITE_E_UNEXPECTED': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\shared\winerror.h(56416): note: see previous definition of 'DWRITE_E_UNEXPECTED'
+e:\radev\sdk\directx\include\dwrite.h(4972): warning C4005: 'DWRITE_E_NOFONT': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\shared\winerror.h(56425): note: see previous definition of 'DWRITE_E_NOFONT'
+e:\radev\sdk\directx\include\dwrite.h(4978): warning C4005: 'DWRITE_E_FILENOTFOUND': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\shared\winerror.h(56434): note: see previous definition of 'DWRITE_E_FILENOTFOUND'
+e:\radev\sdk\directx\include\dwrite.h(4983): warning C4005: 'DWRITE_E_FILEACCESS': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\shared\winerror.h(56443): note: see previous definition of 'DWRITE_E_FILEACCESS'
+e:\radev\sdk\directx\include\dwrite.h(4988): warning C4005: 'DWRITE_E_FONTCOLLECTIONOBSOLETE': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\shared\winerror.h(56452): note: see previous definition of 'DWRITE_E_FONTCOLLECTIONOBSOLETE'
+e:\radev\sdk\directx\include\dwrite.h(4993): warning C4005: 'DWRITE_E_ALREADYREGISTERED': macro redefinition
+  c:\program files (x86)\windows kits\10\include\10.0.17763.0\shared\winerror.h(56461): note: see previous definition of 'DWRITE_E_ALREADYREGISTERED'
 e:\radev\sdk\directx\include\d2derr.h(59): warning C4005: 'D2DERR_WRONG_STATE': macro redefinition
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\shared\winerror.h(55988): note: see previous definition of 'D2DERR_WRONG_STATE'
 e:\radev\sdk\directx\include\d2derr.h(64): warning C4005: 'D2DERR_NOT_INITIALIZED': macro redefinition
@@ -105,35 +119,4 @@ e:\radev\sdk\directx\include\d3d10.h(608): warning C4005: 'D3D10_ERROR_TOO_MANY_
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\shared\winerror.h(55899): note: see previous definition of 'D3D10_ERROR_TOO_MANY_UNIQUE_STATE_OBJECTS'
 e:\radev\sdk\directx\include\d3d10.h(609): warning C4005: 'D3D10_ERROR_FILE_NOT_FOUND': macro redefinition
   c:\program files (x86)\windows kits\10\include\10.0.17763.0\shared\winerror.h(55908): note: see previous definition of 'D3D10_ERROR_FILE_NOT_FOUND'
-e:\radev\sdk\directx\include\dwrite.h(4962): warning C4005: 'DWRITE_E_FILEFORMAT': macro redefinition
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\shared\winerror.h(56407): note: see previous definition of 'DWRITE_E_FILEFORMAT'
-e:\radev\sdk\directx\include\dwrite.h(4967): warning C4005: 'DWRITE_E_UNEXPECTED': macro redefinition
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\shared\winerror.h(56416): note: see previous definition of 'DWRITE_E_UNEXPECTED'
-e:\radev\sdk\directx\include\dwrite.h(4972): warning C4005: 'DWRITE_E_NOFONT': macro redefinition
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\shared\winerror.h(56425): note: see previous definition of 'DWRITE_E_NOFONT'
-e:\radev\sdk\directx\include\dwrite.h(4978): warning C4005: 'DWRITE_E_FILENOTFOUND': macro redefinition
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\shared\winerror.h(56434): note: see previous definition of 'DWRITE_E_FILENOTFOUND'
-e:\radev\sdk\directx\include\dwrite.h(4983): warning C4005: 'DWRITE_E_FILEACCESS': macro redefinition
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\shared\winerror.h(56443): note: see previous definition of 'DWRITE_E_FILEACCESS'
-e:\radev\sdk\directx\include\dwrite.h(4988): warning C4005: 'DWRITE_E_FONTCOLLECTIONOBSOLETE': macro redefinition
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\shared\winerror.h(56452): note: see previous definition of 'DWRITE_E_FONTCOLLECTIONOBSOLETE'
-e:\radev\sdk\directx\include\dwrite.h(4993): warning C4005: 'DWRITE_E_ALREADYREGISTERED': macro redefinition
-  c:\program files (x86)\windows kits\10\include\10.0.17763.0\shared\winerror.h(56461): note: see previous definition of 'DWRITE_E_ALREADYREGISTERED'
-e:\radev\projects\mwmud\ui_verticallist.h(49): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-  e:\radev\projects\mwmud\ui_verticallist.h(47): note: while compiling class template member function 'T &UI_VerticalList<T>::addElement(std::wstring)'
-          with
-          [
-              T=UI_Text
-          ]
-  e:\radev\projects\mwmud\gamescreen.cpp(10): note: see reference to function template instantiation 'T &UI_VerticalList<T>::addElement(std::wstring)' being compiled
-          with
-          [
-              T=UI_Text
-          ]
-  e:\radev\projects\mwmud\gamescreen.h(11): note: see reference to class template instantiation 'UI_VerticalList<UI_Text>' being compiled
-e:\radev\projects\mwmud\ui_verticallist.h(50): warning C4305: 'argument': truncation from 'INT' to 'float'
-e:\radev\projects\mwmud\ui_verticallist.h(50): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-e:\radev\projects\mwmud\ui_verticallist.h(55): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-e:\radev\projects\mwmud\ui_verticallist.h(60): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
-e:\radev\projects\mwmud\ui_verticallist.h(59): warning C4244: 'argument': conversion from 'int' to 'float', possible loss of data
   MWMUD.vcxproj -> E:\RADev\Projects\MWMUD\x64\Debug\MWMUD.exe
