@@ -3,7 +3,9 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio 15
 VisualStudioVersion = 15.0.28307.168
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MWMUD", "MWMUD.vcxproj", "{2EFB5157-91D3-4522-90DD-FD1EDF54A252}"
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MWMUD", "MWMUD\MWMUD.vcxproj", "{2EFB5157-91D3-4522-90DD-FD1EDF54A252}"
+EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MWMUD_DedicatedServer", "MWMUD_DedicatedServer\MWMUD_DedicatedServer.vcxproj", "{9E954FF4-855D-45B2-819E-115C9575824C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -21,6 +23,14 @@ Global
 		{2EFB5157-91D3-4522-90DD-FD1EDF54A252}.Release|x64.Build.0 = Release|x64
 		{2EFB5157-91D3-4522-90DD-FD1EDF54A252}.Release|x86.ActiveCfg = Release|Win32
 		{2EFB5157-91D3-4522-90DD-FD1EDF54A252}.Release|x86.Build.0 = Release|Win32
+		{9E954FF4-855D-45B2-819E-115C9575824C}.Debug|x64.ActiveCfg = Debug|x64
+		{9E954FF4-855D-45B2-819E-115C9575824C}.Debug|x64.Build.0 = Debug|x64
+		{9E954FF4-855D-45B2-819E-115C9575824C}.Debug|x86.ActiveCfg = Debug|Win32
+		{9E954FF4-855D-45B2-819E-115C9575824C}.Debug|x86.Build.0 = Debug|Win32
+		{9E954FF4-855D-45B2-819E-115C9575824C}.Release|x64.ActiveCfg = Release|x64
+		{9E954FF4-855D-45B2-819E-115C9575824C}.Release|x64.Build.0 = Release|x64
+		{9E954FF4-855D-45B2-819E-115C9575824C}.Release|x86.ActiveCfg = Release|Win32
+		{9E954FF4-855D-45B2-819E-115C9575824C}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
