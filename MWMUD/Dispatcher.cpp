@@ -22,7 +22,7 @@ void Dispatcher::subscribe(EVENT_TYPE et, Listener* listener)
 	//}
 	//catch (DuplicateSubscriptionException& ex)
 	//{
-	//	Dispatcher::notify(new GameEvent(EVENT_TYPE::GEVT_ENGINE_SHUTDOWN));
+	//	Dispatcher::notify(&GameEvent(EVENT_TYPE::GEVT_ENGINE_SHUTDOWN));
 	//}
 }
 

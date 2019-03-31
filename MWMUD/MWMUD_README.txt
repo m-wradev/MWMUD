@@ -28,4 +28,4 @@ Turn-based combat?
 
 TECHNICAL STUFF / TODO
 ChatIO UI element
-	Refactor into UI_TextInput and UI_TextOutput?
+	Refactor into UI_ChatInput and UI_TextOutput?

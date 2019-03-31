@@ -17,12 +17,13 @@ public:
 	virtual ~UI_Text() {}
 
 	static const D2D1::ColorF TEXT_COLOR_DEFAULT;
-	static const wchar_t* TEXT_FONT_DEFAULT;
+	static const std::wstring TEXT_FONT_DEFAULT;
 
 	void setText(std::wstring text, float textSize,
 		DWRITE_TEXT_ALIGNMENT textAlignHorizontal, 
 		DWRITE_PARAGRAPH_ALIGNMENT textAlignVertical,
 		DWRITE_FONT_WEIGHT fontWeight);
+	void changeText(std::wstring text);
 	void setBounds(float left, float top, float right, float bottom);
 
 	// Returns the height of the text

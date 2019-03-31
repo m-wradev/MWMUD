@@ -1,6 +1,5 @@
 #pragma once
 #include "ClientNetwork.h"
-#include "ServerNetwork.h"
 
 #include <d2d1.h>
 #include <stack>
@@ -20,7 +19,6 @@ class Game : virtual public Listener
 	void addActiveScreen(Screen *newScreen);
 	void clearScreenStack();
 
-	ServerNetwork* server = nullptr;
 	ClientNetwork* client = nullptr;
 
 public:

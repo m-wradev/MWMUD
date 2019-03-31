@@ -2,6 +2,7 @@
 #pragma once
 #include <string>
 #include <list>
+#include <deque>
 
 #include "UI_Element.h"
 #include "UI_Text.h"
@@ -13,16 +14,21 @@
 class UI_ChatOutput : public UI_Element, public Listener
 {
 private:
+	/*
 	std::list<std::wstring> messageHistory;
 	std::list<std::wstring>::iterator renderStart; // keeps track of the beginning of rendered message history
 	std::list<std::wstring>::iterator hiddenBoundary;	// keeps track of the line between hidden and rendered messages
+	*/
+	std::deque<std::wstring> messageHistory;
+	int renderStart;
+	int hiddenBoundary;
 	UI_VerticalList<UI_Text> renderedMessages;
 
 	int textSize;
 	int left, top, right, bottom;
 
 public:
-	static const int maxHistory = 200; // max number of messages that can be stored
+	static const int maxHistory = 100; // max number of messages that can be stored
 
 	UI_ChatOutput();
 	~UI_ChatOutput();

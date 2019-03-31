@@ -1,7 +1,7 @@
 #include "UI_Text.h"
 
 const D2D1::ColorF UI_Text::TEXT_COLOR_DEFAULT = D2D1::ColorF(D2D1::ColorF::White);
-const wchar_t* UI_Text::TEXT_FONT_DEFAULT = L"Arial";
+const std::wstring UI_Text::TEXT_FONT_DEFAULT = L"Arial";
 
 void UI_Text::setText(std::wstring text, float textSize,
 	DWRITE_TEXT_ALIGNMENT textAlignHorizontal, 
@@ -15,6 +15,11 @@ void UI_Text::setText(std::wstring text, float textSize,
 	this->fontWeight = fontWeight;
 }
 
+void UI_Text::changeText(std::wstring text)
+{
+	this->text = text;
+}
+
 void UI_Text::setBounds(float left, float top, float right, float bottom)
 {
 	bounds.left = left;
@@ -26,6 +31,12 @@ void UI_Text::setBounds(float left, float top, float right, float bottom)
 const std::wstring UI_Text::getText()	{ return text; }
 const D2D1_RECT_F UI_Text::getBounds()	{ return bounds; }
 
+// TODO - Make the following calculation more accurate.
+// This is inaccurate since textSize (font size) is measured in points, not pixels.
+// To get an accurate measure, we'd have to get the font metrics and calculate the
+// height of the text in pixels using the given font.
+// So we don't want to calculate text height for most things, but rather the font height
+// in pixels.
 const float UI_Text::getTextHeight()
 {
 	HRESULT result;
@@ -33,10 +44,9 @@ const float UI_Text::getTextHeight()
 	IDWriteTextFormat* pTextFormat;
 	result = TextRender::pDWriteFactory->CreateTextFormat
 	(
-		UI_Text::TEXT_FONT_DEFAULT,
+		UI_Text::TEXT_FONT_DEFAULT.c_str(),
 		NULL,
 		fontWeight,
-		//DWRITE_FONT_WEIGHT_NORMAL,
 		DWRITE_FONT_STYLE_NORMAL,
 		DWRITE_FONT_STRETCH_NORMAL,
 		textSize,
@@ -70,7 +80,7 @@ void UI_Text::draw(ID2D1HwndRenderTarget* pRT)
 
 	TextRender::pDWriteFactory->CreateTextFormat
 	(
-		UI_Text::TEXT_FONT_DEFAULT,
+		UI_Text::TEXT_FONT_DEFAULT.c_str(),
 		nullptr,
 		fontWeight,
 		DWRITE_FONT_STYLE_NORMAL,

@@ -1,9 +1,7 @@
 #include "MainMenuScreen.h"
 
+#include "MPConnectScreen.h"
 #include "Dispatcher.h"
-
-#include "TitleScreen.h"
-#include "GameScreen.h"
 
 MainMenuScreen::MainMenuScreen()
 {
@@ -17,17 +15,13 @@ MainMenuScreen::MainMenuScreen()
 
 	menuOptions.set(24, DWRITE_TEXT_ALIGNMENT_CENTER, DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
 		DWRITE_FONT_WEIGHT_NORMAL, 10, 0, 200, 960);
-	menuOptions.push_back(L"Single Player").setCallback
-	([]() { Dispatcher::notify(new ScreenEvent(EVENT_TYPE::GEVT_SCREEN_CLEARANDSET, new GameScreen())); });
 	menuOptions.push_back(L"Join Game").setCallback
-	([]() { Dispatcher::notify(new ScreenEvent(EVENT_TYPE::GEVT_SCREEN_ADVANCE, nullptr)); });
-	menuOptions.push_back(L"Host Game").setCallback
-	([]() { Dispatcher::notify(new ScreenEvent(EVENT_TYPE::GEVT_SCREEN_ADVANCE, nullptr)); });
+	([]() { Dispatcher::notify(&ScreenEvent(EVENT_TYPE::GEVT_SCREEN_ADVANCE, new MPConnectScreen())); });
 	menuOptions.push_back(L"Exit").setCallback
-	([]() { Dispatcher::notify(new ScreenEvent(EVENT_TYPE::GEVT_ENGINE_SHUTDOWN)); });
+	([]() { Dispatcher::notify(&ScreenEvent(EVENT_TYPE::GEVT_ENGINE_SHUTDOWN)); });
 
 	highlightedOption = menuOptions.getElements()->begin();
-	highlightedOption->setHighlighted(true);
+	highlightedOption->setFocus(true);
 }
 
 void MainMenuScreen::handleKeypress(wchar_t key)
@@ -38,16 +32,16 @@ void MainMenuScreen::handleKeypress(wchar_t key)
 	}
 	else if (key == VK_ESCAPE)
 	{
-		Dispatcher::notify(new ScreenEvent(EVENT_TYPE::GEVT_SCREEN_RETURN));
+		Dispatcher::notify(&ScreenEvent(EVENT_TYPE::GEVT_SCREEN_RETURN));
 	}
 	else if (key == VK_UP)
 	{
 		// perform validation to ensure that we're not going to move behind the beginning of the list
 		if (highlightedOption != menuOptions.getElements()->begin())
 		{
-			highlightedOption->setHighlighted(false);
+			highlightedOption->setFocus(false);
 			highlightedOption--;
-			highlightedOption->setHighlighted(true);
+			highlightedOption->setFocus(true);
 		}
 	}
 	else if (key == VK_DOWN)
@@ -55,9 +49,9 @@ void MainMenuScreen::handleKeypress(wchar_t key)
 		// perform validation to ensure that we're not going to dereference end of list
 		if (highlightedOption != --menuOptions.getElements()->end())
 		{
-			highlightedOption->setHighlighted(false);
+			highlightedOption->setFocus(false);
 			highlightedOption++;
-			highlightedOption->setHighlighted(true);
+			highlightedOption->setFocus(true);
 		}
 	}
 }

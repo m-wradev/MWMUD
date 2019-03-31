@@ -1,34 +1,33 @@
-//#include <enet/enet.h>
-//#pragma comment (lib, "enet64.lib")
+// TODO - Make the screen size globally accessible as a constant value so that UI_Element sizes aren't hardcoded.
 
 #include "Game.h"
+#include "GlobalChat.h"
 #include "TextRender.h"
 #include "TitleScreen.h"
 #include "MainMenuScreen.h"
 #include "GameScreen.h"
 #include "Dispatcher.h"
+#include "Util.h"
 
 Game::Game()
 {
+	GlobalChat::init();
 	TextRender::init();
-	screenStack.push(new TitleScreen());
 
 	if (enet_initialize() != 0)
 	{
 		// exit
 		exit(EXIT_FAILURE);
 	}
-	atexit(enet_deinitialize);
-
-	server = new ServerNetwork();
-	client = new ClientNetwork();
-
-	//client->connectToServer("127.0.0.1");
-	client->connectToServer("161.45.12.237");
 
 	// Subscribe to events
 	// ENGINE
 	Dispatcher::subscribe(EVENT_TYPE::GEVT_ENGINE_SHUTDOWN, this);
+
+	// NETWORK
+	Dispatcher::subscribe(EVENT_TYPE::GEVT_NETWORK_CLIENT_ATTEMPTCONNECT, this);
+	//Dispatcher::subscribe(EVENT_TYPE::GEVT_NETWORK_CLIENT_CONNECTIONSUCCESS, this);
+	//Dispatcher::subscribe(EVENT_TYPE::GEVT_NETWORK_CLIENT_CONNECTIONFAIL, this);
 
 	// INPUT
 	Dispatcher::subscribe(EVENT_TYPE::GEVT_INPUT_KEYPRESSED, this);
@@ -39,13 +38,12 @@ Game::Game()
 	Dispatcher::subscribe(EVENT_TYPE::GEVT_SCREEN_CLEARANDSET, this);
 
 	running = true;
+
+	screenStack.push(new TitleScreen());
 }
 
 void Game::update()
 {
-	if (server != nullptr)
-		server->pollEvents();
-
 	if (client != nullptr)
 		client->pollEvents();
 }
@@ -63,16 +61,20 @@ void Game::update()
 
 void Game::shutdown()
 {
+	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_ENGINE_SHUTDOWN, this);
+	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_NETWORK_CLIENT_ATTEMPTCONNECT, this);
+	//Dispatcher::unsubscribe(EVENT_TYPE::GEVT_NETWORK_CLIENT_CONNECTIONSUCCESS, this);
+	//Dispatcher::unsubscribe(EVENT_TYPE::GEVT_NETWORK_CLIENT_CONNECTIONFAIL, this);
+	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_INPUT_KEYPRESSED, this);
 	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_SCREEN_CLEARANDSET, this);
 	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_SCREEN_RETURN, this);
 	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_SCREEN_ADVANCE, this);
-	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_ENGINE_SHUTDOWN, this);
 	
 	TextRender::pDWriteFactory->Release();
 	clearScreenStack();
 
-	if (server != nullptr) delete server;
 	if (client != nullptr) delete client;
+	enet_deinitialize();
 
 	running = false;
 }
@@ -87,6 +89,24 @@ void Game::onNotify(GameEvent *evt)
 			shutdown();
 			break;
 		};
+
+		case EVENT_TYPE::GEVT_NETWORK_CLIENT_ATTEMPTCONNECT:
+		{
+			std::wstring ip = static_cast<NetworkEvent*>(evt)->message;
+
+			client = new ClientNetwork();
+			client->connectToServer(Util::convert_wstring_to_string(ip));
+			break;
+		}
+
+		/*
+		case EVENT_TYPE::GEVT_NETWORK_CLIENT_CONNECTIONSUCCESS:
+		{
+			// If client connected successfully, move to the game screen
+			Dispatcher::notify(&ScreenEvent(EVENT_TYPE::GEVT_SCREEN_CLEARANDSET, new GameScreen()));
+			break;
+		}
+		*/
 
 		case EVENT_TYPE::GEVT_INPUT_KEYPRESSED:
 		{
@@ -122,6 +142,7 @@ Screen* Game::getActiveScreen() { return screenStack.top(); }
 // return to the previous screen by popping the top of the screen stack
 void Game::returnToPreviousScreen() 
 { 
+	delete screenStack.top();
 	screenStack.pop(); 
 }
 
@@ -138,6 +159,9 @@ void Game::addActiveScreen(Screen* newScreen)
 // no longer return to previous screens.
 void Game::clearScreenStack()
 {
-	while (!screenStack.empty()) 
-		screenStack.pop(); 
+	while (!screenStack.empty())
+	{
+		delete screenStack.top();
+		screenStack.pop();
+	}
 }

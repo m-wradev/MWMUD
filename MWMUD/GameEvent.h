@@ -13,10 +13,11 @@ enum class EVENT_TYPE
 	GEVT_ENGINE_SHUTDOWN,		// shut down the game
 
 	// NETWORK EVENTS
-	GEVT_NETWORK_SERVER_CREATED,			// user requested that a server be created and hosted on their machine
-	GEVT_NETWORK_SERVER_SHUTDOWN,			// server is shutting down
-	GEVT_NETWORK_CLIENT_CONNECTED,			// client connected to server
-	GEVT_NETWORK_CLIENT_CONNECTIONFAILED,	// client failed to connect to server
+	GEVT_NETWORK_CLIENT_ATTEMPTCONNECT,		// client attempts to connect to a server
+	GEVT_NETWORK_CLIENT_CONNECTIONSUCCESS,	// client connected to server
+	GEVT_NETWORK_CLIENT_CONNECTIONFAIL,		// client failed to connect to server
+	GEVT_NETWORK_CLIENT_MESSAGESEND,		// client sends a chat message to the server
+	GEVT_NETWORK_CLIENT_MESSAGERECEIVE,		// client received a message from the server
 
 	// INPUT
 	GEVT_INPUT_KEYPRESSED,		// user pressed a key on the keyboard
@@ -27,10 +28,12 @@ enum class EVENT_TYPE
 	GEVT_SCREEN_CLEARANDSET,	// clear all screens and set a new one
 
 	// GAME CHAT
-	GEVT_CHAT_MESSAGE_SENT,		// user sends a message through the chat system
+	GEVT_CHAT_MESSAGESEND,		// user sends a message through the chat system
+	GEVT_CHAT_MESSAGERECEIVE,	// client receives a message from the network
+	GEVT_CHAT_CLEARCHAT,		// user wants to clear the chat
 
 	// UI ELEMENTS
-		// UI_TextInput
+		// UI_ChatInput
 		GEVT_UI_TEXTINPUT_HEIGHTCHANGED, // height of the input bounds changed to fit text
 };
 
@@ -39,14 +42,15 @@ struct GameEvent
 	EVENT_TYPE eventType;
 
 	GameEvent(EVENT_TYPE et) : eventType(et) {}
+	virtual ~GameEvent() {}
 };
 
-struct NetworkNotificationEvent : public GameEvent
+struct NetworkEvent : public GameEvent
 {
-	std::wstring msg;
+	std::wstring message;
 
-	NetworkNotificationEvent(EVENT_TYPE et, std::wstring msg)
-		: GameEvent(et), msg(msg) {}
+	NetworkEvent(EVENT_TYPE et, std::wstring message)
+		: GameEvent(et), message(message) {}
 };
 
 struct InputEvent : public GameEvent

@@ -18,14 +18,17 @@
     <Filter Include="EventSystem">
       <UniqueIdentifier>{09d6b8a4-8729-498f-af26-c82092e75d39}</UniqueIdentifier>
     </Filter>
-    <Filter Include="ChatSystem">
-      <UniqueIdentifier>{14058585-1f91-4710-81ca-f9f23bda3eab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="EventSystem\Global">
-      <UniqueIdentifier>{8428ff41-ffe9-4867-9f50-096c013325b5}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Network">
       <UniqueIdentifier>{7d230211-710c-4f4c-a6f6-dd6447aab302}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ChatSystem">
+      <UniqueIdentifier>{d52b8584-b378-4f9e-ab47-46ff137f2e5b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{7507ea28-d84c-42a9-a421-5986983de167}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="UI\Interfaces">
+      <UniqueIdentifier>{ece837c2-0def-411b-8a5b-c7b6da2827d7}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -50,20 +53,11 @@
     <ClCompile Include="GameScreen.cpp">
       <Filter>Screens</Filter>
     </ClCompile>
-    <ClCompile Include="GlobalChat.cpp">
-      <Filter>ChatSystem</Filter>
-    </ClCompile>
     <ClCompile Include="UI_Text.cpp">
-      <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="UI_TextInput.cpp">
       <Filter>UI</Filter>
     </ClCompile>
     <ClCompile Include="UI_Chatbox.cpp">
       <Filter>UI</Filter>
-    </ClCompile>
-    <ClCompile Include="Dispatcher.cpp">
-      <Filter>EventSystem\Global</Filter>
     </ClCompile>
     <ClCompile Include="UI_ChatOutput.cpp">
       <Filter>UI</Filter>
@@ -71,11 +65,26 @@
     <ClCompile Include="ClientNetwork.cpp">
       <Filter>Network</Filter>
     </ClCompile>
-    <ClCompile Include="MPJoinScreen.cpp">
+    <ClCompile Include="GlobalChat.cpp">
+      <Filter>ChatSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="Util.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Dispatcher.cpp">
+      <Filter>EventSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="MPConnectScreen.cpp">
       <Filter>Screens</Filter>
     </ClCompile>
-    <ClCompile Include="ServerNetwork.cpp">
-      <Filter>Network</Filter>
+    <ClCompile Include="UI_ChatInput.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_TextInput.cpp">
+      <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="UI_LabeledTextInput.cpp">
+      <Filter>UI</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -100,16 +109,10 @@
     <ClInclude Include="GameScreen.h">
       <Filter>Screens</Filter>
     </ClInclude>
-    <ClInclude Include="GlobalChat.h">
-      <Filter>ChatSystem</Filter>
-    </ClInclude>
     <ClInclude Include="ChatMessage.h">
       <Filter>Header Files</Filter>
     </ClInclude>
     <ClInclude Include="UI_Text.h">
-      <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="UI_TextInput.h">
       <Filter>UI</Filter>
     </ClInclude>
     <ClInclude Include="UI_VerticalList.h">
@@ -117,15 +120,6 @@
     </ClInclude>
     <ClInclude Include="UI_Chatbox.h">
       <Filter>UI</Filter>
-    </ClInclude>
-    <ClInclude Include="Dispatcher.h">
-      <Filter>EventSystem\Global</Filter>
-    </ClInclude>
-    <ClInclude Include="GameEvent.h">
-      <Filter>EventSystem\Global</Filter>
-    </ClInclude>
-    <ClInclude Include="Listener.h">
-      <Filter>EventSystem\Global</Filter>
     </ClInclude>
     <ClInclude Include="UI_ChatOutput.h">
       <Filter>UI</Filter>
@@ -136,11 +130,35 @@
     <ClInclude Include="ClientNetwork.h">
       <Filter>Network</Filter>
     </ClInclude>
-    <ClInclude Include="MPJoinScreen.h">
+    <ClInclude Include="GlobalChat.h">
+      <Filter>ChatSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Util.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Listener.h">
+      <Filter>EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Dispatcher.h">
+      <Filter>EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="GameEvent.h">
+      <Filter>EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="MPConnectScreen.h">
       <Filter>Screens</Filter>
     </ClInclude>
-    <ClInclude Include="ServerNetwork.h">
-      <Filter>Network</Filter>
+    <ClInclude Include="UI_ChatInput.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Focusable.h">
+      <Filter>UI\Interfaces</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_TextInput.h">
+      <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="UI_LabeledTextInput.h">
+      <Filter>UI</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

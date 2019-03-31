@@ -1,17 +1,20 @@
-/* All in-game chat messages feed through this system.
- */
+// TODO - Route all messages sent by the client and the server through here.
 #pragma once
 
 #include <string>
-#include <deque>
-
+#include <unordered_map>
 
 class GlobalChat
 {
 private:
-	static std::deque<std::wstring> globalHistory;	// history of all chat message types
-	static int historyLimit;	// max number of messages to be stored
+	typedef void(*onCommand)(std::string);
+	static std::unordered_map<std::string, onCommand> chatCommands;
 
 public:
-	static const std::deque<std::wstring>* getChat();
+	// Initialize the global chat system.
+	static void init();
+
+	// Parse a message sent by a user.
+	// If the message is a command, parse the command and execute it.
+	static void parse(std::wstring msgIn);
 };

@@ -1,10 +1,12 @@
 #include <locale>
 #include <codecvt>
+#include <iostream>
 
 #include "ClientNetwork.h"
 #include "GameScreen.h"
 #include "Dispatcher.h"
 #include "GameEvent.h"
+#include "Util.h"
 
 ClientNetwork::ClientNetwork()
 {
@@ -26,15 +28,17 @@ ClientNetwork::ClientNetwork()
 	}
 
 	// subscribe to events
-	Dispatcher::subscribe(EVENT_TYPE::GEVT_CHAT_MESSAGE_SENT, this);
+	Dispatcher::subscribe(EVENT_TYPE::GEVT_NETWORK_CLIENT_MESSAGESEND, this);
 }
 
 ClientNetwork::~ClientNetwork()
 {
+	enet_peer_disconnect(peer, 0);
+	enet_host_flush(client);
 	enet_host_destroy(client);
 
 	// unsubscribe from events
-	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_CHAT_MESSAGE_SENT, this);
+	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_NETWORK_CLIENT_MESSAGESEND, this);
 }
 
 void ClientNetwork::connectToServer(std::string ip)
@@ -44,7 +48,7 @@ void ClientNetwork::connectToServer(std::string ip)
 
 	// connect to server
 	enet_address_set_host(&address, ip.c_str());
-	address.port = 1234;
+	address.port = 25565;
 
 	// initiate connection and allocate two channel (0 and 1)
 	peer = enet_host_connect(client, &address, 2, 0);
@@ -59,8 +63,8 @@ void ClientNetwork::connectToServer(std::string ip)
 	if (enet_host_service(client, &enetevt, 5000) > 0 &&
 		enetevt.type == ENET_EVENT_TYPE_CONNECT)
 	{
-		// Once connected, load in game screen
-		Dispatcher::notify(new ScreenEvent(EVENT_TYPE::GEVT_SCREEN_CLEARANDSET, new GameScreen()));
+		// Notify game that connection succeeded
+		Dispatcher::notify(&NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_CONNECTIONSUCCESS, L""));
 	}
 	else
 	{
@@ -69,6 +73,7 @@ void ClientNetwork::connectToServer(std::string ip)
 		enet_peer_reset(peer);
 
 		// notify game that the client failed to join the server
+		Dispatcher::notify(&NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_CONNECTIONFAIL, L"Failed to connect. Is the server running?"));
 	}
 
 	// notify the game that the client was able to join the server
@@ -84,7 +89,9 @@ void ClientNetwork::pollEvents()
 		{
 			case ENET_EVENT_TYPE_RECEIVE:
 			{
-				Dispatcher::notify(new ChatEvent(EVENT_TYPE::GEVT_CHAT_MESSAGE_SENT, L"Received packet from " + std::to_wstring(enetevt.peer->address.host) + L" on channel " + std::to_wstring(enetevt.channelID)));
+				std::string msg = std::string((char*)enetevt.packet->data, enetevt.packet->dataLength);
+				std::wstring widestr = Util::convert_string_to_wstring(msg);
+				Dispatcher::notify(&NetworkEvent(EVENT_TYPE::GEVT_CHAT_MESSAGESEND, widestr));
 
 				// done with packet, so clean it up
 				enet_packet_destroy(enetevt.packet);
@@ -96,7 +103,7 @@ void ClientNetwork::pollEvents()
 
 void ClientNetwork::onNotify(GameEvent* gevt)
 {
-	if (gevt->eventType == EVENT_TYPE::GEVT_CHAT_MESSAGE_SENT)
+	if (gevt->eventType == EVENT_TYPE::GEVT_NETWORK_CLIENT_MESSAGESEND)
 	{
 		// convert the chat message from wstring to string
 		using convert_type = std::codecvt_utf8<wchar_t>;
@@ -108,11 +115,11 @@ void ClientNetwork::onNotify(GameEvent* gevt)
 
 		// send packet to the server
 		enet_peer_send(peer, 0, packet);
+		enet_host_flush(client);
+		enet_packet_destroy(packet);
+	}
+	else if (gevt->eventType == EVENT_TYPE::GEVT_NETWORK_CLIENT_MESSAGERECEIVE)
+	{
 
-		// clean up the packet
-		//enet_packet_destroy(packet);
-
-		// flush the client
-		//enet_host_flush(client);
 	}
 }

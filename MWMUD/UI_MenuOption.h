@@ -3,8 +3,9 @@
  */
 #pragma once
 #include "UI_Text.h"
+#include "Focusable.h"
 
-class UI_MenuOption : public UI_Text
+class UI_MenuOption : public UI_Text, public Focusable
 {
 public:
 	static const D2D1::ColorF TEXT_COLOR_HIGHLIGHTED;
@@ -12,12 +13,14 @@ public:
 private:
 	typedef void(*callback)(void);
 
-	bool highlighted = false;	// whether the option is currently highlighted
+	//bool highlighted = false;	// whether the option is currently highlighted
 	callback onSelect;
 	
 public:
 	UI_MenuOption() {};
-	void setHighlighted(bool highlighted);
+
+	bool hasFocus() override;
+	void setFocus(bool focused) override;
 	void setCallback(callback onSelect);
 
 	void select();

@@ -23,13 +23,14 @@ private:
 	int left;										// x coord of top-left corner
 	int right;										// x coord of right side
 
-	// Reposition the UI elements so that they stack nicely on screen
+	// Reposition the UI elements so that they stack nicely on screen.
+	// Calculated from top down.
 	void repositionElements()
 	{
-		int height = 0;
+		float height = 0;
 		for (T& e : elements)
 		{
-			int tHeight = e.getTextHeight();
+			float tHeight = e.getTextHeight();
 			e.setBounds(left, top + height, right, top + height + tHeight);
 
 			height += tHeight + elementOffset;
@@ -56,22 +57,13 @@ public:
 	std::list<T>* getElements() { return &elements; }
 	int getElementOffset() { return elementOffset; }
 
-	// Return the height of a subsection of elements
-	// May need to alter this in the future (change it < end to it <= end)
-	int getHeight(typename std::list<T>::iterator start, typename std::list<T>::iterator end)
+	float getHeight()
 	{
-		int height = 0;
-		for (auto it = start; it != end; it++)
-			height += it->getTextHeight() + elementOffset;
-
-		return height;
-	}
-
-	int getHeight()
-	{
-		int height = 0;
-		for (T e : elements)
+		float height = 0.0f;
+		for (T& e : elements)
 			height += e.getTextHeight() + elementOffset;
+
+		//height -= elementOffset; // strip away offset from last element
 
 		return height;
 	}
@@ -126,6 +118,12 @@ public:
 	void pop_back()
 	{
 		elements.pop_back();
+	}
+
+	// Clear the list
+	void clear()
+	{
+		elements.clear();
 	}
 
 	void draw(ID2D1HwndRenderTarget* pRT) override

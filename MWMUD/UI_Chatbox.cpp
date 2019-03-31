@@ -4,12 +4,12 @@
 
 UI_Chatbox::UI_Chatbox()
 {
-	Dispatcher::subscribe(EVENT_TYPE::GEVT_CHAT_MESSAGE_SENT, this);
+	Dispatcher::subscribe(EVENT_TYPE::GEVT_CHAT_MESSAGESEND, this);
 }
 
 UI_Chatbox::~UI_Chatbox()
 {
-	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_CHAT_MESSAGE_SENT, this);
+	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_CHAT_MESSAGESEND, this);
 }
 
 void UI_Chatbox::set(int inputTextSize,
@@ -23,17 +23,29 @@ void UI_Chatbox::set(int inputTextSize,
 	int left, int top, int right, int bottom)
 {
 	chatInput.setText(L"", inputTextSize, inputFontWeight);
-	chatInput.setBounds(left, right, bottom);
+	chatInput.setBounds(top, left, right, bottom);
 
 	chatOutput.set(outputTextSize, left, top, right, bottom);
 }
 
-UI_TextInput& UI_Chatbox::getInputComponent() { return chatInput; }
+bool UI_Chatbox::hasFocus() { return focused; }
+UI_ChatInput& UI_Chatbox::getInputComponent() { return chatInput; }
 UI_ChatOutput& UI_Chatbox::getOutputComponent() { return chatOutput; }
+
+void UI_Chatbox::setFocus(bool focused)
+{
+	this->focused = focused;
+	chatInput.setFocus(focused);
+}
+
+void UI_Chatbox::handleCharInput(wchar_t key)
+{
+	if (chatInput.hasFocus()) chatInput.charIn(key);
+}
 
 void UI_Chatbox::onNotify(GameEvent* gevt)
 {
-	if (gevt->eventType == EVENT_TYPE::GEVT_CHAT_MESSAGE_SENT)
+	if (gevt->eventType == EVENT_TYPE::GEVT_CHAT_MESSAGESEND)
 	{
 		chatOutput.push_back(static_cast<ChatEvent*>(gevt)->message);
 	}

@@ -1,3 +1,4 @@
 /.vs
-/x86
 /x64
+/MWMUD/x64
+/MWMUD_DedicatedServer/x64

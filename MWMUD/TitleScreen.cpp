@@ -23,7 +23,7 @@ void TitleScreen::handleKeypress(wchar_t key)
 {
 	if (key == VK_RETURN)
 	{
-		Dispatcher::notify(new ScreenEvent(EVENT_TYPE::GEVT_SCREEN_ADVANCE, new MainMenuScreen()));
+		Dispatcher::notify(&ScreenEvent(EVENT_TYPE::GEVT_SCREEN_ADVANCE, new MainMenuScreen()));
 	}
 }
 
