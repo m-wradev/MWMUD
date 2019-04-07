@@ -35,8 +35,7 @@ void GlobalChat::parse(std::wstring msgIn)
 	// User is sending a simple message
 	if (msg[0] != '/')
 	{
-		//Dispatcher::notify(&ChatEvent(EVENT_TYPE::GEVT_CHAT_MESSAGESEND, msgIn));
-		Dispatcher::notify(&NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_MESSAGESEND, msgIn));
+		Dispatcher::notify(&NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_DATASEND, msgIn));
 	}
 	// User is entering a command that we can handle here.
 	else

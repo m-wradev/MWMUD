@@ -4,12 +4,12 @@
 
 UI_Chatbox::UI_Chatbox()
 {
-	Dispatcher::subscribe(EVENT_TYPE::GEVT_CHAT_MESSAGESEND, this);
+	Dispatcher::subscribe(EVENT_TYPE::GEVT_CHAT_MESSAGEDISPLAY, this);
 }
 
 UI_Chatbox::~UI_Chatbox()
 {
-	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_CHAT_MESSAGESEND, this);
+	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_CHAT_MESSAGEDISPLAY, this);
 }
 
 void UI_Chatbox::set(int inputTextSize,
@@ -45,10 +45,8 @@ void UI_Chatbox::handleCharInput(wchar_t key)
 
 void UI_Chatbox::onNotify(GameEvent* gevt)
 {
-	if (gevt->eventType == EVENT_TYPE::GEVT_CHAT_MESSAGESEND)
-	{
+	if (gevt->eventType == EVENT_TYPE::GEVT_CHAT_MESSAGEDISPLAY)
 		chatOutput.push_back(static_cast<ChatEvent*>(gevt)->message);
-	}
 }
 
 void UI_Chatbox::draw(ID2D1HwndRenderTarget* pRT)

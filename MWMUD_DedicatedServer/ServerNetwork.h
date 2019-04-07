@@ -18,6 +18,8 @@ private:
 	sf::TcpListener listener;	// listens for incoming connections
 	std::unordered_set<sf::TcpSocket*> clients;	// clients connected to server
 
+	void broadcastPacket(sf::Packet);
+
 public:
 	static const int MAX_CONNECTIONS = 8;
 

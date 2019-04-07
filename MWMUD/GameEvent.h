@@ -1,3 +1,4 @@
+// TODO - Rename some of these events so that there's a clear delineation between network msg send and chat mGEVT_NETWORK_CLIENT_MESSAGESENDsg send
 #pragma once
 
 #include <string>
@@ -16,8 +17,8 @@ enum class EVENT_TYPE
 	GEVT_NETWORK_CLIENT_ATTEMPTCONNECT,		// client attempts to connect to a server
 	GEVT_NETWORK_CLIENT_CONNECTIONSUCCESS,	// client connected to server
 	GEVT_NETWORK_CLIENT_CONNECTIONFAIL,		// client failed to connect to server
-	GEVT_NETWORK_CLIENT_MESSAGESEND,		// client sends a chat message to the server
-	GEVT_NETWORK_CLIENT_MESSAGERECEIVE,		// client received a message from the server
+	GEVT_NETWORK_CLIENT_DATASEND,			// client sends data to server
+	GEVT_NETWORK_CLIENT_DATARECEIVE,		// client received data from server
 
 	// INPUT
 	GEVT_INPUT_KEYPRESSED,		// user pressed a key on the keyboard
@@ -28,8 +29,8 @@ enum class EVENT_TYPE
 	GEVT_SCREEN_CLEARANDSET,	// clear all screens and set a new one
 
 	// GAME CHAT
-	GEVT_CHAT_MESSAGESEND,		// user sends a message through the chat system
-	GEVT_CHAT_MESSAGERECEIVE,	// client receives a message from the network
+	//GEVT_CHAT_MESSAGEPARSE,		// user sends a message to the chat system for parsing
+	GEVT_CHAT_MESSAGEDISPLAY,	// chat system needs to display a message
 	GEVT_CHAT_CLEARCHAT,		// user wants to clear the chat
 
 	// UI ELEMENTS

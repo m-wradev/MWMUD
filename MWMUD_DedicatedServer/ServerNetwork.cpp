@@ -23,7 +23,9 @@ ServerNetwork::ServerNetwork()
 
 ServerNetwork::~ServerNetwork()
 {
-
+	// Delete all allocated clients
+	for (sf::TcpSocket* client : clients)
+		delete client;
 }
 
 void ServerNetwork::pollEvents()
@@ -33,44 +35,66 @@ void ServerNetwork::pollEvents()
 	for (sf::TcpSocket* client : clients)
 	{
 		if (client->getRemoteAddress() == sf::IpAddress::None)
-		{
-			// TODO - find a way to get the IP to display rather than 0.0.0.0
-			// this happens because the client has already disconnected.
-			std::cout << client->getRemoteAddress().toString() << " disconnected." << std::endl;
 			toRemove.push(client);
-		}
 	}
 
 	// Remove clients that disconnected
 	while (!toRemove.empty())
 	{
 		clients.erase(toRemove.top());
+		delete toRemove.top();
 		toRemove.pop();
 	}
 
 	// Check for incoming clients
-	sf::TcpSocket incoming;
-	incoming.setBlocking(false);
-	if (listener.accept(incoming) == sf::Socket::Done)
+	// TODO -  Check if this causes a memory leak
+	sf::TcpSocket* incoming = new sf::TcpSocket;
+	incoming->setBlocking(true);
+	if (listener.accept(*incoming) == sf::Socket::Done)
 	{
-		sf::IpAddress incomingIP = incoming.getRemoteAddress();
+		sf::IpAddress incomingIP = incoming->getRemoteAddress();
 		std::cout << incomingIP.toString() << " has connected." << std::endl;
 
 		// Add client to set of clients
-		//clients[incomingIP.toString()] = &incoming;
-		clients.insert(&incoming);
+		clients.insert(incoming);
 
 		sf::Packet packet;
-		std::string toSend = "You connected!";
+		std::string toSend = incoming->getRemoteAddress().toString() + " connected.";
 		packet << toSend;
 		
-		//if (incoming.send("You connected!", 100) != sf::Socket::Done)
-		//	std::cout << "Failed to send data to " << incomingIP.toString() << std::endl;
-		incoming.send(packet);
+		incoming->send(packet);
+	}
+	else
+	{
+		delete incoming;
+	}
+
+	sf::Packet incomingPacket;
+	for (sf::TcpSocket* client : clients)
+	{
+		if (client->receive(incomingPacket) == sf::Socket::Status::Done)
+		{
+			std::string msg;
+			incomingPacket >> msg;
+			std::cout << client->getRemoteAddress().toString() << ": " << msg << std::endl;
+
+			// Broadcast the message to all clients
+			sf::Packet toBroadcast;
+			toBroadcast << client->getRemoteAddress().toString() + ": " + msg;
+			broadcastPacket(toBroadcast);
+		}
 	}
 }
 
 void ServerNetwork::cleanup()
 {
 
+}
+
+/* PRIVATE MEMBER FUNCTIONS
+ */
+void ServerNetwork::broadcastPacket(sf::Packet packet)
+{
+	for (sf::TcpSocket* client : clients)
+		client->send(packet);
 }

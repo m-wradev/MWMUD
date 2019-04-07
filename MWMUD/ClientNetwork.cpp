@@ -10,11 +10,14 @@
 
 ClientNetwork::ClientNetwork()
 {
+	Dispatcher::subscribe(EVENT_TYPE::GEVT_NETWORK_CLIENT_DATASEND, this);
 }
 
 ClientNetwork::~ClientNetwork()
 {
 	socket.disconnect();
+
+	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_NETWORK_CLIENT_DATASEND, this);
 }
 
 bool ClientNetwork::connectToServer(std::string ip)
@@ -45,18 +48,26 @@ void ClientNetwork::pollEvents()
 		std::string msg;
 		packet >> msg;
 		std::wstring widestr = Util::convert_string_to_wstring(msg);
-		Dispatcher::notify(&NetworkEvent(EVENT_TYPE::GEVT_CHAT_MESSAGESEND, widestr));
+		Dispatcher::notify(&ChatEvent(EVENT_TYPE::GEVT_CHAT_MESSAGEDISPLAY, widestr));
+		//Dispatcher::notify(&NetworkEvent(EVENT_TYPE::GEVT_CHAT_MESSAGEPARSE, widestr));
+		//Dispatcher::notify(&NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_DATARECEIVE, widestr));
 	}
 }
 
 void ClientNetwork::onNotify(GameEvent* gevt)
 {
-	if (gevt->eventType == EVENT_TYPE::GEVT_NETWORK_CLIENT_MESSAGESEND)
+	if (gevt->eventType == EVENT_TYPE::GEVT_NETWORK_CLIENT_DATASEND)
 	{
 		// convert the chat message from wstring to string
 		using convert_type = std::codecvt_utf8<wchar_t>;
 		std::wstring_convert<convert_type, wchar_t> converter;
 		std::string message = converter.to_bytes(static_cast<ChatEvent*>(gevt)->message);
+
+		sf::Packet packet;
+		packet << message;
+		sf::Socket::Status status;
+		status = socket.send(packet);
+		std::cout << status << std::endl;
 	}
 }
 
@@ -81,7 +92,7 @@ ClientNetwork::ClientNetwork()
 	}
 
 	// subscribe to events
-	Dispatcher::subscribe(EVENT_TYPE::GEVT_NETWORK_CLIENT_MESSAGESEND, this);
+	Dispatcher::subscribe(EVENT_TYPE::GEVT_NETWORK_CLIENT_DATASEND, this);
 }
 
 ClientNetwork::~ClientNetwork()
@@ -91,7 +102,7 @@ ClientNetwork::~ClientNetwork()
 	enet_host_destroy(client);
 
 	// unsubscribe from events
-	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_NETWORK_CLIENT_MESSAGESEND, this);
+	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_NETWORK_CLIENT_DATASEND, this);
 }
 
 void ClientNetwork::connectToServer(std::string ip)
@@ -144,7 +155,7 @@ void ClientNetwork::pollEvents()
 			{
 				std::string msg = std::string((char*)enetevt.packet->data, enetevt.packet->dataLength);
 				std::wstring widestr = Util::convert_string_to_wstring(msg);
-				Dispatcher::notify(&NetworkEvent(EVENT_TYPE::GEVT_CHAT_MESSAGESEND, widestr));
+				Dispatcher::notify(&NetworkEvent(EVENT_TYPE::GEVT_CHAT_MESSAGEPARSE, widestr));
 
 				// done with packet, so clean it up
 				enet_packet_destroy(enetevt.packet);
@@ -156,7 +167,7 @@ void ClientNetwork::pollEvents()
 
 void ClientNetwork::onNotify(GameEvent* gevt)
 {
-	if (gevt->eventType == EVENT_TYPE::GEVT_NETWORK_CLIENT_MESSAGESEND)
+	if (gevt->eventType == EVENT_TYPE::GEVT_NETWORK_CLIENT_DATASEND)
 	{
 		// convert the chat message from wstring to string
 		using convert_type = std::codecvt_utf8<wchar_t>;
@@ -171,7 +182,7 @@ void ClientNetwork::onNotify(GameEvent* gevt)
 		enet_host_flush(client);
 		enet_packet_destroy(packet);
 	}
-	else if (gevt->eventType == EVENT_TYPE::GEVT_NETWORK_CLIENT_MESSAGERECEIVE)
+	else if (gevt->eventType == EVENT_TYPE::GEVT_NETWORK_CLIENT_DATARECEIVE)
 	{
 
 	}
