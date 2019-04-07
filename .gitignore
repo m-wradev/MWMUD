@@ -7,7 +7,5 @@ MWMUD_DedicatedServer/x64
 .vs/
 
 # vcxproj stuff
-MWMUD/MWMUD.vcxproj
 MWMUD/MWMUD.vcxproj.user
-MWMUD_DedicatedServer/MWMUD_DedicatedServer.vcxproj
 MWMUD_DedicatedServer/MWMUD_DedicatedServer.vcxproj.user
