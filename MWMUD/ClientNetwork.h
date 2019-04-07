@@ -1,7 +1,13 @@
+// TODO - have the network stuff run on a separate thread
 #pragma once
 
-#include <enet/enet.h>
-#pragma comment(lib, "enet64.lib")
+#define SFML_STATIC
+
+#include <SFML/Network.hpp>
+#include <SFML/System/Time.hpp>
+
+#pragma comment(lib, "sfml-network-s-d.lib")
+#pragma comment(lib, "sfml-system-s-d.lib")
 
 #include <string>
 
@@ -11,14 +17,18 @@
 class ClientNetwork : public Listener
 {
 private:
+	/*
 	ENetHost* client;
 	ENetPeer* peer;	// connection to the server
+	*/
+
+	sf::TcpSocket socket;	// socket to server
 
 public:
 	ClientNetwork();
 	~ClientNetwork();
 
-	void connectToServer(std::string ip);
+	bool connectToServer(std::string ip);
 	void pollEvents();
 
 	void onNotify(GameEvent* gevt) override;

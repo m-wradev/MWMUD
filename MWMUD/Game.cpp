@@ -14,11 +14,13 @@ Game::Game()
 	GlobalChat::init();
 	TextRender::init();
 
+	/*
 	if (enet_initialize() != 0)
 	{
 		// exit
 		exit(EXIT_FAILURE);
 	}
+	*/
 
 	// Subscribe to events
 	// ENGINE
@@ -74,7 +76,7 @@ void Game::shutdown()
 	clearScreenStack();
 
 	if (client != nullptr) delete client;
-	enet_deinitialize();
+	//enet_deinitialize();
 
 	running = false;
 }
@@ -95,7 +97,12 @@ void Game::onNotify(GameEvent *evt)
 			std::wstring ip = static_cast<NetworkEvent*>(evt)->message;
 
 			client = new ClientNetwork();
-			client->connectToServer(Util::convert_wstring_to_string(ip));
+			if (!client->connectToServer(Util::convert_wstring_to_string(ip)))
+			{
+				delete client;
+				client = nullptr;
+			}
+
 			break;
 		}
 

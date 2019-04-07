@@ -4,6 +4,8 @@
 #include <iostream>
 #include <string>
 #include <exception>
+#include <Windows.h>
+
 // TODO: server input
 #include "ServerNetwork.h"
 
@@ -18,6 +20,7 @@ int main()
 	ServerNetwork server;
 	while (true)
 	{
+		// Move this try/catch into ServerNetwork?
 		try
 		{
 			server.pollEvents();
@@ -30,6 +33,7 @@ int main()
 			std::getline(std::cin, throwaway);
 			server.cleanup();
 		}
+
 		Sleep(20);
 	}
 

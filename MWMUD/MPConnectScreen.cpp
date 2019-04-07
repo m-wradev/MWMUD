@@ -42,7 +42,7 @@ void MPConnectScreen::handleKeypress(wchar_t key)
 		UI_MenuOption* mo = static_cast<UI_MenuOption*>(*focusedElement);
 		if (mo != nullptr && mo == &connectButton)
 		{
-			//connectionNotification.changeText(L"Attemping to connect...");
+			connectionNotification.changeText(L"Attemping to connect...");
 			Dispatcher::notify(&NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_ATTEMPTCONNECT, ipInput.getInputText()));
 		}
 	}

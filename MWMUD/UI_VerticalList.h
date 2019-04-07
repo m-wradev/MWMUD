@@ -74,7 +74,7 @@ public:
 	{
 		T t;
 		t.setText(text, fontSize, textAlignHorizontal, textAlignVertical, fontWeight);
-		t.setBounds(left, top, right, MAXINT);	// init bounds to size of this container (don't care about bottom)
+		t.setBounds(left, top, right, INT_MAX);	// init bounds to size of this container (don't care about bottom)
 		
 		float textHeight = t.getTextHeight();
 		if (elements.size() < 1) // element is first one added, so it goes at the top
@@ -97,7 +97,7 @@ public:
 	{
 		T t;
 		t.setText(text, fontSize, textAlignHorizontal, textAlignVertical, fontWeight);
-		t.setBounds(left, top, right, MAXINT);
+		t.setBounds(left, top, right, INT_MAX);
 
 		float textHeight = t.getTextHeight();
 		t.setBounds(left, top, right, textHeight);
