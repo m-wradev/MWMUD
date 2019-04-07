@@ -1,4 +1,13 @@
-/.vs
-/x64
-/MWMUD/x64
-/MWMUD_DedicatedServer/x64
+# Builds
+x64/
+MWMUD/x64
+MWMUD_DedicatedServer/x64
+
+# Directories
+.vs/
+
+# vcxproj stuff
+MWMUD/MWMUD.vcxproj
+MWMUD/MWMUD.vcxproj.user
+MWMUD_DedicatedServer/MWMUD_DedicatedServer.vcxproj
+MWMUD_DedicatedServer/MWMUD_DedicatedServer.vcxproj.user
