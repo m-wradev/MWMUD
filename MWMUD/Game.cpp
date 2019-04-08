@@ -94,10 +94,10 @@ void Game::onNotify(GameEvent *evt)
 
 		case EVENT_TYPE::GEVT_NETWORK_CLIENT_ATTEMPTCONNECT:
 		{
-			std::wstring ip = static_cast<NetworkEvent*>(evt)->message;
+			std::string ip = static_cast<NetworkEvent*>(evt)->message;
 
 			client = new ClientNetwork();
-			if (!client->connectToServer(Util::convert_wstring_to_string(ip)))
+			if (!client->connectToServer(ip))
 			{
 				delete client;
 				client = nullptr;

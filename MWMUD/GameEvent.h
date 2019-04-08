@@ -48,9 +48,9 @@ struct GameEvent
 
 struct NetworkEvent : public GameEvent
 {
-	std::wstring message;
+	std::string message;
 
-	NetworkEvent(EVENT_TYPE et, std::wstring message)
+	NetworkEvent(EVENT_TYPE et, std::string message)
 		: GameEvent(et), message(message) {}
 };
 

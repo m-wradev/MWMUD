@@ -1,32 +1,42 @@
-#include <locale>
-#include <codecvt>
+// TODO - create Client class
 #include <iostream>
-#include <cstdio>
+#include <functional>
 
 #include "ServerNetwork.h"
+#include "CommandParser.h"
 
-ServerNetwork::ServerNetwork()
+bool ServerNetwork::init()
 {
 	std::cout << "Starting server..." << std::endl;
 
 	// Bind listener to a port
+	std::cout << "Binding server to port 25565..." << std::endl;
 	if (listener.listen(25565) != sf::Socket::Done)
 	{
+		//throw std::exception("Failed to bind server to port. Is a server already running?");
 		std::cout << "Failed to bind server to port. Is a server already running?" << std::endl;
-		exit(EXIT_FAILURE);
+		return false;
 	}
-	
 	listener.setBlocking(false);	// non-blocking
 
+	// Register all commands
+	std::cout << "Registering commands..." << std::endl;
+	CommandParser::registerCommand("ping", new std::function<void(std::string, sf::TcpSocket*)>([this](std::string input, sf::TcpSocket* sender)
+	{
+		std::cout << "SERVER [to " + sender->getRemoteAddress().toString() + "]: Pong" << std::endl;
+
+		sf::Packet p;
+		p << "SERVER: Pong";
+		sender->send(p);
+	}));
+
 	std::cout << "Server started successfully.\n====================================\n";
+	running = true;	// set server as running
+	return true;
 }
 
-ServerNetwork::~ServerNetwork()
-{
-	// Delete all allocated clients
-	for (sf::TcpSocket* client : clients)
-		delete client;
-}
+void ServerNetwork::setRunning(bool running) { this->running = running; }
+bool ServerNetwork::isRunning() { return running; }
 
 void ServerNetwork::pollEvents()
 {
@@ -78,17 +88,23 @@ void ServerNetwork::pollEvents()
 			incomingPacket >> msg;
 			std::cout << client->getRemoteAddress().toString() << ": " << msg << std::endl;
 
-			// Broadcast the message to all clients
-			sf::Packet toBroadcast;
-			toBroadcast << client->getRemoteAddress().toString() + ": " + msg;
-			broadcastPacket(toBroadcast);
+			// If the client didn't send a command, they're just sending a general message.
+			// Broadcast the message to all clients.
+			if (!CommandParser::parse(msg, client))
+			{
+				sf::Packet toBroadcast;
+				toBroadcast << client->getRemoteAddress().toString() + ": " + msg;
+				broadcastPacket(toBroadcast);
+			}
 		}
 	}
 }
 
 void ServerNetwork::cleanup()
 {
-
+	// Delete all allocated clients
+	for (sf::TcpSocket* client : clients)
+		delete client;
 }
 
 /* PRIVATE MEMBER FUNCTIONS

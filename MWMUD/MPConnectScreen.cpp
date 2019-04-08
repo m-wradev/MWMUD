@@ -43,7 +43,8 @@ void MPConnectScreen::handleKeypress(wchar_t key)
 		if (mo != nullptr && mo == &connectButton)
 		{
 			connectionNotification.changeText(L"Attemping to connect...");
-			Dispatcher::notify(&NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_ATTEMPTCONNECT, ipInput.getInputText()));
+			std::string ip = Util::convert_wstring_to_string(ipInput.getInputText());
+			Dispatcher::notify(&NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_ATTEMPTCONNECT, ip));
 		}
 	}
 	else if (key == VK_ESCAPE)
@@ -85,7 +86,8 @@ void MPConnectScreen::onNotify(GameEvent* gevt)
 	}
 	else if (gevt->eventType == EVENT_TYPE::GEVT_NETWORK_CLIENT_CONNECTIONFAIL)
 	{
-		connectionNotification.changeText(static_cast<NetworkEvent*>(gevt)->message);
+		std::wstring message = Util::convert_string_to_wstring(static_cast<NetworkEvent*>(gevt)->message);
+		connectionNotification.changeText(message);
 	}
 }
 

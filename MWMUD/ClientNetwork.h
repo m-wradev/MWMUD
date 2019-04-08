@@ -1,13 +1,20 @@
 // TODO - have the network stuff run on a separate thread
 #pragma once
 
-#define SFML_STATIC
+//#define SFML_STATIC
 
 #include <SFML/Network.hpp>
 #include <SFML/System/Time.hpp>
 
-#pragma comment(lib, "sfml-network-s-d.lib")
-#pragma comment(lib, "sfml-system-s-d.lib")
+#ifdef MWMUD_DEBUG
+#pragma comment(lib, "sfml-network-d.lib")
+#pragma comment(lib, "sfml-system-d.lib")
+#endif
+
+#ifdef MWMUD_RELEASE
+#pragma comment(lib, "sfml-network.lib")
+#pragma comment(lib, "sfml-system.lib")
+#endif
 
 #include <string>
 
