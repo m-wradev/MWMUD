@@ -1,3 +1,5 @@
+#include <thread>
+
 #include "CommandParser.h"
 
 //std::unordered_map<std::string, void(*)(std::string)> CommandParser::clientCommands;
@@ -19,7 +21,6 @@ void CommandParser::cleanup()
 	{
 		delete clientCommands[cmd];
 		clientCommands.erase(cmd);
-		//clientCommandStrings.erase(cmd);
 	}
 }
 
@@ -45,4 +46,6 @@ bool CommandParser::parse(std::string input, sf::TcpSocket* sender)
 	auto commandEntry = clientCommands.find(input.substr(1, input.find_first_of(' ') - 1));
 	if (commandEntry != clientCommands.end())
 		(*(commandEntry->second))(input, sender);
+
+	return true;
 }

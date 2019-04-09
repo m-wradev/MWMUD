@@ -1,5 +1,4 @@
 // MWMUD_DedicatedServer.cpp : This file contains the 'main' function. Program execution begins and ends there.
-
 #include <iostream>
 #include <string>
 #include <exception>
@@ -9,9 +8,7 @@
 #include "ServerNetwork.h"
 #include "CommandParser.h"
 
-// CONSOLE HANDLER ROUTINE
 BOOL WINAPI consoleHandler(DWORD dwCtrlType);
-
 void cleanup();
 void displayShutdownMessage();
 

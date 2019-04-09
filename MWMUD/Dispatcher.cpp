@@ -3,6 +3,7 @@
 #include <queue>
 
 std::unordered_map<EVENT_TYPE, std::unordered_set<Listener*>> Dispatcher::subscriptions;
+std::queue<GameEvent*> Dispatcher::eventQueue;
 
 // Subscribe a listener to a message type
 void Dispatcher::subscribe(EVENT_TYPE et, Listener* listener)
@@ -30,6 +31,21 @@ void Dispatcher::subscribe(EVENT_TYPE et, Listener* listener)
 void Dispatcher::unsubscribe(EVENT_TYPE et, Listener* listener)
 {
 	Dispatcher::subscriptions[et].erase(listener);
+}
+
+void Dispatcher::enqueueEvent(GameEvent* gevt)
+{
+	eventQueue.push(gevt);
+}
+
+void Dispatcher::flushEvents()
+{
+	while (!eventQueue.empty())
+	{
+		notify(eventQueue.front());
+		delete eventQueue.front();
+		eventQueue.pop();
+	}
 }
 
 // Notify all subscribers of a given message type

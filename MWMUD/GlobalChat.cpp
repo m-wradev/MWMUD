@@ -4,6 +4,8 @@
 #include "Dispatcher.h"
 #include "GameEvent.h"
 
+#include "MainMenuScreen.h"
+
 std::unordered_map<std::string, void(*)(std::string)> GlobalChat::chatCommands;
 
 void GlobalChat::init()
@@ -35,6 +37,12 @@ void GlobalChat::init()
 	chatCommands["ping"] = [](std::string params)
 	{
 		Dispatcher::notify(&NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_DATASEND, params));
+	};
+
+	chatCommands["disconnect"] = [](std::string params)
+	{
+		Dispatcher::notify(&NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_DATASEND, params));
+		//Dispatcher::notify(&ScreenEvent(EVENT_TYPE::GEVT_SCREEN_CLEARANDSET, new MainMenuScreen()));
 	};
 }
 

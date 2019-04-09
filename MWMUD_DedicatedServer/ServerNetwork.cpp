@@ -1,6 +1,6 @@
-// TODO - create Client class
 #include <iostream>
 #include <functional>
+#include <sstream>
 
 #include "ServerNetwork.h"
 #include "CommandParser.h"
@@ -20,6 +20,7 @@ bool ServerNetwork::init()
 	listener.setBlocking(false);	// non-blocking
 
 	// Register all commands
+	// This might be super leaky
 	std::cout << "Registering commands..." << std::endl;
 	CommandParser::registerCommand("ping", new std::function<void(std::string, sf::TcpSocket*)>([this](std::string input, sf::TcpSocket* sender)
 	{
@@ -28,6 +29,13 @@ bool ServerNetwork::init()
 		sf::Packet p;
 		p << "SERVER: Pong";
 		sender->send(p);
+	}));
+
+	// Disconnect the client.
+	CommandParser::registerCommand("disconnect", new std::function<void(std::string, sf::TcpSocket*)>([this](std::string input, sf::TcpSocket* sender)
+	{
+		std::cout << sender->getRemoteAddress().toString() << " has disconnected." << std::endl;
+		sender->disconnect();
 	}));
 
 	std::cout << "Server started successfully.\n====================================\n";

@@ -164,11 +164,13 @@
   <ItemGroup>
     <ClCompile Include="CommandParser.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="Player.cpp" />
     <ClCompile Include="ServerGame.cpp" />
     <ClCompile Include="ServerNetwork.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="CommandParser.h" />
+    <ClInclude Include="Player.h" />
     <ClInclude Include="ServerGame.h" />
     <ClInclude Include="ServerNetwork.h" />
   </ItemGroup>
