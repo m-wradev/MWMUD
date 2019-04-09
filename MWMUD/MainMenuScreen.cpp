@@ -16,9 +16,9 @@ MainMenuScreen::MainMenuScreen()
 	menuOptions.set(24, DWRITE_TEXT_ALIGNMENT_CENTER, DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
 		DWRITE_FONT_WEIGHT_NORMAL, 10, 0, 200, 960);
 	menuOptions.push_back(L"Join Game").setCallback
-	([]() { Dispatcher::notify(&ScreenEvent(EVENT_TYPE::GEVT_SCREEN_ADVANCE, new MPConnectScreen())); });
+	([]() { Dispatcher::enqueueEvent(new ScreenEvent(EVENT_TYPE::GEVT_SCREEN_ADVANCE, new MPConnectScreen())); });
 	menuOptions.push_back(L"Exit").setCallback
-	([]() { Dispatcher::notify(&ScreenEvent(EVENT_TYPE::GEVT_ENGINE_SHUTDOWN)); });
+	([]() { Dispatcher::enqueueEvent(new GameEvent(EVENT_TYPE::GEVT_ENGINE_SHUTDOWN)); });
 
 	highlightedOption = menuOptions.getElements()->begin();
 	highlightedOption->setFocus(true);
@@ -32,7 +32,7 @@ void MainMenuScreen::handleKeypress(wchar_t key)
 	}
 	else if (key == VK_ESCAPE)
 	{
-		Dispatcher::notify(&ScreenEvent(EVENT_TYPE::GEVT_SCREEN_RETURN));
+		Dispatcher::enqueueEvent(new ScreenEvent(EVENT_TYPE::GEVT_SCREEN_RETURN));
 	}
 	else if (key == VK_UP)
 	{

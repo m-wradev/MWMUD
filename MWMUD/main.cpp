@@ -3,11 +3,13 @@
  */
 
 // debug memory leaks
+#ifdef MWMUD_DEBUG
 #define _CRTDBG_MAP_ALLOC
 #include <stdlib.h>
 #include <crtdbg.h>
 #define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
 #define new DEBUG_NEW
+#endif
 
 #define _WINSOCKAPI_
 #include <Windows.h>
@@ -37,7 +39,9 @@ int WINAPI WinMain(HINSTANCE hInstance,
 				   int cmdShow)
 {
 	// Get memory leak report at each exit point
+	#ifdef MWMUD_DEBUG
 	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	#endif
 
 	HWND hWnd;
 	WNDCLASSEX wc;
@@ -106,15 +110,15 @@ int WINAPI WinMain(HINSTANCE hInstance,
 
 		if (!game.isRunning()) break;
 
-		game.update();
 		game.render(pRT);
+		game.update();
 		Sleep(20);
 	}
 
 	// Notify the game that we're shutting down so it can properly release resources
 	// and shut down subsystems.
 	if (game.isRunning())
-		Dispatcher::notify(&(GameEvent(EVENT_TYPE::GEVT_ENGINE_SHUTDOWN)));
+		Dispatcher::enqueueEvent(new GameEvent(EVENT_TYPE::GEVT_ENGINE_SHUTDOWN));
 
 	pRT->Release();
 	pD2DFactory->Release();
@@ -140,13 +144,13 @@ LRESULT CALLBACK WindowProc(HWND hWnd, UINT message, WPARAM wParam, LPARAM lPara
 		{
 			// Handle arrow keys
 			if (wParam >= VK_LEFT && wParam <= VK_DOWN)
-				Dispatcher::notify(&InputEvent(EVENT_TYPE::GEVT_INPUT_KEYPRESSED, wParam));
+				Dispatcher::enqueueEvent (new InputEvent(EVENT_TYPE::GEVT_INPUT_KEYPRESSED, wParam));
 			break;
 		}
 
 		case WM_CHAR:
 		{
-			Dispatcher::notify(&InputEvent(EVENT_TYPE::GEVT_INPUT_KEYPRESSED, wParam));
+			Dispatcher::enqueueEvent (new InputEvent(EVENT_TYPE::GEVT_INPUT_KEYPRESSED, wParam));
 			break;
 		}
 	}

@@ -1,5 +1,3 @@
-#include <locale>
-#include <codecvt>
 #include <iostream>
 
 #include "ClientNetwork.h"
@@ -26,13 +24,13 @@ bool ClientNetwork::connectToServer(std::string ip)
 	sf::Socket::Status status = socket.connect(ip, 25565, sf::seconds(3.0f));
 	if (status != sf::Socket::Status::Done)
 	{
-		Dispatcher::notify(&NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_CONNECTIONFAIL, "Failed to connect. Is the server running?"));
+		Dispatcher::enqueueEvent(new NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_CONNECTIONFAIL, "Failed to connect. Is the server running?"));
 		return false;
 	}
 	else
 	{
 		socket.setBlocking(false);
-		Dispatcher::notify(&NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_CONNECTIONSUCCESS, ""));
+		Dispatcher::enqueueEvent(new NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_CONNECTIONSUCCESS, ""));
 	}
 
 	return true;
@@ -48,7 +46,7 @@ void ClientNetwork::pollEvents()
 		std::string msg;
 		packet >> msg;
 		std::wstring widestr = Util::convert_string_to_wstring(msg);
-		Dispatcher::notify(&ChatEvent(EVENT_TYPE::GEVT_CHAT_MESSAGEDISPLAY, widestr));
+		Dispatcher::enqueueEvent(new ChatEvent(EVENT_TYPE::GEVT_CHAT_MESSAGEDISPLAY, widestr));
 	}
 }
 
@@ -56,13 +54,6 @@ void ClientNetwork::onNotify(GameEvent* gevt)
 {
 	if (gevt->eventType == EVENT_TYPE::GEVT_NETWORK_CLIENT_DATASEND)
 	{
-		// convert the chat message from wstring to string
-		/*
-		using convert_type = std::codecvt_utf8<wchar_t>;
-		std::wstring_convert<convert_type, wchar_t> converter;
-		std::string message = converter.to_bytes(static_cast<ChatEvent*>(gevt)->message);
-		*/
-
 		sf::Packet packet;
 		packet << static_cast<NetworkEvent*>(gevt)->message;
 		sf::Socket::Status status;

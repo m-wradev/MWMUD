@@ -110,6 +110,9 @@ void ServerNetwork::pollEvents()
 
 void ServerNetwork::cleanup()
 {
+	// Broadcast that the server is shutting down
+	broadcastMessage("Server is shutting down. Type /disconnect to return to the main menu.");
+
 	// Delete all allocated clients
 	for (sf::TcpSocket* client : clients)
 		delete client;
@@ -121,4 +124,11 @@ void ServerNetwork::broadcastPacket(sf::Packet packet)
 {
 	for (sf::TcpSocket* client : clients)
 		client->send(packet);
+}
+
+void ServerNetwork::broadcastMessage(std::string message)
+{
+	sf::Packet packet;
+	packet << "SERVER: " + message;
+	broadcastPacket(packet);
 }

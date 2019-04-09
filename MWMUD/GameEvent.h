@@ -52,6 +52,8 @@ struct NetworkEvent : public GameEvent
 
 	NetworkEvent(EVENT_TYPE et, std::string message)
 		: GameEvent(et), message(message) {}
+
+	~NetworkEvent() {}
 };
 
 struct InputEvent : public GameEvent
@@ -59,6 +61,8 @@ struct InputEvent : public GameEvent
 	wchar_t key;
 	InputEvent(EVENT_TYPE et, wchar_t key)
 		: GameEvent(et), key(key) {}
+
+	~InputEvent() {}
 };
 
 struct ScreenEvent : public GameEvent
@@ -67,6 +71,8 @@ struct ScreenEvent : public GameEvent
 
 	ScreenEvent(EVENT_TYPE et, Screen *nextScreen = nullptr)
 		: GameEvent(et), nextScreen(nextScreen) {}
+
+	~ScreenEvent() {}
 };
 
 struct ChatEvent : public GameEvent
@@ -75,13 +81,17 @@ struct ChatEvent : public GameEvent
 
 	ChatEvent(EVENT_TYPE et, std::wstring message)
 		: GameEvent(et), message(message) {}
+
+	~ChatEvent() {}
 };
 
 struct UIEvent : public GameEvent
 {
 	UI_Element* element; // element that sent the update. use this to get the updated values
 	std::string info;
-	
+
 	UIEvent(EVENT_TYPE et, UI_Element* element, std::string info)
 		: GameEvent(et), element(element), info(info) {}
+
+	~UIEvent() {}
 };

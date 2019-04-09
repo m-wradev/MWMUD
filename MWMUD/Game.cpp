@@ -46,6 +46,8 @@ Game::Game()
 
 void Game::update()
 {
+	Dispatcher::flushEvents();
+
 	if (client != nullptr)
 		client->pollEvents();
 }
@@ -110,7 +112,7 @@ void Game::onNotify(GameEvent *evt)
 		case EVENT_TYPE::GEVT_NETWORK_CLIENT_CONNECTIONSUCCESS:
 		{
 			// If client connected successfully, move to the game screen
-			Dispatcher::notify(&ScreenEvent(EVENT_TYPE::GEVT_SCREEN_CLEARANDSET, new GameScreen()));
+			Dispatcher::enqueueEvent (new ScreenEvent(EVENT_TYPE::GEVT_SCREEN_CLEARANDSET, new GameScreen()));
 			break;
 		}
 		*/

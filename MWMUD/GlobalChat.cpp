@@ -21,7 +21,7 @@ void GlobalChat::init()
 	// Clear the chat output.
 	chatCommands["clear"] = [](std::string params)
 	{
-		Dispatcher::notify(&ChatEvent(EVENT_TYPE::GEVT_CHAT_CLEARCHAT, L""));
+		Dispatcher::enqueueEvent(new ChatEvent(EVENT_TYPE::GEVT_CHAT_CLEARCHAT, L""));
 	};
 
 	/*====================================================================
@@ -36,13 +36,13 @@ void GlobalChat::init()
 	// Ping the server and display the latency.
 	chatCommands["ping"] = [](std::string params)
 	{
-		Dispatcher::notify(&NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_DATASEND, params));
+		Dispatcher::enqueueEvent(new NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_DATASEND, params));
 	};
 
 	chatCommands["disconnect"] = [](std::string params)
 	{
-		Dispatcher::notify(&NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_DATASEND, params));
-		//Dispatcher::notify(&ScreenEvent(EVENT_TYPE::GEVT_SCREEN_CLEARANDSET, new MainMenuScreen()));
+		Dispatcher::enqueueEvent(new NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_DATASEND, params));
+		Dispatcher::enqueueEvent(new ScreenEvent(EVENT_TYPE::GEVT_SCREEN_CLEARANDSET, new MainMenuScreen()));
 	};
 }
 
@@ -53,7 +53,7 @@ void GlobalChat::parse(std::wstring msgIn)
 	// User is sending a simple message
 	if (msg[0] != '/')
 	{
-		Dispatcher::notify(&NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_DATASEND, msg));
+		Dispatcher::enqueueEvent(new NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_DATASEND, msg));
 	}
 	// User is entering a command that we can handle here.
 	else

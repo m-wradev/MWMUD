@@ -27,7 +27,10 @@ private:
 	std::unordered_set<sf::TcpSocket*> clients;	// clients connected to server
 	bool running = false;
 
+	// Broadcast a packet to all connected clients
 	void broadcastPacket(sf::Packet);
+	// Broadcast a message to all connected clients
+	void broadcastMessage(std::string);
 
 public:
 	static const int MAX_CONNECTIONS = 8;

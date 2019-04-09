@@ -78,7 +78,7 @@ void UI_ChatInput::charIn(wchar_t key)
 	if (lastTextHeight != currentTextHeight)
 	{
 		std::string info = (currentTextHeight - lastTextHeight > 0) ? "grow" : "shrink";
-		Dispatcher::notify(&UIEvent(EVENT_TYPE::GEVT_UI_TEXTINPUT_HEIGHTCHANGED, this, info));
+		Dispatcher::enqueueEvent (new UIEvent(EVENT_TYPE::GEVT_UI_TEXTINPUT_HEIGHTCHANGED, this, info));
 		lastTextHeight = currentTextHeight;
 	}
 }

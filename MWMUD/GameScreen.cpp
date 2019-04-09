@@ -29,7 +29,7 @@ void GameScreen::handleKeypress(wchar_t key)
 {
 	if (key == VK_ESCAPE)
 	{
-		Dispatcher::notify(&GameEvent(EVENT_TYPE::GEVT_ENGINE_SHUTDOWN));
+		Dispatcher::enqueueEvent(new GameEvent(EVENT_TYPE::GEVT_ENGINE_SHUTDOWN));
 	}
 	else if (key == VK_RETURN || key == VK_BACK || (key >= ' ' && key <= '~'))
 	{
