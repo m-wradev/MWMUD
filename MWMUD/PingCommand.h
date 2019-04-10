@@ -2,10 +2,10 @@
 
 #include "Command.h"
 
-class ClearChatCommand : public Command
+class PingCommand : public Command
 {
 public:
-	ClearChatCommand();
+	PingCommand();
 
 	void execute(std::vector<std::string> args) override;
 };

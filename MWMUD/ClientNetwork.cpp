@@ -1,9 +1,7 @@
-#include <iostream>
-
 #include "ClientNetwork.h"
+
 #include "GameScreen.h"
 #include "Dispatcher.h"
-#include "GameEvent.h"
 #include "Util.h"
 
 ClientNetwork::ClientNetwork()
@@ -56,8 +54,6 @@ void ClientNetwork::onNotify(GameEvent* gevt)
 	{
 		sf::Packet packet;
 		packet << static_cast<NetworkEvent*>(gevt)->message;
-		sf::Socket::Status status;
-		status = socket.send(packet);
-		std::cout << status << std::endl;
+		socket.send(packet);
 	}
 }

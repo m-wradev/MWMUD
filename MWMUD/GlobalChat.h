@@ -10,13 +10,13 @@
 class GlobalChat
 {
 private:
-	typedef void(*onCommand)(std::string);
-	static std::vector<Command*> chatCommandsTest;
 	static std::vector<CommandModule*> commandModules;
 
 public:
 	// Initialize the global chat system.
 	static void init();
+	// Clean up the global chat system (commands, command modules, etc).
+	static void clean();
 
 	// Parse a message sent by a user.
 	// If the message is a command, parse the command and execute it.

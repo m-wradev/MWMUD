@@ -1,7 +1,6 @@
 #include "ClearChatCommand.h"
 
 #include "Dispatcher.h"
-#include "GameEvent.h"
 
 ClearChatCommand::ClearChatCommand()
 {
@@ -12,11 +11,12 @@ ClearChatCommand::ClearChatCommand()
 	usage = Command::CMD_DELIM + aliases[0];
 }
 
-bool ClearChatCommand::execute(std::vector<std::string> args)
+void ClearChatCommand::execute(std::vector<std::string> args)
 {
-	if (args.size() > 0)
+	if (args.size() > 1)
 	{
 		// Display too many args error
+		return;
 	}
 
 	Dispatcher::enqueueEvent(new ChatEvent(EVENT_TYPE::GEVT_CHAT_CLEARCHAT, L""));

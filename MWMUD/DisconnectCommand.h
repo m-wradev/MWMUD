@@ -2,10 +2,10 @@
 
 #include "Command.h"
 
-class ClearChatCommand : public Command
+class DisconnectCommand : public Command
 {
 public:
-	ClearChatCommand();
+	DisconnectCommand();
 
 	void execute(std::vector<std::string> args) override;
 };

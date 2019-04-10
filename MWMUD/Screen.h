@@ -3,9 +3,8 @@
 #include <d2d1.h>
 #pragma comment(lib, "d2d1.lib")
 
-class Screen
+struct Screen
 {
-public:
 	virtual ~Screen() {}
 
 	// handle keyboard input

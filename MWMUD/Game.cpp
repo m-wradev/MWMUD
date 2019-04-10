@@ -14,22 +14,12 @@ Game::Game()
 	GlobalChat::init();
 	TextRender::init();
 
-	/*
-	if (enet_initialize() != 0)
-	{
-		// exit
-		exit(EXIT_FAILURE);
-	}
-	*/
-
 	// Subscribe to events
 	// ENGINE
 	Dispatcher::subscribe(EVENT_TYPE::GEVT_ENGINE_SHUTDOWN, this);
 
 	// NETWORK
 	Dispatcher::subscribe(EVENT_TYPE::GEVT_NETWORK_CLIENT_ATTEMPTCONNECT, this);
-	//Dispatcher::subscribe(EVENT_TYPE::GEVT_NETWORK_CLIENT_CONNECTIONSUCCESS, this);
-	//Dispatcher::subscribe(EVENT_TYPE::GEVT_NETWORK_CLIENT_CONNECTIONFAIL, this);
 
 	// INPUT
 	Dispatcher::subscribe(EVENT_TYPE::GEVT_INPUT_KEYPRESSED, this);
@@ -67,18 +57,15 @@ void Game::shutdown()
 {
 	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_ENGINE_SHUTDOWN, this);
 	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_NETWORK_CLIENT_ATTEMPTCONNECT, this);
-	//Dispatcher::unsubscribe(EVENT_TYPE::GEVT_NETWORK_CLIENT_CONNECTIONSUCCESS, this);
-	//Dispatcher::unsubscribe(EVENT_TYPE::GEVT_NETWORK_CLIENT_CONNECTIONFAIL, this);
 	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_INPUT_KEYPRESSED, this);
 	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_SCREEN_CLEARANDSET, this);
 	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_SCREEN_RETURN, this);
 	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_SCREEN_ADVANCE, this);
 	
 	TextRender::pDWriteFactory->Release();
+	GlobalChat::clean();
 	clearScreenStack();
-
 	if (client != nullptr) delete client;
-	//enet_deinitialize();
 
 	running = false;
 }
@@ -107,15 +94,6 @@ void Game::onNotify(GameEvent *evt)
 
 			break;
 		}
-
-		/*
-		case EVENT_TYPE::GEVT_NETWORK_CLIENT_CONNECTIONSUCCESS:
-		{
-			// If client connected successfully, move to the game screen
-			Dispatcher::enqueueEvent (new ScreenEvent(EVENT_TYPE::GEVT_SCREEN_CLEARANDSET, new GameScreen()));
-			break;
-		}
-		*/
 
 		case EVENT_TYPE::GEVT_INPUT_KEYPRESSED:
 		{

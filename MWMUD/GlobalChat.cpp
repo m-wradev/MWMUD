@@ -2,58 +2,23 @@
 
 #include "Util.h"
 #include "Dispatcher.h"
-#include "GameEvent.h"
 
-#include "HelpCommand.h"
-#include "ClearChatCommand.h"
-
-#include "MainMenuScreen.h"
-
-std::vector<Command*> GlobalChat::chatCommandsTest;
 std::vector<CommandModule*> GlobalChat::commandModules;
 
 void GlobalChat::init()
 {
-	/*====================================================================
-	 *	CLIENT-SIDE COMMANDS
-	 *	Commands that don't require requesting updates from the server.
-	 *====================================================================
-	 */
-
-	/*	CHAT COMMANDS
-	 */
-	// Clear the chat output.
-	/*
-	chatCommands["clear"] = [](std::string params)
-	{
-		Dispatcher::enqueueEvent(new ChatEvent(EVENT_TYPE::GEVT_CHAT_CLEARCHAT, L""));
-	};
-	*/
-
-	/*====================================================================
-	 *	SERVER-SIDE COMMANDS
-	 *	Commands that either need to be processed by the server or require
-	 *	data to be sent to or received from the server.
-	 *====================================================================
-	 */
-
-	/*	NETWORK UTILITIES
-	 */
-	// Ping the server and display the latency.
-	/*
-	chatCommands["ping"] = [](std::string params)
-	{
-		Dispatcher::enqueueEvent(new NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_DATASEND, params));
-	};
-
-	chatCommands["disconnect"] = [](std::string params)
-	{
-		Dispatcher::enqueueEvent(new NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_DATASEND, params));
-		Dispatcher::enqueueEvent(new ScreenEvent(EVENT_TYPE::GEVT_SCREEN_CLEARANDSET, new MainMenuScreen()));
-	};
-	*/
-
 	commandModules.push_back(new ChatCommands());
+	commandModules.push_back(new NetworkCommands());
+}
+
+void GlobalChat::clean()
+{
+	// Release all command modules
+	while (!commandModules.empty())
+	{
+		delete commandModules.back();
+		commandModules.pop_back();
+	}
 }
 
 void GlobalChat::parse(std::wstring msgIn)
@@ -72,13 +37,12 @@ void GlobalChat::parse(std::wstring msgIn)
 
 		// Strip away the forward slash
 		std::string cmd_str = msg.substr(1, msg.find_first_of(' ') - 1);
-		int args_begin = msg.find_first_of(' ') + 1;
-		std::string args_str = (args_begin > 0) ? msg.substr(args_begin) : "";
+		std::string& cmd_with_args = msg;
 
 		// Help command is special and gets special treatment
 		if (CommandModule::helpCommand.match(cmd_str))
 		{
-			CommandModule::helpCommand.execute(Util::split_string(args_str, ' '));
+			CommandModule::helpCommand.execute(Util::split_string(cmd_with_args, ' '));
 		}
 		else
 		{
@@ -90,7 +54,7 @@ void GlobalChat::parse(std::wstring msgIn)
 					if (cmd->match(cmd_str))
 					{
 						// Found the command, so execute and return
-						cmd->execute(Util::split_string(args_str, ' '));
+						cmd->execute(Util::split_string(cmd_with_args, ' '));
 						return;
 					}
 				}

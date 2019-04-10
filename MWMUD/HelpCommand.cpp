@@ -24,32 +24,33 @@ HelpCommand::~HelpCommand()
 		registeredCommands.pop_back();
 }
 
-bool HelpCommand::execute(std::vector<std::string> args)
+void HelpCommand::execute(std::vector<std::string> args)
 {
-	std::wstring msg = L"";
+	std::string msg = "";
 
-	if (args.empty())
+	if (args.size() == 1)
 	{
 		// Display all available command modules.
-		msg += L"Type \"/help -m <module>\" to view available commands.\n";
-		msg += L"Available command modules:\n";
+		msg += "Type \"/help -m <module>\" to view available commands.\n";
+		msg += "Available command modules:\n";
 		
 		for (CommandModule* cmd_mod : CommandModule::getActiveModules())
-			msg += L"\t" + Util::convert_string_to_wstring(cmd_mod->getName()) + L"\n";
+			msg += "\t" + cmd_mod->getName() + "\n";
+		msg.pop_back();
 	}
-	else if (args.size() == 2 && args[0] == "-m")
+	else if (args.size() == 3 && args[1] == "-m")
 	{
 		// Display all commands available in a given module.
 		// TODO - Get rid of this awful sentinel and rewrite this section to work without it.
 		bool found = false;
 		for (CommandModule* cmd_mod : CommandModule::getActiveModules())
 		{
-			if (Util::equalsIgnoreCase(args[1], cmd_mod->getName()))
+			if (Util::equalsIgnoreCase(args[2], cmd_mod->getName()))
 			{
-				msg += L"Commands available in module "
-					+ Util::convert_string_to_wstring(cmd_mod->getName()) + L":\n";
+				// TODO - Add line break after every 5 commands.
+				msg += "Commands available in module " + cmd_mod->getName() + ":\n";
 				for (Command* cmd : cmd_mod->getCommands())
-					msg += L"\t" + Util::convert_string_to_wstring(cmd->getAliases()[0]);
+					msg += "\t" + cmd->getAliases()[0];
 
 				found = true;
 				break;
@@ -57,38 +58,36 @@ bool HelpCommand::execute(std::vector<std::string> args)
 		}
 
 		if (!found)
-		{
-			msg += L"No command module with the name \"" + Util::convert_string_to_wstring(args[1])
-				+ L"\" exists or has been registered.";
-		}
+			msg += "No command module with the name \"" + args[2] + "\" exists or has been registered.";
 	}
-	else if (args.size() == 1)
+	else if (args.size() == 2)
 	{
 		// Always check to make sure the command exists.
 		Command* cmd = nullptr;
 		for (Command* c : registeredCommands)
-			if (c->match(args[0]))
+			if (c->match(args[1]))
 				cmd = c;
 
 		if (cmd != nullptr)
 		{
-			msg += L"Command:\t" + Util::convert_string_to_wstring(cmd->getAliases()[0]) + L"\n";
-			msg += L"Description:\t" + Util::convert_string_to_wstring(cmd->getDescription()) + L"\n";
-			msg += L"Usage:\t\t" + Util::convert_string_to_wstring(cmd->getUsage()) + L"\n";
-			msg += L"Aliases:\t\t";
+			msg += "Command:\t" + cmd->getAliases()[0] + "\n";
+			msg += "Description:\t" + cmd->getDescription() + "\n";
+			msg += "Usage:\t\t" + cmd->getUsage() + "\n";
+			msg += "Aliases:\t\t";
 			for (std::string alias : cmd->getAliases())
-				msg += Util::convert_string_to_wstring(alias) + L", ";
+				msg += alias + ", ";
 			msg.pop_back(); msg.pop_back();
 		}
 		else
 		{
-			msg += L"No information available. A command with the alias \""
-				+ Util::convert_string_to_wstring(args[0]) + L"\" either doesn't exist or isn\'t "
-				+ L"registered with the help command.";
+			msg += "No information available. A command with the alias \""
+				+ args[1] + "\" either doesn't exist or isn\'t "
+				+ "registered with the help command.";
 		}
 	}
 
-	Dispatcher::enqueueEvent(new ChatEvent(EVENT_TYPE::GEVT_CHAT_MESSAGEDISPLAY, msg));
+	msg += "\n"; // Add a nice little break at the end to make reading easier on the eyes.
+	Dispatcher::enqueueEvent(new ChatEvent(EVENT_TYPE::GEVT_CHAT_MESSAGEDISPLAY, Util::convert_string_to_wstring(msg)));
 }
 
 void HelpCommand::registerCommand(Command* cmd)

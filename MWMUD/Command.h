@@ -10,10 +10,11 @@ protected:
 	std::vector<std::string> aliases;
 	std::string description;
 	std::string usage;
-	std::string module;
 
 public:
 	static const char CMD_DELIM = '/';
+
+	virtual ~Command() {}
 
 	const std::vector<std::string> getAliases();
 	const std::string getDescription();
@@ -22,5 +23,6 @@ public:
 	// Return whether the given string matches any of the command's aliases.
 	bool match(std::string);
 
-	virtual bool execute(std::vector<std::string> params) = 0;
+	// The first element of the args vector will always be the command being executed.
+	virtual void execute(std::vector<std::string> args) = 0;
 };

@@ -8,23 +8,7 @@ std::queue<GameEvent*> Dispatcher::eventQueue;
 // Subscribe a listener to a message type
 void Dispatcher::subscribe(EVENT_TYPE et, Listener* listener)
 {
-	//try
-	//{
-	if (!Dispatcher::subscriptions[et].insert(listener).second)
-	{
-		throw new DuplicateSubscriptionException
-		(
-			"Duplicate subscription",
-			12,
-			"Dispatcher.cpp",
-			"subscribe(EVENT_TYPE, Listener*)"
-		);
-	}
-	//}
-	//catch (DuplicateSubscriptionException& ex)
-	//{
-	//	Dispatcher::enqueueEvent (new GameEvent(EVENT_TYPE::GEVT_ENGINE_SHUTDOWN));
-	//}
+	Dispatcher::subscriptions[et].insert(listener);
 }
 
 // Unsubscribe a listener from a message type

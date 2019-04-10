@@ -12,7 +12,7 @@ public:
 	HelpCommand();
 	~HelpCommand();
 
-	bool execute(std::vector<std::string> args) override;
+	void execute(std::vector<std::string> args) override;
 	void registerCommand(Command* cmd);
 	void deregisterCommand(Command* cmd);
 };

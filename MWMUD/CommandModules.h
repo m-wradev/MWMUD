@@ -40,3 +40,9 @@ struct ChatCommands : public CommandModule
 	ChatCommands();
 	~ChatCommands();
 };
+
+struct NetworkCommands : public CommandModule
+{
+	NetworkCommands();
+	~NetworkCommands();
+};

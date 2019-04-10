@@ -1,6 +1,6 @@
 #pragma once
 
-#include "DWrite.h"
+#include <DWrite.h>
 #pragma comment(lib, "dwrite.lib")
 
 struct TextRender

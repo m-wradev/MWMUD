@@ -71,7 +71,7 @@
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Debug|x64'">
     <ExecutablePath>E:\RADev\SDK\DirectX\Utilities\bin\x64;$(ExecutablePath)</ExecutablePath>
-    <IncludePath>E:\RADev\SDK\DirectX\Include;$(IncludePath)</IncludePath>
+    <IncludePath>$(IncludePath)</IncludePath>
     <LibraryPath>E:\RADev\SDK\DirectX\Lib\x64;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
@@ -137,6 +137,7 @@
     <ClCompile Include="ClearChatCommand.cpp" />
     <ClCompile Include="ClientNetwork.cpp" />
     <ClCompile Include="CommandModules.cpp" />
+    <ClCompile Include="DisconnectCommand.cpp" />
     <ClCompile Include="Dispatcher.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameScreen.cpp" />
@@ -145,6 +146,7 @@
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuScreen.cpp" />
     <ClCompile Include="MPConnectScreen.cpp" />
+    <ClCompile Include="PingCommand.cpp" />
     <ClCompile Include="TextRender.cpp" />
     <ClCompile Include="TitleScreen.cpp" />
     <ClCompile Include="UI_Chatbox.cpp" />
@@ -162,6 +164,7 @@
     <ClInclude Include="ClearChatCommand.h" />
     <ClInclude Include="ClientNetwork.h" />
     <ClInclude Include="CommandModules.h" />
+    <ClInclude Include="DisconnectCommand.h" />
     <ClInclude Include="Dispatcher.h" />
     <ClInclude Include="Focusable.h" />
     <ClInclude Include="Game.h" />
@@ -172,6 +175,7 @@
     <ClInclude Include="MainMenuScreen.h" />
     <ClInclude Include="GameEvent.h" />
     <ClInclude Include="MPConnectScreen.h" />
+    <ClInclude Include="PingCommand.h" />
     <ClInclude Include="Screen.h" />
     <ClInclude Include="TextRender.h" />
     <ClInclude Include="TitleScreen.h" />

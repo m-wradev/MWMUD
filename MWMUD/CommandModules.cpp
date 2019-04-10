@@ -3,6 +3,10 @@
 // CHAT COMMANDS
 #include "ClearChatCommand.h"
 
+// NETWORK COMMANDS
+#include "PingCommand.h"
+#include "DisconnectCommand.h"
+
 /* ABSTRACT BASE CLASS
  * Class from which all command modules are derived
  */
@@ -64,3 +68,18 @@ ChatCommands::ChatCommands()
 }
 
 ChatCommands::~ChatCommands() { CommandModule::deregisterModule(this); }
+
+/* NETWORK COMMANDS
+ * Commands related to the client-server interaction.
+ */
+NetworkCommands::NetworkCommands()
+{
+	name = "Network";
+
+	commands.push_back(new PingCommand());
+	commands.push_back(new DisconnectCommand());
+
+	CommandModule::registerModule(this);
+}
+
+NetworkCommands::~NetworkCommands() { CommandModule::deregisterModule(this); }

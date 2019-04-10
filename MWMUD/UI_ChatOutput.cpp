@@ -70,7 +70,7 @@ void UI_ChatOutput::onNotify(GameEvent* gevt)
 	{
 		// If we're worried about text input height changes, then the bottom of this container
 		// will always be the top of its paired text input.
-		bottom = dynamic_cast<UI_ChatInput*>(static_cast<UIEvent*>(gevt)->element)->getBounds().top;
+		bottom = (int)dynamic_cast<UI_ChatInput*>(static_cast<UIEvent*>(gevt)->element)->getBounds().top;
 
 		if (messageHistory.size() > 0)
 		{

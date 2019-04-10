@@ -1,6 +1,4 @@
-/* TODO
- * Move all Direct2D initializations into the Game class
- */
+// TODO - Move all Direct2D initializations into the Game class
 
 // debug memory leaks
 #ifdef MWMUD_DEBUG
@@ -11,10 +9,8 @@
 #define new DEBUG_NEW
 #endif
 
-#define _WINSOCKAPI_
 #include <Windows.h>
 #include <d2d1.h>
-
 #pragma comment(lib, "d2d1")
 
 #include "Game.h"
@@ -118,7 +114,10 @@ int WINAPI WinMain(HINSTANCE hInstance,
 	// Notify the game that we're shutting down so it can properly release resources
 	// and shut down subsystems.
 	if (game.isRunning())
+	{
 		Dispatcher::enqueueEvent(new GameEvent(EVENT_TYPE::GEVT_ENGINE_SHUTDOWN));
+		Dispatcher::flushEvents(); // Flush all events and force shut down.
+	}
 
 	pRT->Release();
 	pD2DFactory->Release();
