@@ -30,6 +30,18 @@
     <Filter Include="UI\Interfaces">
       <UniqueIdentifier>{ece837c2-0def-411b-8a5b-c7b6da2827d7}</UniqueIdentifier>
     </Filter>
+    <Filter Include="ChatSystem\Commands">
+      <UniqueIdentifier>{d3a9d292-8317-4272-b7c1-122939aad18c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ChatSystem\Commands\Chat Commands">
+      <UniqueIdentifier>{be96f26e-2868-4455-a606-98c34d98b0c7}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ChatSystem\Commands\Network Commands">
+      <UniqueIdentifier>{bd0f56d2-6b0b-4f26-8233-043a53103162}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="ChatSystem\Commands\Gameplay Commands">
+      <UniqueIdentifier>{56bcf9d2-4e8b-4b81-9343-a1fd0b8fa01a}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -85,6 +97,18 @@
     </ClCompile>
     <ClCompile Include="UI_LabeledTextInput.cpp">
       <Filter>UI</Filter>
+    </ClCompile>
+    <ClCompile Include="Command.cpp">
+      <Filter>ChatSystem\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandModules.cpp">
+      <Filter>ChatSystem\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="ClearChatCommand.cpp">
+      <Filter>ChatSystem\Commands\Chat Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="HelpCommand.cpp">
+      <Filter>ChatSystem\Commands</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -159,6 +183,18 @@
     </ClInclude>
     <ClInclude Include="UI_LabeledTextInput.h">
       <Filter>UI</Filter>
+    </ClInclude>
+    <ClInclude Include="Command.h">
+      <Filter>ChatSystem\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandModules.h">
+      <Filter>ChatSystem\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ClearChatCommand.h">
+      <Filter>ChatSystem\Commands\Chat Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="HelpCommand.h">
+      <Filter>ChatSystem\Commands</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>

@@ -34,6 +34,9 @@ private:
 	static std::unordered_map<EVENT_TYPE, std::unordered_set<Listener*>> subscriptions;
 	static std::queue<GameEvent*> eventQueue;
 
+	// Notify all subscribers of a given message type
+	static void notify(GameEvent* gevt);
+
 public:
 	// Subscribe a listener to a message type
 	static void subscribe(EVENT_TYPE et, Listener* listener);
@@ -43,7 +46,5 @@ public:
 	static void enqueueEvent(GameEvent* gevt);
 	// Deliver all events in the queue
 	static void flushEvents();
-	// Notify all subscribers of a given message type
-	static void notify(GameEvent* gevt);
 };
 

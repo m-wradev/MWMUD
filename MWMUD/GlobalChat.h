@@ -4,11 +4,15 @@
 #include <string>
 #include <unordered_map>
 
+#include "Command.h"
+#include "CommandModules.h"
+
 class GlobalChat
 {
 private:
 	typedef void(*onCommand)(std::string);
-	static std::unordered_map<std::string, onCommand> chatCommands;
+	static std::vector<Command*> chatCommandsTest;
+	static std::vector<CommandModule*> commandModules;
 
 public:
 	// Initialize the global chat system.

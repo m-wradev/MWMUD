@@ -133,11 +133,15 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Command.cpp" />
+    <ClCompile Include="ClearChatCommand.cpp" />
     <ClCompile Include="ClientNetwork.cpp" />
+    <ClCompile Include="CommandModules.cpp" />
     <ClCompile Include="Dispatcher.cpp" />
     <ClCompile Include="Game.cpp" />
     <ClCompile Include="GameScreen.cpp" />
     <ClCompile Include="GlobalChat.cpp" />
+    <ClCompile Include="HelpCommand.cpp" />
     <ClCompile Include="main.cpp" />
     <ClCompile Include="MainMenuScreen.cpp" />
     <ClCompile Include="MPConnectScreen.cpp" />
@@ -153,13 +157,17 @@
     <ClCompile Include="Util.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Command.h" />
     <ClInclude Include="ChatMessage.h" />
+    <ClInclude Include="ClearChatCommand.h" />
     <ClInclude Include="ClientNetwork.h" />
+    <ClInclude Include="CommandModules.h" />
     <ClInclude Include="Dispatcher.h" />
     <ClInclude Include="Focusable.h" />
     <ClInclude Include="Game.h" />
     <ClInclude Include="GameScreen.h" />
     <ClInclude Include="GlobalChat.h" />
+    <ClInclude Include="HelpCommand.h" />
     <ClInclude Include="Listener.h" />
     <ClInclude Include="MainMenuScreen.h" />
     <ClInclude Include="GameEvent.h" />
