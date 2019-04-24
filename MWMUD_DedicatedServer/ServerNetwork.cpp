@@ -1,8 +1,7 @@
 #include <iostream>
-#include <functional>
-#include <sstream>
 
 #include "ServerNetwork.h"
+#include "Dispatcher.h"
 #include "CommandParser.h"
 
 bool ServerNetwork::init()
@@ -19,28 +18,30 @@ bool ServerNetwork::init()
 	}
 	listener.setBlocking(false);	// non-blocking
 
-	// Register all commands
-	// This might be super leaky
-	std::cout << "Registering commands..." << std::endl;
-	CommandParser::registerCommand("ping", new std::function<void(std::string, sf::TcpSocket*)>([this](std::string input, sf::TcpSocket* sender)
-	{
-		std::cout << "SERVER [to " + sender->getRemoteAddress().toString() + "]: Pong" << std::endl;
-
-		sf::Packet p;
-		p << "SERVER: Pong";
-		sender->send(p);
-	}));
-
-	// Disconnect the client.
-	CommandParser::registerCommand("disconnect", new std::function<void(std::string, sf::TcpSocket*)>([this](std::string input, sf::TcpSocket* sender)
-	{
-		std::cout << sender->getRemoteAddress().toString() << " has disconnected." << std::endl;
-		sender->disconnect();
-	}));
+	std::cout << "Subscribing to events..." << std::endl;
+	Dispatcher::subscribe(EVENT_TYPE::SERVER_BROADCASTMESSAGE, this);
+	Dispatcher::subscribe(EVENT_TYPE::SERVER_CLIENTDISCONNECT, this);
+	Dispatcher::subscribe(EVENT_TYPE::SERVER_SHUTDOWN, this);
 
 	std::cout << "Server started successfully.\n====================================\n";
 	running = true;	// set server as running
 	return true;
+}
+
+void ServerNetwork::cleanup()
+{
+	// Broadcast that the server is shutting down
+	broadcastMessage("Server is shutting down.");
+
+	// Delete all allocated clients
+	for (Client* client : clients)
+		delete client;
+	clients.clear();
+
+	// Unsubscribe from all event types
+	Dispatcher::unsubscribe(EVENT_TYPE::SERVER_SHUTDOWN, this);
+	Dispatcher::unsubscribe(EVENT_TYPE::SERVER_CLIENTDISCONNECT, this);
+	Dispatcher::unsubscribe(EVENT_TYPE::SERVER_BROADCASTMESSAGE, this);
 }
 
 void ServerNetwork::setRunning(bool running) { this->running = running; }
@@ -49,6 +50,7 @@ bool ServerNetwork::isRunning() { return running; }
 void ServerNetwork::pollEvents()
 {
 	// Start by checking to see that all clients are still connected
+	/*
 	std::stack<sf::TcpSocket*> toRemove;
 	for (sf::TcpSocket* client : clients)
 	{
@@ -63,13 +65,15 @@ void ServerNetwork::pollEvents()
 		delete toRemove.top();
 		toRemove.pop();
 	}
+	*/
 
 	// Check for incoming clients
 	// TODO -  Check if this causes a memory leak
-	sf::TcpSocket* incoming = new sf::TcpSocket;
-	incoming->setBlocking(true);
-	if (listener.accept(*incoming) == sf::Socket::Done)
+	sf::TcpSocket* incomingSocket = new sf::TcpSocket;
+	incomingSocket->setBlocking(true);
+	if (listener.accept(*incomingSocket) == sf::Socket::Done)
 	{
+		/*
 		sf::IpAddress incomingIP = incoming->getRemoteAddress();
 		std::cout << incomingIP.toString() << " has connected." << std::endl;
 
@@ -81,15 +85,27 @@ void ServerNetwork::pollEvents()
 		packet << toSend;
 		
 		incoming->send(packet);
+		*/
+		incomingSocket->setBlocking(false);
+		clients.insert(new Client(incomingSocket));
 	}
 	else
 	{
-		delete incoming;
+		delete incomingSocket;
 	}
 
-	sf::Packet incomingPacket;
-	for (sf::TcpSocket* client : clients)
+	//sf::Packet incomingPacket;
+	//for (sf::TcpSocket* client : clients)
+	for (Client* client : clients)
 	{
+		if (client->sentData())
+		{
+			sf::Packet clientPacket = client->getDataPacket();
+			std::string contents;
+			clientPacket >> contents;
+			CommandParser::parse(contents, client);
+		}
+		/*
 		if (client->receive(incomingPacket) == sf::Socket::Status::Done)
 		{
 			std::string msg;
@@ -105,25 +121,34 @@ void ServerNetwork::pollEvents()
 				broadcastPacket(toBroadcast);
 			}
 		}
+		*/
 	}
 }
 
-void ServerNetwork::cleanup()
+void ServerNetwork::onNotify(Event* evt)
 {
-	// Broadcast that the server is shutting down
-	broadcastMessage("Server is shutting down. Type /disconnect to return to the main menu.");
-
-	// Delete all allocated clients
-	for (sf::TcpSocket* client : clients)
-		delete client;
+	EVENT_TYPE& evtType = evt->eventType;
+	if (evtType == EVENT_TYPE::SERVER_BROADCASTMESSAGE)
+	{
+		broadcastMessage(static_cast<ServerEvent::BroadcastMessage*>(evt)->msg);
+	}
+	else if (evtType == EVENT_TYPE::SERVER_CLIENTDISCONNECT)
+	{
+		disconnectClient(static_cast<ServerEvent::ClientDisconnect*>(evt)->client);
+	}
+	else if (evtType == EVENT_TYPE::SERVER_SHUTDOWN)
+	{
+		cleanup();
+	}
 }
+
 
 /* PRIVATE MEMBER FUNCTIONS
  */
 void ServerNetwork::broadcastPacket(sf::Packet packet)
 {
-	for (sf::TcpSocket* client : clients)
-		client->send(packet);
+	//for (sf::TcpSocket* client : clients)
+	//	client->send(packet);
 }
 
 void ServerNetwork::broadcastMessage(std::string message)
@@ -131,4 +156,10 @@ void ServerNetwork::broadcastMessage(std::string message)
 	sf::Packet packet;
 	packet << "SERVER: " + message;
 	broadcastPacket(packet);
+}
+
+void ServerNetwork::disconnectClient(Client* client)
+{
+	clients.erase(client);
+	delete client;
 }

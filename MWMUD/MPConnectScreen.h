@@ -1,4 +1,5 @@
 #pragma once
+
 #include <list>
 
 #include "Screen.h"
@@ -7,8 +8,9 @@
 
 class MPConnectScreen : public Screen, public Listener
 {
-private:
+	friend std::function<void()>;
 
+private:
 	std::list<Focusable*> focusableElements;
 	std::list<Focusable*>::iterator focusedElement;
 	UI_LabeledTextInput ipInput;
@@ -18,7 +20,9 @@ private:
 public:
 	MPConnectScreen();
 	~MPConnectScreen();
-	static std::wstring ip; // static so that lambda can capture it
+	//static std::wstring ip; // static so that lambda can capture it
+
+	std::wstring getIpFromInput();
 
 	void handleKeypress(wchar_t key) override;
 	void onNotify(GameEvent* gevt) override;

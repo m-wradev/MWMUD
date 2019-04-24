@@ -1,51 +1,50 @@
-#include <thread>
+#include <iostream>
 
 #include "CommandParser.h"
+#include "Dispatcher.h"
+#include "Util.h"
 
-//std::unordered_map<std::string, void(*)(std::string)> CommandParser::clientCommands;
-std::unordered_set<std::string> CommandParser::clientCommandStrings;
-std::unordered_map<std::string, std::function<void(std::string, sf::TcpSocket*)>*> CommandParser::clientCommands;
+std::vector<ServerCommandModule*> CommandParser::commandModules;
 
 void CommandParser::init()
 {
-	/*====================================================================
-	 *	UTILITY COMMANDS
-	 *	Commands that don't involve updating or retrieving game logic
-	 *====================================================================
-	 */
+	commandModules.push_back(new NetworkCommands());
 }
 
 void CommandParser::cleanup()
 {
-	for (std::string cmd : clientCommandStrings)
+	// Release all command modules
+	while (!commandModules.empty())
 	{
-		delete clientCommands[cmd];
-		clientCommands.erase(cmd);
+		delete commandModules.back();
+		commandModules.pop_back();
 	}
 }
 
-void CommandParser::registerCommand(std::string cmd, std::function<void(std::string, sf::TcpSocket*)>* f)
+void CommandParser::parse(std::string msg, Client* sender)
 {
-	clientCommandStrings.insert(cmd);
-	clientCommands[cmd] = f;
-}
+	if (msg[0] != ServerCommand::CMD_DELIM)
+	{
+		// Broadcast the message to all clients
+		Dispatcher::enqueueEvent(new ServerEvent::BroadcastMessage(msg));
+	}
+	else
+	{
+		std::string cmd_str = msg.substr(1, msg.find_first_of(' ') - 1);
+		std::string& cmd_with_args = msg;
 
-void CommandParser::deregisterCommand(std::string cmd)
-{
-	delete clientCommands[cmd];
-	clientCommands.erase(cmd);
-	clientCommandStrings.erase(cmd);
-}
-
-bool CommandParser::parse(std::string input, sf::TcpSocket* sender)
-{
-	// Input is not a command
-	if (input[0] != '/')
-		return false;
-
-	auto commandEntry = clientCommands.find(input.substr(1, input.find_first_of(' ') - 1));
-	if (commandEntry != clientCommands.end())
-		(*(commandEntry->second))(input, sender);
-
-	return true;
+		// Search to see if the command exists and is available
+		for (ServerCommandModule* cmd_mod : commandModules)
+		{
+			for (ServerCommand* cmd : cmd_mod->getCommands())
+			{
+				if (cmd->match(cmd_str))
+				{
+					// Found command, so execute and return
+					cmd->execute(Util::split_string(cmd_with_args, ' '), sender);
+					return;
+				}
+			}
+		}
+	}
 }

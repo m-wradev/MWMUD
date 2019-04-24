@@ -19,15 +19,21 @@
     <Filter Include="Commands">
       <UniqueIdentifier>{940d7183-78c6-4e9b-a2e0-a9ae555667ab}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Commands\NetworkCommands">
+      <UniqueIdentifier>{71a067ba-1c9c-4653-9e1d-688036411c5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Network">
+      <UniqueIdentifier>{ac14a05d-648c-41cc-9d8d-cea43b2b0e5c}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Util">
+      <UniqueIdentifier>{60733b47-26dd-4847-9035-26fe8003dad6}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="EventSystem">
+      <UniqueIdentifier>{405bf8d8-c5dc-4148-b81a-ccf3201a50e1}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="ServerNetwork.cpp">
-      <Filter>Source Files</Filter>
-    </ClCompile>
-    <ClCompile Include="CommandParser.cpp">
       <Filter>Source Files</Filter>
     </ClCompile>
     <ClCompile Include="ServerGame.cpp">
@@ -36,18 +42,66 @@
     <ClCompile Include="ServerCommand.cpp">
       <Filter>Commands</Filter>
     </ClCompile>
+    <ClCompile Include="PingCommand.cpp">
+      <Filter>Commands\NetworkCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerCommandModules.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="DisconnectCommand.cpp">
+      <Filter>Commands\NetworkCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="ServerNetwork.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Client.cpp">
+      <Filter>Network</Filter>
+    </ClCompile>
+    <ClCompile Include="Util.cpp">
+      <Filter>Util</Filter>
+    </ClCompile>
+    <ClCompile Include="Dispatcher.cpp">
+      <Filter>EventSystem</Filter>
+    </ClCompile>
+    <ClCompile Include="CommandParser.cpp">
+      <Filter>Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
-    <ClInclude Include="ServerNetwork.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
-    <ClInclude Include="CommandParser.h">
-      <Filter>Header Files</Filter>
-    </ClInclude>
     <ClInclude Include="ServerGame.h">
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="ServerCommand.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerCommandModules.h">
+      <Filter>Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="PingCommand.h">
+      <Filter>Commands\NetworkCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="DisconnectCommand.h">
+      <Filter>Commands\NetworkCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="ServerNetwork.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Client.h">
+      <Filter>Network</Filter>
+    </ClInclude>
+    <ClInclude Include="Util.h">
+      <Filter>Util</Filter>
+    </ClInclude>
+    <ClInclude Include="Events.h">
+      <Filter>EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Dispatcher.h">
+      <Filter>EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="Listener.h">
+      <Filter>EventSystem</Filter>
+    </ClInclude>
+    <ClInclude Include="CommandParser.h">
       <Filter>Commands</Filter>
     </ClInclude>
   </ItemGroup>

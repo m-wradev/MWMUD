@@ -162,17 +162,31 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Client.cpp" />
     <ClCompile Include="CommandParser.cpp" />
+    <ClCompile Include="DisconnectCommand.cpp" />
+    <ClCompile Include="Dispatcher.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="PingCommand.cpp" />
     <ClCompile Include="ServerCommand.cpp" />
+    <ClCompile Include="ServerCommandModules.cpp" />
     <ClCompile Include="ServerGame.cpp" />
     <ClCompile Include="ServerNetwork.cpp" />
+    <ClCompile Include="Util.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Client.h" />
+    <ClInclude Include="DisconnectCommand.h" />
+    <ClInclude Include="Dispatcher.h" />
+    <ClInclude Include="Events.h" />
+    <ClInclude Include="Listener.h" />
+    <ClInclude Include="PingCommand.h" />
     <ClInclude Include="ServerCommand.h" />
     <ClInclude Include="CommandParser.h" />
+    <ClInclude Include="ServerCommandModules.h" />
     <ClInclude Include="ServerGame.h" />
     <ClInclude Include="ServerNetwork.h" />
+    <ClInclude Include="Util.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

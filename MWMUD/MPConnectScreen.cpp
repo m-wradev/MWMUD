@@ -4,7 +4,7 @@
 #include "Dispatcher.h"
 #include "Util.h"
 
-std::wstring MPConnectScreen::ip = L"";
+//std::wstring MPConnectScreen::ip = L"";
 
 MPConnectScreen::MPConnectScreen()
 {
@@ -14,6 +14,11 @@ MPConnectScreen::MPConnectScreen()
 	connectButton.setText(L"Join", 24, DWRITE_TEXT_ALIGNMENT_CENTER, DWRITE_PARAGRAPH_ALIGNMENT_CENTER,
 		DWRITE_FONT_WEIGHT_NORMAL);
 	connectButton.setBounds(0, ipInput.getBottom(), 960, ipInput.getBottom() + 40);
+	connectButton.setCallback(std::function<void()>([this]()
+	{
+		std::string ip = Util::convert_wstring_to_string(this->getIpFromInput());
+		Dispatcher::enqueueEvent(new NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_ATTEMPTCONNECT, ip));
+	}));
 
 	connectionNotification.setText(L"", 24, DWRITE_TEXT_ALIGNMENT_CENTER,
 		DWRITE_PARAGRAPH_ALIGNMENT_CENTER, DWRITE_FONT_WEIGHT_NORMAL);
@@ -35,17 +40,16 @@ MPConnectScreen::~MPConnectScreen()
 	Dispatcher::unsubscribe(EVENT_TYPE::GEVT_NETWORK_CLIENT_CONNECTIONSUCCESS, this);
 }
 
+std::wstring MPConnectScreen::getIpFromInput()
+{
+	return ipInput.getInputText();
+}
+
 void MPConnectScreen::handleKeypress(wchar_t key)
 {
 	if (key == VK_RETURN)
 	{
-		UI_MenuOption* mo = static_cast<UI_MenuOption*>(*focusedElement);
-		if (mo != nullptr && mo == &connectButton)
-		{
-			connectionNotification.changeText(L"Attemping to connect...");
-			std::string ip = Util::convert_wstring_to_string(ipInput.getInputText());
-			Dispatcher::enqueueEvent (new NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_ATTEMPTCONNECT, ip));
-		}
+		static_cast<UI_MenuOption*>(*focusedElement)->select();
 	}
 	else if (key == VK_ESCAPE)
 	{

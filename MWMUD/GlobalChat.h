@@ -4,7 +4,6 @@
 #include <string>
 #include <unordered_map>
 
-#include "Command.h"
 #include "CommandModules.h"
 
 class GlobalChat

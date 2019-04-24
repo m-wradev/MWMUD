@@ -9,7 +9,8 @@ void UI_MenuOption::setFocus(bool focused)
 	this->focused = focused;
 }
 
-void UI_MenuOption::setCallback(callback onSelect)
+//void UI_MenuOption::setCallback(callback onSelect)
+void UI_MenuOption::setCallback(std::function<void()> onSelect)
 {
 	this->onSelect = onSelect;
 }

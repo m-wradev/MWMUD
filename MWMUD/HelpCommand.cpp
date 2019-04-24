@@ -45,7 +45,7 @@ void HelpCommand::execute(std::vector<std::string> args)
 		bool found = false;
 		for (CommandModule* cmd_mod : CommandModule::getActiveModules())
 		{
-			if (Util::equalsIgnoreCase(args[2], cmd_mod->getName()))
+			if (Util::equals_ignore_case(args[2], cmd_mod->getName()))
 			{
 				// TODO - Add line break after every 5 commands.
 				msg += "Commands available in module " + cmd_mod->getName() + ":\n";

@@ -6,7 +6,17 @@
 
 // TODO: server input
 #include "ServerNetwork.h"
+#include "Dispatcher.h"
 #include "CommandParser.h"
+
+// debug memory leaks
+#ifdef MWMUD_DEBUG
+#define _CRTDBG_MAP_ALLOC
+#include <stdlib.h>
+#include <crtdbg.h>
+#define DEBUG_NEW new(_NORMAL_BLOCK, __FILE__, __LINE__)
+#define new DEBUG_NEW
+#endif
 
 BOOL WINAPI consoleHandler(DWORD dwCtrlType);
 void cleanup();
@@ -16,6 +26,11 @@ ServerNetwork server;
 
 int main()
 {
+	// Get memory leak report at each exit point
+	#ifdef MWMUD_DEBUG
+	_CrtSetDbgFlag(_CRTDBG_ALLOC_MEM_DF | _CRTDBG_LEAK_CHECK_DF);
+	#endif
+
 	std::cout << "MWMUD prealpha version" << std::endl;
 	std::cout << std::endl;
 
@@ -29,6 +44,7 @@ int main()
 	{
 		try
 		{
+			Dispatcher::flushEvents();
 			server.pollEvents();
 		}
 		catch (std::exception& e)

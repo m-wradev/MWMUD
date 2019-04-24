@@ -20,17 +20,23 @@
 #include <unordered_set>
 #include <stack>
 
-class ServerNetwork
+#include "Listener.h"
+#include "Client.h"
+
+class ServerNetwork : public Listener
 {
 private:
 	sf::TcpListener listener;	// listens for incoming connections
-	std::unordered_set<sf::TcpSocket*> clients;	// clients connected to server
+	std::unordered_set<Client*> clients; // clients connected to the server
 	bool running = false;
 
 	// Broadcast a packet to all connected clients
 	void broadcastPacket(sf::Packet);
 	// Broadcast a message to all connected clients
 	void broadcastMessage(std::string);
+
+	// Disconnect a client from the server
+	void disconnectClient(Client* client);
 
 public:
 	static const int MAX_CONNECTIONS = 8;
@@ -41,9 +47,10 @@ public:
 	void setRunning(bool);
 	// Return whether the server is running or not
 	bool isRunning();
-	// check for server events
+	// Check for server events
 	void pollEvents();
-	
+	// Handle engine events
+	void onNotify(Event*) override;
 	// clean up, shut down
 	void cleanup();
 };
