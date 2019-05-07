@@ -26,7 +26,15 @@ void CommandParser::parse(std::string msg, Client* sender)
 	if (msg[0] != ServerCommand::CMD_DELIM)
 	{
 		// Broadcast the message to all clients
-		Dispatcher::enqueueEvent(new ServerEvent::BroadcastMessage(msg));
+		if (sender->isLoggedIn())
+		{
+			msg = sender->getName() + ": " + msg;
+			Dispatcher::enqueueEvent(new ServerEvent::Message::Broadcast(msg));
+		}
+		else
+		{
+			sender->sendMessage("SERVER: You may only send messages while logged in to a character.  Use the /login command to log in.");
+		}
 	}
 	else
 	{

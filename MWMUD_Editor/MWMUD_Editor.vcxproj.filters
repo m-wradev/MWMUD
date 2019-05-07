@@ -1,0 +1,104 @@
+﻿<?xml version="1.0" encoding="utf-8"?>
+<Project ToolsVersion="4.0" xmlns="http://schemas.microsoft.com/developer/msbuild/2003">
+  <ItemGroup>
+    <Filter Include="Resource Files">
+      <UniqueIdentifier>{67DA6AB6-F800-4c08-8B7A-83BB121AAD01}</UniqueIdentifier>
+      <Extensions>rc;ico;cur;bmp;dlg;rc2;rct;bin;rgs;gif;jpg;jpeg;jpe;resx;tiff;tif;png;wav;mfcribbon-ms</Extensions>
+    </Filter>
+    <Filter Include="Dependencies">
+      <UniqueIdentifier>{b12dae5c-0cf2-4263-9f85-b34e56839d18}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Dependencies\imGui">
+      <UniqueIdentifier>{5a4fa997-9d1f-4c83-953f-09e71139c41b}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Entry">
+      <UniqueIdentifier>{4FC737F1-C7A5-4376-A066-2A32D752A2FF}</UniqueIdentifier>
+      <Extensions>cpp;c;cc;cxx;def;odl;idl;hpj;bat;asm;asmx</Extensions>
+    </Filter>
+    <Filter Include="Editor">
+      <UniqueIdentifier>{6397cec0-af56-43c0-b8f1-7fc10f6206b4}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\Widgets">
+      <UniqueIdentifier>{8aec57cc-b8d1-42fc-9e65-def4dfc62f14}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine">
+      <UniqueIdentifier>{afef7eca-cb78-4e98-a4b7-b42c4896d316}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Editor\EditorEvents">
+      <UniqueIdentifier>{2739c6b5-77e5-471c-8f8f-df819c83cbf5}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Engine\EngineEvents">
+      <UniqueIdentifier>{39367ee5-6a84-4ca4-b5e6-1a2e07c094e3}</UniqueIdentifier>
+    </Filter>
+  </ItemGroup>
+  <ItemGroup>
+    <ClCompile Include="main.cpp">
+      <Filter>Entry</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\imgui\imgui.cpp">
+      <Filter>Dependencies\imGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\imgui\imgui_demo.cpp">
+      <Filter>Dependencies\imGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\imgui\imgui_draw.cpp">
+      <Filter>Dependencies\imGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\imgui\imgui_widgets.cpp">
+      <Filter>Dependencies\imGui</Filter>
+    </ClCompile>
+    <ClCompile Include="Dependencies\imgui\imgui-SFML.cpp">
+      <Filter>Dependencies\imGui</Filter>
+    </ClCompile>
+    <ClCompile Include="CampaignWidget.cpp">
+      <Filter>Editor\Widgets</Filter>
+    </ClCompile>
+    <ClCompile Include="Editor.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
+    <ClCompile Include="Campaign.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+  </ItemGroup>
+  <ItemGroup>
+    <ClInclude Include="Dependencies\imgui\imconfig.h">
+      <Filter>Dependencies\imGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\imgui\imconfig-SFML.h">
+      <Filter>Dependencies\imGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\imgui\imgui.h">
+      <Filter>Dependencies\imGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\imgui\imgui_internal.h">
+      <Filter>Dependencies\imGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\imgui\imgui-SFML.h">
+      <Filter>Dependencies\imGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\imgui\imstb_rectpack.h">
+      <Filter>Dependencies\imGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\imgui\imstb_textedit.h">
+      <Filter>Dependencies\imGui</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\imgui\imstb_truetype.h">
+      <Filter>Dependencies\imGui</Filter>
+    </ClInclude>
+    <ClInclude Include="CampaignWidget.h">
+      <Filter>Editor\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="Widget.h">
+      <Filter>Editor\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="Widgets.hpp">
+      <Filter>Editor\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="Editor.h">
+      <Filter>Editor</Filter>
+    </ClInclude>
+    <ClInclude Include="Campaign.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+  </ItemGroup>
+</Project>

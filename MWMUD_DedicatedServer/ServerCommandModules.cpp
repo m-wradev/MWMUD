@@ -2,6 +2,9 @@
 
 // NETWORK COMMANDS
 #include "PingCommand.h"
+#include "DisconnectCommand.h"
+#include "LoginCommand.h"
+#include "LogoutCommand.h"
 
 /* ABSTRACT BASE CLASS
  * Class from which all command modules are derived
@@ -46,6 +49,9 @@ NetworkCommands::NetworkCommands()
 	name = "Network";
 
 	commands.push_back(new PingCommand());
+	commands.push_back(new DisconnectCommand());
+	commands.push_back(new LoginCommand());
+	commands.push_back(new LogoutCommand());
 
 	ServerCommandModule::registerModule(this);
 }

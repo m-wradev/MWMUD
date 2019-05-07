@@ -7,6 +7,8 @@ Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MWMUD", "MWMUD\MWMUD.vcxpro
 EndProject
 Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MWMUD_DedicatedServer", "MWMUD_DedicatedServer\MWMUD_DedicatedServer.vcxproj", "{9E954FF4-855D-45B2-819E-115C9575824C}"
 EndProject
+Project("{8BC9CEB8-8B4A-11D0-8D11-00A0C91BC942}") = "MWMUD_Editor", "MWMUD_Editor\MWMUD_Editor.vcxproj", "{B965B399-552B-4FAC-B4C8-8ABF40AEF34B}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|x64 = Debug|x64
@@ -31,6 +33,14 @@ Global
 		{9E954FF4-855D-45B2-819E-115C9575824C}.Release|x64.Build.0 = Release|x64
 		{9E954FF4-855D-45B2-819E-115C9575824C}.Release|x86.ActiveCfg = Release|Win32
 		{9E954FF4-855D-45B2-819E-115C9575824C}.Release|x86.Build.0 = Release|Win32
+		{B965B399-552B-4FAC-B4C8-8ABF40AEF34B}.Debug|x64.ActiveCfg = Debug|x64
+		{B965B399-552B-4FAC-B4C8-8ABF40AEF34B}.Debug|x64.Build.0 = Debug|x64
+		{B965B399-552B-4FAC-B4C8-8ABF40AEF34B}.Debug|x86.ActiveCfg = Debug|Win32
+		{B965B399-552B-4FAC-B4C8-8ABF40AEF34B}.Debug|x86.Build.0 = Debug|Win32
+		{B965B399-552B-4FAC-B4C8-8ABF40AEF34B}.Release|x64.ActiveCfg = Release|x64
+		{B965B399-552B-4FAC-B4C8-8ABF40AEF34B}.Release|x64.Build.0 = Release|x64
+		{B965B399-552B-4FAC-B4C8-8ABF40AEF34B}.Release|x86.ActiveCfg = Release|Win32
+		{B965B399-552B-4FAC-B4C8-8ABF40AEF34B}.Release|x86.Build.0 = Release|Win32
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

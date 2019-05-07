@@ -18,13 +18,17 @@ bool ServerNetwork::init()
 	}
 	listener.setBlocking(false);	// non-blocking
 
-	std::cout << "Subscribing to events..." << std::endl;
-	Dispatcher::subscribe(EVENT_TYPE::SERVER_BROADCASTMESSAGE, this);
-	Dispatcher::subscribe(EVENT_TYPE::SERVER_CLIENTDISCONNECT, this);
-	Dispatcher::subscribe(EVENT_TYPE::SERVER_SHUTDOWN, this);
+	std::cout << "Registering commands..." << std::endl;
+	CommandParser::init();
 
 	std::cout << "Server started successfully.\n====================================\n";
 	running = true;	// set server as running
+
+	Dispatcher::subscribe(EVENT_TYPE::SERVER_SHUTDOWN, this);
+	Dispatcher::subscribe(EVENT_TYPE::SERVER_NETWORK_CLIENTDISCONNECT, this);
+	Dispatcher::subscribe(EVENT_TYPE::SERVER_MESSAGE_BROADCAST, this);
+	Dispatcher::subscribe(EVENT_TYPE::SERVER_MESSAGE_DIRECT, this);
+
 	return true;
 }
 
@@ -38,10 +42,13 @@ void ServerNetwork::cleanup()
 		delete client;
 	clients.clear();
 
+	CommandParser::cleanup();
+
 	// Unsubscribe from all event types
 	Dispatcher::unsubscribe(EVENT_TYPE::SERVER_SHUTDOWN, this);
-	Dispatcher::unsubscribe(EVENT_TYPE::SERVER_CLIENTDISCONNECT, this);
-	Dispatcher::unsubscribe(EVENT_TYPE::SERVER_BROADCASTMESSAGE, this);
+	Dispatcher::unsubscribe(EVENT_TYPE::SERVER_NETWORK_CLIENTDISCONNECT, this);
+	Dispatcher::unsubscribe(EVENT_TYPE::SERVER_MESSAGE_BROADCAST, this);
+	Dispatcher::unsubscribe(EVENT_TYPE::SERVER_MESSAGE_DIRECT, this);
 }
 
 void ServerNetwork::setRunning(bool running) { this->running = running; }
@@ -49,43 +56,13 @@ bool ServerNetwork::isRunning() { return running; }
 
 void ServerNetwork::pollEvents()
 {
-	// Start by checking to see that all clients are still connected
-	/*
-	std::stack<sf::TcpSocket*> toRemove;
-	for (sf::TcpSocket* client : clients)
-	{
-		if (client->getRemoteAddress() == sf::IpAddress::None)
-			toRemove.push(client);
-	}
-
-	// Remove clients that disconnected
-	while (!toRemove.empty())
-	{
-		clients.erase(toRemove.top());
-		delete toRemove.top();
-		toRemove.pop();
-	}
-	*/
-
 	// Check for incoming clients
 	// TODO -  Check if this causes a memory leak
 	sf::TcpSocket* incomingSocket = new sf::TcpSocket;
 	incomingSocket->setBlocking(true);
 	if (listener.accept(*incomingSocket) == sf::Socket::Done)
 	{
-		/*
-		sf::IpAddress incomingIP = incoming->getRemoteAddress();
-		std::cout << incomingIP.toString() << " has connected." << std::endl;
-
-		// Add client to set of clients
-		clients.insert(incoming);
-
-		sf::Packet packet;
-		std::string toSend = incoming->getRemoteAddress().toString() + " connected.";
-		packet << toSend;
-		
-		incoming->send(packet);
-		*/
+		std::cout << incomingSocket->getRemoteAddress().toString() << " connected." << std::endl;
 		incomingSocket->setBlocking(false);
 		clients.insert(new Client(incomingSocket));
 	}
@@ -94,51 +71,34 @@ void ServerNetwork::pollEvents()
 		delete incomingSocket;
 	}
 
-	//sf::Packet incomingPacket;
-	//for (sf::TcpSocket* client : clients)
+	// Check if a client sent data.
+	// If they did, parse what they sent.
 	for (Client* client : clients)
-	{
 		if (client->sentData())
-		{
-			sf::Packet clientPacket = client->getDataPacket();
-			std::string contents;
-			clientPacket >> contents;
-			CommandParser::parse(contents, client);
-		}
-		/*
-		if (client->receive(incomingPacket) == sf::Socket::Status::Done)
-		{
-			std::string msg;
-			incomingPacket >> msg;
-			std::cout << client->getRemoteAddress().toString() << ": " << msg << std::endl;
-
-			// If the client didn't send a command, they're just sending a general message.
-			// Broadcast the message to all clients.
-			if (!CommandParser::parse(msg, client))
-			{
-				sf::Packet toBroadcast;
-				toBroadcast << client->getRemoteAddress().toString() + ": " + msg;
-				broadcastPacket(toBroadcast);
-			}
-		}
-		*/
-	}
+			CommandParser::parse(client->getData(), client);
 }
 
 void ServerNetwork::onNotify(Event* evt)
 {
-	EVENT_TYPE& evtType = evt->eventType;
-	if (evtType == EVENT_TYPE::SERVER_BROADCASTMESSAGE)
+	switch (evt->eventType)
 	{
-		broadcastMessage(static_cast<ServerEvent::BroadcastMessage*>(evt)->msg);
-	}
-	else if (evtType == EVENT_TYPE::SERVER_CLIENTDISCONNECT)
-	{
-		disconnectClient(static_cast<ServerEvent::ClientDisconnect*>(evt)->client);
-	}
-	else if (evtType == EVENT_TYPE::SERVER_SHUTDOWN)
-	{
+	case EVENT_TYPE::SERVER_SHUTDOWN:
 		cleanup();
+		break;
+
+	case EVENT_TYPE::SERVER_NETWORK_CLIENTDISCONNECT:
+		disconnectClient(static_cast<ServerEvent::Network::ClientDisconnect*>(evt)->client);
+		break;
+
+	case EVENT_TYPE::SERVER_MESSAGE_BROADCAST:
+		broadcastMessage(static_cast<ServerEvent::Message::Broadcast*>(evt)->msg);
+		break;
+
+	case EVENT_TYPE::SERVER_MESSAGE_DIRECT:
+		ServerEvent::Message::Direct_S2C* dmEvt = static_cast<ServerEvent::Message::Direct_S2C*>(evt);
+		dmEvt->recipient->sendMessage("SERVER: " + dmEvt->msg);
+
+		break;
 	}
 }
 
@@ -147,19 +107,24 @@ void ServerNetwork::onNotify(Event* evt)
  */
 void ServerNetwork::broadcastPacket(sf::Packet packet)
 {
-	//for (sf::TcpSocket* client : clients)
-	//	client->send(packet);
+	for (Client* client : clients)
+		client->sendPacket(packet);
 }
 
 void ServerNetwork::broadcastMessage(std::string message)
 {
+	std::cout << message << std::endl;
+
 	sf::Packet packet;
-	packet << "SERVER: " + message;
+	packet << message;
 	broadcastPacket(packet);
 }
 
 void ServerNetwork::disconnectClient(Client* client)
 {
+	// Always log the client out of their character first.
+	client->logOut();
+	std::cout << client->getIp().toString() << " disconnected." << std::endl;
 	clients.erase(client);
 	delete client;
 }

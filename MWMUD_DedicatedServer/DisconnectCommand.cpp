@@ -9,5 +9,5 @@ DisconnectCommand::DisconnectCommand()
 
 void DisconnectCommand::execute(std::vector<std::string> args, Client* sender)
 {
-	Dispatcher::enqueueEvent(new ServerEvent::ClientDisconnect(sender));
+	Dispatcher::enqueueEvent(new ServerEvent::Network::ClientDisconnect(sender));
 }

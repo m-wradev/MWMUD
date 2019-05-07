@@ -8,10 +8,17 @@ enum class EVENT_TYPE
 {
 	UNKNOWN = 0,
 
-	// SERVER EVENTS
-	SERVER_SHUTDOWN,			// Server is shutting down
-	SERVER_CLIENTDISCONNECT,	// Client is disconnecting from the server
-	SERVER_BROADCASTMESSAGE,	// Network is broadcasting a message to all clients
+	/* SERVER EVENTS
+	 */
+	// GENERAL
+	SERVER_SHUTDOWN,					// Server is shutting down
+
+	// NETWORK
+	SERVER_NETWORK_CLIENTDISCONNECT,	// Client is disconnecting from the server
+
+	// MESSAGE
+	SERVER_MESSAGE_BROADCAST,			// Server is broadcasting a message to all clients
+	SERVER_MESSAGE_DIRECT,				// A message is being sent directly to a client
 };
 
 struct Event
@@ -24,36 +31,54 @@ struct Event
 
 namespace ServerEvent
 {
-	struct Shutdown : public Event
+	namespace Network
 	{
-		Shutdown()
-			: Event(EVENT_TYPE::SERVER_SHUTDOWN)
-		{}
+		struct Shutdown : public Event
+		{
+			Shutdown()
+				: Event(EVENT_TYPE::SERVER_SHUTDOWN)
+			{}
 
-		~Shutdown() {}
-	};
+			~Shutdown() {}
+		};
 
-	struct ClientDisconnect : public Event
+		struct ClientDisconnect : public Event
+		{
+			Client* client;
+
+			ClientDisconnect(Client* client)
+				: Event(EVENT_TYPE::SERVER_NETWORK_CLIENTDISCONNECT),
+				client(client)
+			{}
+
+			~ClientDisconnect() {}
+		};
+	}
+
+	namespace Message
 	{
-		Client* client;
+		struct Broadcast : public Event
+		{
+			std::string msg;
 
-		ClientDisconnect(Client* client)
-			: Event(EVENT_TYPE::SERVER_CLIENTDISCONNECT),
-			client(client) 
-		{}
+			Broadcast(std::string msg)
+				: Event(EVENT_TYPE::SERVER_MESSAGE_BROADCAST),
+				msg(msg)
+			{}
 
-		~ClientDisconnect() {}
-	};
+			~Broadcast() {}
+		};
 
-	struct BroadcastMessage : public Event
-	{	
-		std::string msg;
+		// Message sent directly from the server to the client.
+		struct Direct_S2C : public Event
+		{
+			Client* recipient;
+			std::string msg;
 
-		BroadcastMessage(std::string msg)
-			: Event(EVENT_TYPE::SERVER_BROADCASTMESSAGE), 
-			msg(msg) 
-		{}
-
-		~BroadcastMessage() {}
-	};
+			Direct_S2C(Client* recipient, std::string msg)
+				: Event(EVENT_TYPE::SERVER_MESSAGE_DIRECT),
+				recipient(recipient), msg(msg)
+			{}
+		};
+	}
 };

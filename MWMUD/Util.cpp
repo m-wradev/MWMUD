@@ -26,6 +26,16 @@ std::vector<std::string> Util::split_string(std::string str, char delim)
 	return splitStrings;
 }
 
+std::string Util::concat_string_vec(std::vector<std::string> strvec, char delim)
+{
+	std::string str = "";
+	for (std::string s : strvec)
+		str += s + delim;
+	str.pop_back();
+
+	return str;
+}
+
 bool Util::equals_ignore_case(std::string s1, std::string s2)
 {
 	if (s1.length() != s2.length())

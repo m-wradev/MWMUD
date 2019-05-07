@@ -1,6 +1,7 @@
 #include "PingCommand.h"
 
 #include "Dispatcher.h"
+#include "Util.h"
 
 PingCommand::PingCommand()
 {
@@ -12,10 +13,7 @@ PingCommand::PingCommand()
 
 void PingCommand::execute(std::vector<std::string> args)
 {
-	std::string msg = "";
-	for (std::string s : args)
-		msg += s + " ";
-	msg.pop_back();
+	std::string msg = Util::concat_string_vec(args, ' ');
 
 	Dispatcher::enqueueEvent(new NetworkEvent(EVENT_TYPE::GEVT_NETWORK_CLIENT_DATASEND, msg));
 }

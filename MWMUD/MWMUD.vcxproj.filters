@@ -116,6 +116,12 @@
     <ClCompile Include="DisconnectCommand.cpp">
       <Filter>ChatSystem\Commands\Network Commands</Filter>
     </ClCompile>
+    <ClCompile Include="LoginCommand.cpp">
+      <Filter>ChatSystem\Commands\Network Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="LogoutCommand.cpp">
+      <Filter>ChatSystem\Commands\Network Commands</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="UI_MenuOption.h">
@@ -206,6 +212,12 @@
       <Filter>ChatSystem\Commands\Network Commands</Filter>
     </ClInclude>
     <ClInclude Include="DisconnectCommand.h">
+      <Filter>ChatSystem\Commands\Network Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginCommand.h">
+      <Filter>ChatSystem\Commands\Network Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="LogoutCommand.h">
       <Filter>ChatSystem\Commands\Network Commands</Filter>
     </ClInclude>
   </ItemGroup>

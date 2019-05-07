@@ -16,12 +16,6 @@
     <Filter Include="Game">
       <UniqueIdentifier>{a62aad44-ede8-40e8-bd8d-a882cbb32cff}</UniqueIdentifier>
     </Filter>
-    <Filter Include="Commands">
-      <UniqueIdentifier>{940d7183-78c6-4e9b-a2e0-a9ae555667ab}</UniqueIdentifier>
-    </Filter>
-    <Filter Include="Commands\NetworkCommands">
-      <UniqueIdentifier>{71a067ba-1c9c-4653-9e1d-688036411c5e}</UniqueIdentifier>
-    </Filter>
     <Filter Include="Network">
       <UniqueIdentifier>{ac14a05d-648c-41cc-9d8d-cea43b2b0e5c}</UniqueIdentifier>
     </Filter>
@@ -30,6 +24,18 @@
     </Filter>
     <Filter Include="EventSystem">
       <UniqueIdentifier>{405bf8d8-c5dc-4148-b81a-ccf3201a50e1}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Chat">
+      <UniqueIdentifier>{f02d7f37-0777-4bac-b110-e55db3e6d77a}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Chat\Commands">
+      <UniqueIdentifier>{940d7183-78c6-4e9b-a2e0-a9ae555667ab}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Chat\Commands\NetworkCommands">
+      <UniqueIdentifier>{71a067ba-1c9c-4653-9e1d-688036411c5e}</UniqueIdentifier>
+    </Filter>
+    <Filter Include="Chat\Commands\Moderation">
+      <UniqueIdentifier>{bfb10b9e-3e1c-448d-98f3-8753a567a242}</UniqueIdentifier>
     </Filter>
   </ItemGroup>
   <ItemGroup>
@@ -40,16 +46,16 @@
       <Filter>Game</Filter>
     </ClCompile>
     <ClCompile Include="ServerCommand.cpp">
-      <Filter>Commands</Filter>
+      <Filter>Chat\Commands</Filter>
     </ClCompile>
     <ClCompile Include="PingCommand.cpp">
-      <Filter>Commands\NetworkCommands</Filter>
+      <Filter>Chat\Commands\NetworkCommands</Filter>
     </ClCompile>
     <ClCompile Include="ServerCommandModules.cpp">
-      <Filter>Commands</Filter>
+      <Filter>Chat\Commands</Filter>
     </ClCompile>
     <ClCompile Include="DisconnectCommand.cpp">
-      <Filter>Commands\NetworkCommands</Filter>
+      <Filter>Chat\Commands\NetworkCommands</Filter>
     </ClCompile>
     <ClCompile Include="ServerNetwork.cpp">
       <Filter>Network</Filter>
@@ -64,7 +70,13 @@
       <Filter>EventSystem</Filter>
     </ClCompile>
     <ClCompile Include="CommandParser.cpp">
-      <Filter>Commands</Filter>
+      <Filter>Chat\Commands</Filter>
+    </ClCompile>
+    <ClCompile Include="LoginCommand.cpp">
+      <Filter>Chat\Commands\NetworkCommands</Filter>
+    </ClCompile>
+    <ClCompile Include="LogoutCommand.cpp">
+      <Filter>Chat\Commands\NetworkCommands</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -72,16 +84,16 @@
       <Filter>Game</Filter>
     </ClInclude>
     <ClInclude Include="ServerCommand.h">
-      <Filter>Commands</Filter>
+      <Filter>Chat\Commands</Filter>
     </ClInclude>
     <ClInclude Include="ServerCommandModules.h">
-      <Filter>Commands</Filter>
+      <Filter>Chat\Commands</Filter>
     </ClInclude>
     <ClInclude Include="PingCommand.h">
-      <Filter>Commands\NetworkCommands</Filter>
+      <Filter>Chat\Commands\NetworkCommands</Filter>
     </ClInclude>
     <ClInclude Include="DisconnectCommand.h">
-      <Filter>Commands\NetworkCommands</Filter>
+      <Filter>Chat\Commands\NetworkCommands</Filter>
     </ClInclude>
     <ClInclude Include="ServerNetwork.h">
       <Filter>Network</Filter>
@@ -102,7 +114,13 @@
       <Filter>EventSystem</Filter>
     </ClInclude>
     <ClInclude Include="CommandParser.h">
-      <Filter>Commands</Filter>
+      <Filter>Chat\Commands</Filter>
+    </ClInclude>
+    <ClInclude Include="LoginCommand.h">
+      <Filter>Chat\Commands\NetworkCommands</Filter>
+    </ClInclude>
+    <ClInclude Include="LogoutCommand.h">
+      <Filter>Chat\Commands\NetworkCommands</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
