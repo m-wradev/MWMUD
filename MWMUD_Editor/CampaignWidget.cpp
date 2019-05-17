@@ -138,7 +138,7 @@ void CampaignWidget::retrieveCampaignDirectories()
 {
 	std::cout << "Available campaigns: " << std::endl;
 	campaignDirs.clear();
-	for (auto& p : std::filesystem::recursive_directory_iterator(Campaign::CAMPAIGNS_DIR))
+	for (auto& p : std::filesystem::directory_iterator(Campaign::CAMPAIGNS_DIR))
 	{
 		if (p.status().type() == std::filesystem::file_type::directory)
 		{

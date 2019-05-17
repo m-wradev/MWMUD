@@ -127,6 +127,8 @@
     </Link>
   </ItemDefinitionGroup>
   <ItemGroup>
+    <ClCompile Include="Area.cpp" />
+    <ClCompile Include="AreaWidget.cpp" />
     <ClCompile Include="Campaign.cpp" />
     <ClCompile Include="CampaignWidget.cpp" />
     <ClCompile Include="Dependencies\imgui\imgui-SFML.cpp" />
@@ -138,6 +140,8 @@
     <ClCompile Include="main.cpp" />
   </ItemGroup>
   <ItemGroup>
+    <ClInclude Include="Area.h" />
+    <ClInclude Include="AreaWidget.h" />
     <ClInclude Include="Campaign.h" />
     <ClInclude Include="CampaignWidget.h" />
     <ClInclude Include="Dependencies\imgui\imconfig-SFML.h" />
@@ -148,6 +152,7 @@
     <ClInclude Include="Dependencies\imgui\imstb_rectpack.h" />
     <ClInclude Include="Dependencies\imgui\imstb_textedit.h" />
     <ClInclude Include="Dependencies\imgui\imstb_truetype.h" />
+    <ClInclude Include="Dependencies\nlohmann\json.hpp" />
     <ClInclude Include="Editor.h" />
     <ClInclude Include="Widget.h" />
     <ClInclude Include="Widgets.hpp" />

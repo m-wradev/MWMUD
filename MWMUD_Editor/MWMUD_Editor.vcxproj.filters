@@ -30,6 +30,9 @@
     <Filter Include="Engine\EngineEvents">
       <UniqueIdentifier>{39367ee5-6a84-4ca4-b5e6-1a2e07c094e3}</UniqueIdentifier>
     </Filter>
+    <Filter Include="Dependencies\nlohmann">
+      <UniqueIdentifier>{fd2cfb0c-fa9a-4c76-9754-b18772de271b}</UniqueIdentifier>
+    </Filter>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="main.cpp">
@@ -58,6 +61,12 @@
     </ClCompile>
     <ClCompile Include="Campaign.cpp">
       <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="Area.cpp">
+      <Filter>Engine</Filter>
+    </ClCompile>
+    <ClCompile Include="AreaWidget.cpp">
+      <Filter>Editor\Widgets</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -99,6 +108,15 @@
     </ClInclude>
     <ClInclude Include="Campaign.h">
       <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="Area.h">
+      <Filter>Engine</Filter>
+    </ClInclude>
+    <ClInclude Include="AreaWidget.h">
+      <Filter>Editor\Widgets</Filter>
+    </ClInclude>
+    <ClInclude Include="Dependencies\nlohmann\json.hpp">
+      <Filter>Dependencies\nlohmann</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>

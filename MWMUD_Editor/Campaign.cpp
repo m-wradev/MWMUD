@@ -37,6 +37,13 @@ void Campaign::create()
 	propertiesFile << "author = " << author << "\n";
 	propertiesFile << "description = " << description << "\n";
 	propertiesFile.close();
+
+	// Create directory for campaign data
+	std::filesystem::create_directory(CAMPAIGNS_DIR + '\\' + directory + "\\data");
+
+	// Create file for storing area data
+	std::ofstream areasFile(CAMPAIGNS_DIR + "\\" + directory + "\\data\\AREAS.dat");
+	areasFile.close();
 }
 
 void Campaign::open(std::string campaignDir)
