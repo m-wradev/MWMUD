@@ -2,6 +2,7 @@
 x64/
 MWMUD/x64
 MWMUD_DedicatedServer/x64
+MWMUD_Editor/x64
 
 # Visual Studio data
 .vs/
@@ -9,6 +10,7 @@ MWMUD_DedicatedServer/x64
 # vcxproj stuff
 MWMUD/MWMUD.vcxproj.user
 MWMUD_DedicatedServer/MWMUD_DedicatedServer.vcxproj.user
+MWMUD_Editor/MWMUD_Editor.vcxproj.user
 
 # Campaigns
 MWMUD_Editor/Campaigns
