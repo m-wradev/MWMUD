@@ -1,49 +1,43 @@
 #include "AreaWidget.h"
 
-#include <set>
+#include "Dependencies/nlohmann/json.hpp"
+#include "Campaign.h"
 
-static enum NodeType
-{
-	GROUP,
-	ITEM
-};
+#include <iostream>
+#include <forward_list>
+#include <fstream>
 
-static struct TreeNode
-{
-	int val;						// -1 if node not a leaf node
-	std::string label;				// only if the node isn't a leaf node
-	std::set<TreeNode*> children;	// only if the node isn't a leaf node
-
-	~TreeNode()
-	{
-		for (TreeNode* node : children)
-			delete node;
-
-		children.clear();
-	}
-};
-
-static struct Tree
-{
-	TreeNode* root;
-
-	Tree()
-	{
-		root = new TreeNode();
-
-		root->val = -1;
-		root->label = "Root";
-	}
-
-	~Tree()
-	{
-		delete root;
-	}
-};
+const std::string AreaWidget::AREAS_GROUPS_PATH = "\\editor_data\\areas.groups";
 
 AreaWidget::AreaWidget()
 {
+	/*
+	// Saved tree structure
+	std::ofstream savedGroups;
 
+	// Check if the areas.groups file exists.  If not, create it.
+	if (!std::ifstream(Campaign::getLoadedCampaignDirectory() + AREAS_GROUPS_PATH))
+	{
+		//nlohmann::json initJson = {};
+	}
+	// Otherwise, load up the groups.
+	else
+	{
+
+	}
+	*/
+
+	// Item 0
+	treeView.root->children.push_back(new ItemNode("ITEM_0"));
+
+	// Create group A
+	treeView.root->children.push_back(new GroupNode("GROUP_A"));
+	static_cast<GroupNode*>(treeView.root->children.back())->children.push_back(new ItemNode("ITEM_1"));
+	static_cast<GroupNode*>(treeView.root->children.back())->children.push_back(new ItemNode("ITEM_2"));
+
+	std::cout << std::endl;
+	nlohmann::json json = treeView;
+	std::cout << json << std::endl;
 }
 
 void AreaWidget::draw()

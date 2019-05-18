@@ -26,6 +26,10 @@ namespace Campaign
 	/* Campaign Properties */
 	// Set campaign properties
 	void setProperties(char* _dir, char* _name, char* _author, char* _desc);
+
+	/* Getters */
+	// Retrieve the path to the currently loaded campaign. Returns empty string if campaign not loaded.
+	std::string getLoadedCampaignDirectory();
 	std::string getName();
 	std::string getAuthor();
 

@@ -20,6 +20,7 @@ void Editor::init()
 	ImGui::SFML::Init(editorWindow);
 
 	widgets.push_back(new CampaignWidget());
+	widgets.push_back(new AreaWidget());
 
 	editorStatus = STATUS::RUNNING;
 }

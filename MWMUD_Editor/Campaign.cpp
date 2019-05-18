@@ -38,12 +38,23 @@ void Campaign::create()
 	propertiesFile << "description = " << description << "\n";
 	propertiesFile.close();
 
-	// Create directory for campaign data
-	std::filesystem::create_directory(CAMPAIGNS_DIR + '\\' + directory + "\\data");
+	// Create directory for game data
+	std::string gameDataDir = CAMPAIGNS_DIR + '\\' + directory + "\\game_data";
+	std::filesystem::create_directory(gameDataDir);
+
+	// Create directory for editor data
+	std::string editorDataDir = CAMPAIGNS_DIR + '\\' + directory + "\\editor_data";
+	std::filesystem::create_directory(editorDataDir);
 
 	// Create file for storing area data
-	std::ofstream areasFile(CAMPAIGNS_DIR + "\\" + directory + "\\data\\AREAS.dat");
+	std::ofstream areasFile(gameDataDir + "\\areas.dat");
 	areasFile.close();
+	
+	/*
+	// Create file for storing editor groupings for areas
+	std::ofstream areaGroupsFile(editorDataDir + "\\areas.groups");
+	areaGroupsFile.close();
+	*/
 }
 
 void Campaign::open(std::string campaignDir)
@@ -92,8 +103,17 @@ void Campaign::setProperties(char* _dir, char* _name, char* _author, char* _desc
 	description	= _desc;
 }
 
+/* Getters */
 std::string Campaign::getName() { return name; }
 std::string Campaign::getAuthor() { return author; }
+
+std::string Campaign::getLoadedCampaignDirectory() 
+{ 
+	if (loaded)
+		return CAMPAIGNS_DIR + '\\' + directory;
+	else
+		return "";
+}
 
 bool Campaign::isLoaded()
 {

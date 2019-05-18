@@ -6,16 +6,16 @@
 
 class Area
 {
-private:
-	static std::unordered_map<std::string, Area*> areas;
-
-	Area();
-	~Area();
-
-	std::string id;
-	std::string name;
-	std::string description;
-
+//private:
 public:
+	//static std::unordered_map<std::string, Area*> areas;
+
+	//Area();
+	//~Area();
+
+	std::string id;		// Id, not visible to player
+	std::string name;	// Name, visible to player
+
+//public:
 
 };

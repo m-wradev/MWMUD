@@ -138,6 +138,7 @@
     <ClCompile Include="Dependencies\imgui\imgui_widgets.cpp" />
     <ClCompile Include="Editor.cpp" />
     <ClCompile Include="main.cpp" />
+    <ClCompile Include="RefIdTree.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Area.h" />
@@ -154,6 +155,7 @@
     <ClInclude Include="Dependencies\imgui\imstb_truetype.h" />
     <ClInclude Include="Dependencies\nlohmann\json.hpp" />
     <ClInclude Include="Editor.h" />
+    <ClInclude Include="RefIdTree.h" />
     <ClInclude Include="Widget.h" />
     <ClInclude Include="Widgets.hpp" />
   </ItemGroup>

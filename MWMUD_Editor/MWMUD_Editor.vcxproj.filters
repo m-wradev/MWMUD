@@ -68,6 +68,9 @@
     <ClCompile Include="AreaWidget.cpp">
       <Filter>Editor\Widgets</Filter>
     </ClCompile>
+    <ClCompile Include="RefIdTree.cpp">
+      <Filter>Editor</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="Dependencies\imgui\imconfig.h">
@@ -117,6 +120,9 @@
     </ClInclude>
     <ClInclude Include="Dependencies\nlohmann\json.hpp">
       <Filter>Dependencies\nlohmann</Filter>
+    </ClInclude>
+    <ClInclude Include="RefIdTree.h">
+      <Filter>Editor</Filter>
     </ClInclude>
   </ItemGroup>
 </Project>
