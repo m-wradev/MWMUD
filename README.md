@@ -46,7 +46,7 @@ You'll need to edit the following properties for each of the projects in order t
 		* C/C++ -> General -> Additional Include Directories - Add path to SFML-2.5.1 `include` directory.
 		* Linker -> General -> Additional Library Directories - Add the paths to the following directories:
 			* glew-2.1.0: `lib/Release/x64`
-			* SFML-2.5.1: `lib'
+			* SFML-2.5.1: `lib`
 	* Debug (x64)
 		* Linker -> Input -> Additional Dependencies - add `sfml-graphics-d.lib`, `sfml-system-d.lib`, `sfml-window-d.lib`, `glew32.lib`, and `opengl32.lib` as additional dependencies.
 	* Release (x64)
