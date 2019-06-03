@@ -52,7 +52,7 @@ You'll need to edit the following properties for each of the projects in order t
 	* Release (x64)
 		* This configuration is currently broken and fails to build.  I'll update this section when/if I fix it.
 
-If MWMUD or MWMUD\_DedicatedServer fail to build or run, you may need to drop the specified SFML .dll files into the intermediate /x64/Debug and /x64/Release directories.
+If MWMUD or MWMUD\_DedicatedServer fail to build or run, you may need to drop the specified SFML .dll files into the intermediate `/x64/Debug` and `/x64/Release` directories.
 
 # Testing the Client and Server
 The server currently tries to bind itself to port 25565 (yes, Minecraft's default port) and uses the TCP protocol for network communication.  You may have to forward the port in order to communicate with computers outside of your local network.
