@@ -1,53 +1,67 @@
 #include "RefIdTree.h"
 
+#include <fstream>
+
+/*
+ * ADL SERIALIZATION SPECIALIZATIONS
+ */
+void nlohmann::adl_serializer<std::list<GroupNode>>::to_json(json& j, const std::list<GroupNode>& list)
+{
+	for (GroupNode gNode : list)
+	{
+		json temp_j;
+		::to_json(temp_j, gNode);
+		j += temp_j;
+	}
+}
+
+void nlohmann::adl_serializer<std::list<GroupNode>>::from_json(const json& j, std::list<GroupNode>& list)
+{
+	for (json arrItem : j)
+		list.push_back(arrItem.get<GroupNode>());
+}
+
+void nlohmann::adl_serializer<std::list<ItemNode>>::to_json(json& j, const std::list<ItemNode>& list)
+{
+	for (ItemNode iNode : list)
+	{
+		json temp_j;
+		::to_json(temp_j, iNode);
+		j += temp_j;
+	}
+}
+
+void nlohmann::adl_serializer<std::list<ItemNode>>::from_json(const json& j, std::list<ItemNode>& list)
+{
+	for (json arrItem : j)
+		list.push_back(arrItem.get<ItemNode>());
+}
+
 /*
  * TREE NODE
  */
 int TreeNode::nextId = 0;
 
-void to_json(nlohmann::json& json, const TreeNode* node)
+void to_json(nlohmann::json& json, const TreeNode& node)
 {
-	json["NodeType"] = node->type;
-	json["NodeId"] = node->nodeId;
+	json["NodeType"] = node.type;
+	json["NodeId"] = node.nodeId;
 
-	switch (node->type)
+	switch (node.type)
 	{
 		case NodeType::GROUP:
 		{
-			const GroupNode* gNode = static_cast<const GroupNode*>(node);
-			json["Label"] = gNode->label;
-			json["Children"] = gNode->children;
+			const GroupNode* p_gNode = static_cast<const GroupNode*>(&node);
+			json["Label"] = p_gNode->label;
+			json["Children"]["Groups"] = p_gNode->childGroups;
+			json["Children"]["Items"] = p_gNode->childItems;
 			break;
 		}
 
 		case NodeType::ITEM:
 		{
-			const ItemNode* iNode = static_cast<const ItemNode*>(node);
-			json["RefId"] = iNode->refId;
-			break;
-		}
-	}
-}
-
-void from_json(const nlohmann::json& json, TreeNode* node)
-{
-	json.at("NodeType").get_to(node->type);
-	json.at("NodeId").get_to(node->nodeId);
-
-	switch (node->type)
-	{
-		case NodeType::GROUP:
-		{
-			GroupNode* gNode = static_cast<GroupNode*>(node);
-			json.at("Label").get_to(gNode->label);
-			json.at("Children").get_to(gNode->children);
-			break;
-		}
-
-		case NodeType::ITEM:
-		{
-			ItemNode* iNode = static_cast<ItemNode*>(node);
-			json.at("RefId").get_to(iNode->refId);
+			const ItemNode* p_iNode = static_cast<const ItemNode*>(&node);
+			json["RefId"] = p_iNode->refId;
 			break;
 		}
 	}
@@ -56,50 +70,75 @@ void from_json(const nlohmann::json& json, TreeNode* node)
 /*
  *	GROUP NODE
  */
-GroupNode::~GroupNode()
+void GroupNode::addNode(const TreeNode& tNode)
 {
-	for (TreeNode* node : children)
-		delete node;
+	switch (tNode.type)
+	{
+		case NodeType::GROUP:
+		{
+			const GroupNode gNode = *static_cast<const GroupNode*>(&tNode);
+			childGroups.push_back(gNode);
+			break;
+		}
+
+		case NodeType::ITEM:
+		{
+			const ItemNode iNode = *static_cast<const ItemNode*>(&tNode);
+			childItems.push_back(iNode);
+			break;
+		}
+
+		// TODO - Add case for NodeType::INVALID
+	}
+}
+
+void from_json(const nlohmann::json& json, GroupNode& node)
+{
+	node.nodeId = json.at("NodeId").get<std::string>();
+	node.label = json.at("Label").get<std::string>();
+	node.childGroups = json.at("Children").at("Groups").get<std::list<GroupNode>>();
+	node.childItems = json.at("Children").at("Items").get<std::list<ItemNode>>();
 }
 
 /*
  * ITEM NODE
  */
 
+void from_json(const nlohmann::json& json, ItemNode& node)
+{
+	node.nodeId = json.at("NodeId").get<std::string>();
+	node.refId = json.at("RefId").get<std::string>();
+}
+
 /*
  * REF ID TREE
  */
-RefIdTree::RefIdTree()
+void RefIdTree::loadFromJSON(std::string filepath)
 {
-	root = new GroupNode;
+	std::ifstream file(filepath);
+	nlohmann::json jsonData;
+	file >> jsonData;
+	root = jsonData.get<GroupNode>();
+	file.close();
 }
 
-RefIdTree::~RefIdTree()
+void RefIdTree::saveToJSON(std::string filepath)
 {
-	delete root;
-}
+	// Convert the RefIdTree to json
+	nlohmann::json saveData = *this;
 
-void RefIdTree::save()
-{
-	for (TreeNode* node : root->children)
-	{
-		if (node->type == NodeType::GROUP)
-		{
-
-		}
-		else
-		{
-
-		}
-	}
+	// Overwrite the current file
+	std::ofstream file(filepath, std::ofstream::trunc);
+	file << saveData;
+	file.close();
 }
 
 void to_json(nlohmann::json& json, const RefIdTree& tree)
 {
-	json["ROOT"] = tree.root;
+	json = tree.root;
 }
 
 void from_json(const nlohmann::json& json, RefIdTree& tree)
 {
-	json.at("ROOT").get_to(tree.root);
+	tree.root = json.get<GroupNode>();
 }
