@@ -1,3 +1,5 @@
+Note:  At some point I'm going to be using cmake to aid in the setup process.  At the moment the setup process is clunky.
+
 # About
 I hadn't planned on making this public but I figured it'd be nice to show to employers during my job hunt.  As such, I'm still in the process of writing up better documentation for the project overall.
 It should be noted that this is more of a personal experiment and a device I've been using to learn about topics such as engine development, basic networking, event-driven programming, and game design.  I've also been using it to become familiar with APIs and SDKs
